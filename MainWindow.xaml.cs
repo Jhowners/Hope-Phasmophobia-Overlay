@@ -31,6 +31,7 @@ namespace Hophesmoverlay
         private double _speedMultiplier = 1.0;
         private int _currentView = 0;
 
+        // UPDATED GHOST LISTS
         private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic" };
         private readonly List<string> _slowGhosts = new List<string> { "Revenant", "Hantu", "Deogen", "Thaye", "The Mimic", "The Twins", "Moroi" };
         private string _currentSpeedCategory = "None";
@@ -132,23 +133,40 @@ namespace Hophesmoverlay
             TxtPacerStatus.Text = $"FILTER: {_currentSpeedCategory.ToUpper()}"; TxtPacerStatus.Foreground = c; UpdateGhostFiltering();
         }
 
+        // --- SMART FILTER LOGIC (FIXED FOR MIMIC) ---
         private void UpdateGhostFiltering()
         {
             var checkBoxes = FindVisualChildren<CheckBox>(this);
-            List<string> selectedEv = new List<string>(); bool fakeOrb = false;
-            foreach (var box in checkBoxes) if (box.IsChecked == true) { if (box.Content.ToString().Contains("MIMIC")) fakeOrb = true; else selectedEv.Add(box.Content.ToString()); }
+            List<string> selectedEv = new List<string>();
+            foreach (var box in checkBoxes) if (box.IsChecked == true) selectedEv.Add(box.Content.ToString());
+
             string summary = string.Join(" + ", selectedEv.Select(x => x.Replace("Ghost ", "").Replace("Level ", "").Replace("Spirit ", "")));
-            if (fakeOrb) summary += " (MIMIC ORB)"; if (string.IsNullOrEmpty(summary)) summary = "NONE"; TxtIntelEvidence.Text = summary;
+            if (string.IsNullOrEmpty(summary)) summary = "NONE"; TxtIntelEvidence.Text = summary;
 
             foreach (var ghost in AllGhosts)
             {
                 bool elim = false;
-                if (fakeOrb) elim = ghost.Name != "The Mimic";
-                else
+
+                // 1. Evidence Logic
+                foreach (var ev in selectedEv)
                 {
-                    if (selectedEv.Contains("Ghost Orb") && ghost.Name == "The Mimic") elim = true;
-                    foreach (var ev in selectedEv) if (!ghost.Evidences.Contains(ev)) { elim = true; break; }
+                    // THE MIMIC EXCEPTION:
+                    // If the ghost is The Mimic, and the evidence we checked is "Ghost Orb",
+                    // we skip the check. Mimic ALWAYS has Ghost Orb, even if it's not in the official list.
+                    if (ghost.Name == "The Mimic" && ev == "Ghost Orb")
+                    {
+                        continue; // Keep Mimic alive
+                    }
+
+                    // For all other ghosts/evidence:
+                    if (!ghost.Evidences.Contains(ev))
+                    {
+                        elim = true;
+                        break;
+                    }
                 }
+
+                // 2. Speed Logic
                 if (!elim)
                 {
                     if (_currentSpeedCategory == "Fast") { if (!_fastGhosts.Contains(ghost.Name)) elim = true; }
