@@ -17,30 +17,19 @@ namespace Hophesmoverlay
 {
     public partial class MainWindow : Window
     {
-        // --- NATIVE METHODS ---
         [DllImport("user32.dll")] private static extern short GetAsyncKeyState(int vKey);
 
-        // --- KEYS ---
-        private const int VK_MENU = 0x12; // Alt
-        private const int VK_F6 = 0x75;
-        private const int VK_F7 = 0x76;
-        private const int VK_F8 = 0x77;
-        private const int VK_F9 = 0x78;
-        private const int VK_F10 = 0x79;
-        private const int VK_F11 = 0x7A;
-        private const int VK_INSERT = 0x2D;
-        private const int VK_HOME = 0x24;
+        private const int VK_MENU = 0x12;
+        private const int VK_F6 = 0x75; private const int VK_F7 = 0x76;
+        private const int VK_F8 = 0x77; private const int VK_F9 = 0x78;
+        private const int VK_F10 = 0x79; private const int VK_F11 = 0x7A;
+        private const int VK_INSERT = 0x2D; private const int VK_HOME = 0x24;
 
-        // --- THREADING ---
         private CancellationTokenSource _cancellationTokenSource;
         private Dictionary<int, bool> _keyStateTracker = new Dictionary<int, bool>();
 
-        // --- APP STATE ---
         public List<Ghost> AllGhosts { get; set; }
-
-        // OPTIMIZATION: Cache the checkboxes so we don't search for them every click
         private List<CheckBox> _evidenceCheckBoxes = new List<CheckBox>();
-
         private DispatcherTimer _smudgeTimer;
         private int _timerSecondsRemaining = 180;
         private DispatcherTimer _huntTimer;
@@ -57,18 +46,10 @@ namespace Hophesmoverlay
         public MainWindow()
         {
             InitializeComponent();
-
-            // OPTIMIZATION 1: Boost Priority slightly so Game doesn't starve the input
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.AboveNormal;
 
-            // OPTIMIZATION 2: Cache UI Elements immediately
-            _evidenceCheckBoxes.Add(ChkEv1);
-            _evidenceCheckBoxes.Add(ChkEv2);
-            _evidenceCheckBoxes.Add(ChkEv3);
-            _evidenceCheckBoxes.Add(ChkEv4);
-            _evidenceCheckBoxes.Add(ChkEv5);
-            _evidenceCheckBoxes.Add(ChkEv6);
-            _evidenceCheckBoxes.Add(ChkEv7);
+            _evidenceCheckBoxes.Add(ChkEv1); _evidenceCheckBoxes.Add(ChkEv2); _evidenceCheckBoxes.Add(ChkEv3);
+            _evidenceCheckBoxes.Add(ChkEv4); _evidenceCheckBoxes.Add(ChkEv5); _evidenceCheckBoxes.Add(ChkEv6); _evidenceCheckBoxes.Add(ChkEv7);
 
             InitializeGhosts("EN");
             GhostsListControl.ItemsSource = AllGhosts;
@@ -82,17 +63,14 @@ namespace Hophesmoverlay
             _huntTimer.Interval = TimeSpan.FromSeconds(1);
             _huntTimer.Tick += HuntTimer_Tick;
 
-            // START BACKGROUND INPUT THREAD
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(() => InputLoop(_cancellationTokenSource.Token), TaskCreationOptions.LongRunning);
         }
 
-        // --- BACKGROUND INPUT LOOP ---
         private void InputLoop(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
-                // Check Keys
                 CheckKey(VK_F6, () => StopHuntTimer());
                 CheckKey(VK_F7, () => ResetHuntTimer());
                 CheckKey(VK_F8, () => StopSmudgeTimer());
@@ -108,7 +86,6 @@ namespace Hophesmoverlay
                     for (int i = 1; i <= 8; i++)
                     {
                         int vKey = 0x30 + i;
-                        // Capture index for lambda
                         int idx = i;
                         CheckKey(vKey, () =>
                         {
@@ -117,7 +94,6 @@ namespace Hophesmoverlay
                         });
                     }
                 }
-
                 Thread.Sleep(10);
             }
         }
@@ -125,13 +101,11 @@ namespace Hophesmoverlay
         private void CheckKey(int key, Action action)
         {
             bool isDown = (GetAsyncKeyState(key) & 0x8000) != 0;
-
             if (!_keyStateTracker.ContainsKey(key)) _keyStateTracker[key] = false;
 
             if (isDown && !_keyStateTracker[key])
             {
                 _keyStateTracker[key] = true;
-                // CHANGE: 'Send' priority forces the UI to update immediately, skipping the queue.
                 Dispatcher.InvokeAsync(action, DispatcherPriority.Send);
             }
             else if (!isDown && _keyStateTracker[key])
@@ -139,18 +113,73 @@ namespace Hophesmoverlay
                 _keyStateTracker[key] = false;
             }
         }
-        protected override void OnClosed(EventArgs e)
-        {
-            _cancellationTokenSource.Cancel();
-            base.OnClosed(e);
-        }
+
+        protected override void OnClosed(EventArgs e) { _cancellationTokenSource.Cancel(); base.OnClosed(e); }
 
         // --- UI LOGIC ---
         private void BtnDonate_Click(object sender, RoutedEventArgs e) { try { Process.Start(new ProcessStartInfo { FileName = "https://ko-fi.com/hopesan", UseShellExecute = true }); } catch { } }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) { if (e.ChangedButton == MouseButton.Left) DragMove(); }
+
         private void MenuEn_Click(object sender, RoutedEventArgs e) => SetLanguage("EN");
         private void MenuPt_Click(object sender, RoutedEventArgs e) => SetLanguage("PT");
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
+
+        // --- LANGUAGE LOGIC ---
+        private void SetLanguage(string lang)
+        {
+            _currentLang = lang;
+            InitializeGhosts(lang);
+            GhostsListControl.ItemsSource = null; GhostsListControl.ItemsSource = AllGhosts;
+            GhostsIntelControl.ItemsSource = null; GhostsIntelControl.ItemsSource = AllGhosts;
+
+            if (lang == "PT")
+            {
+                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] RESETAR";
+                LblEvidence.Text = "EVIDÊNCIA (ALT+1-7)";
+                LblSmudge.Text = "INCENSO [F9]";
+                LblHunt.Text = "CAÇADA [F7]";
+                LblSpeed.Text = "VELOCIDADE (m/s)";
+                LblMiniSmudge.Text = "INCENSO";
+                LblMiniHunt.Text = "CAÇADA";
+                LblIntelSmudge.Text = "INCENSO";
+                LblIntelHunt.Text = "CAÇADA";
+                LblIntelSpeed.Text = "VELOC.";
+                LblIntelEvidence.Text = "EVIDÊNCIA MARCADA";
+                LblIntelTargets.Text = "FANTASMAS POSSÍVEIS";
+                TxtGhostSpeedGuess.Text = "Toque no ritmo dos passos";
+                ChkEv1.Content = "EMF Nível 5";
+                ChkEv2.Content = "Spirit Box";
+                ChkEv3.Content = "Impressão Digital";
+                ChkEv4.Content = "Orbe Fantasma";
+                ChkEv5.Content = "Escrita Fantasma";
+                ChkEv6.Content = "Temperatura Baixa";
+                ChkEv7.Content = "D.O.T.S.";
+            }
+            else
+            {
+                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] RESET";
+                LblEvidence.Text = "EVIDENCE (ALT+1-7)";
+                LblSmudge.Text = "SMUDGE [F9]";
+                LblHunt.Text = "HUNT CD [F7]";
+                LblSpeed.Text = "SPEED (m/s)";
+                LblMiniSmudge.Text = "SMUDGE";
+                LblMiniHunt.Text = "HUNT CD";
+                LblIntelSmudge.Text = "SMUDGE";
+                LblIntelHunt.Text = "HUNT CD";
+                LblIntelSpeed.Text = "SPEED";
+                LblIntelEvidence.Text = "MARKED EVIDENCE";
+                LblIntelTargets.Text = "POSSIBLE TARGETS";
+                TxtGhostSpeedGuess.Text = "Select Speed & Tap";
+                ChkEv1.Content = "EMF Level 5";
+                ChkEv2.Content = "Spirit Box";
+                ChkEv3.Content = "Fingerprints";
+                ChkEv4.Content = "Ghost Orb";
+                ChkEv5.Content = "Ghost Writing";
+                ChkEv6.Content = "Freezing";
+                ChkEv7.Content = "D.O.T.S.";
+            }
+            UpdateGhostFiltering();
+        }
 
         private void SetViewMode(int mode)
         {
@@ -163,7 +192,6 @@ namespace Hophesmoverlay
 
         private void ResetEvidence()
         {
-            // OPTIMIZATION: Use Cached List instead of FindVisualChildren
             foreach (var box in _evidenceCheckBoxes) { box.IsChecked = false; }
             UpdateGhostFiltering();
         }
@@ -194,20 +222,71 @@ namespace Hophesmoverlay
             else { TxtBPM.Text = "Tap..."; TxtIntelBPM.Text = "Tap..."; }
         }
 
+        // ... (Imports and Variables same as before) ...
+
+        // --- PRECISION SPEED LOGIC (V22.0 UPDATE) ---
         private void InterpretSpeed(double ms)
         {
-            string guess = ""; Brush c = Brushes.Gray; _currentSpeedCategory = "Normal";
-            string slowTxt = (_currentLang == "PT") ? "Rev (Lento)/Deo" : "Rev (Slow)/Deo";
-            string slightSlowTxt = (_currentLang == "PT") ? "Lento" : "Slightly Slow";
-            string normTxt = (_currentLang == "PT") ? "Normal" : "Normal Speed";
-            string fastTxt = (_currentLang == "PT") ? "Rápido (Hantu/Moroi)" : "Fast (Hantu/Moroi)";
-            string runTxt = (_currentLang == "PT") ? "CORRA (Raiju/Rev)" : "RUN (Raiju/Rev)";
+            string guess = "";
+            Brush c = Brushes.Gray;
+            _currentSpeedCategory = "Normal";
 
-            if (ms < 1.3) { guess = slowTxt; c = Brushes.Cyan; _currentSpeedCategory = "Slow"; }
-            else if (ms >= 1.3 && ms < 1.6) { guess = slightSlowTxt; c = Brushes.LightGray; }
-            else if (ms >= 1.6 && ms <= 1.8) { guess = normTxt; c = Brushes.White; }
-            else if (ms > 1.8 && ms < 2.5) { guess = fastTxt; c = Brushes.Orange; _currentSpeedCategory = "Fast"; }
-            else if (ms >= 2.5) { guess = runTxt; c = Brushes.Red; _currentSpeedCategory = "Fast"; }
+            // DEOGEN (0.4 - 3.0)
+            if (ms < 0.6)
+            {
+                guess = "Deogen (Very Close)"; c = Brushes.Cyan; _currentSpeedCategory = "Slow";
+            }
+            // REVENANT PASSIVE / THAYE OLD (1.0)
+            else if (ms >= 0.8 && ms < 1.2)
+            {
+                guess = "Rev (Passive) / Thaye (Old)"; c = Brushes.Cyan; _currentSpeedCategory = "Slow";
+            }
+            // HANTU WARM / TWIN SLOW / MOROI HIGH SANITY (1.4 - 1.5)
+            else if (ms >= 1.35 && ms < 1.55)
+            {
+                guess = "Twin (Slow 1.5) / Moroi (Hi-San) / Hantu (Warm)"; c = Brushes.LightGray; _currentSpeedCategory = "Slow";
+            }
+            // NORMAL RANGE (1.6 - 1.8)
+            else if (ms >= 1.6 && ms <= 1.8)
+            {
+                guess = "Normal Speed (1.7 m/s)"; c = Brushes.White;
+                _currentSpeedCategory = "Normal";
+            }
+            // TWIN FAST / MOROI MID / HANTU COOL (1.9 - 2.1)
+            else if (ms > 1.85 && ms < 2.15)
+            {
+                guess = "Twin (Fast 1.9) / Hantu (Cool)"; c = Brushes.Orange; _currentSpeedCategory = "Fast";
+            }
+            // MOROI LOW SANITY / HANTU COLD / JINN / RAIJU (2.25 - 2.5)
+            else if (ms >= 2.2 && ms < 2.6)
+            {
+                guess = "Raiju / Jinn / Hantu / Moroi"; c = Brushes.Red; _currentSpeedCategory = "Fast";
+            }
+            // REVENANT HUNT / THAYE YOUNG / HANTU FREEZING (2.7 - 3.0)
+            else if (ms >= 2.65 && ms <= 3.1)
+            {
+                guess = "REV (Chase) / Thaye (Young) / Hantu / Moroi"; c = Brushes.Red; _currentSpeedCategory = "Fast";
+            }
+            // MOROI (LINE OF SIGHT BOOST) -> ONLY GHOST FASTER THAN 3.0
+            else if (ms > 3.1 && ms < 4.0)
+            {
+                guess = "MOROI (Max LOS Speed)"; c = Brushes.Magenta; _currentSpeedCategory = "Fast";
+            }
+            // IMPOSSIBLE SPEED
+            else if (ms >= 4.0)
+            {
+                guess = "Too Fast? (Check taps)"; c = Brushes.Gray; _currentSpeedCategory = "None";
+            }
+
+            // PT Translations
+            if (_currentLang == "PT")
+            {
+                guess = guess.Replace("Very Close", "Muito Perto").Replace("Passive", "Passivo").Replace("Old", "Velho")
+                             .Replace("Slow", "Lento").Replace("High Sanity", "Sanidade Alta").Replace("Hi-San", "San-Alta")
+                             .Replace("Normal Speed", "Velocidade Normal").Replace("Fast", "Rápido").Replace("Cool", "Frio")
+                             .Replace("Chase", "Caça").Replace("Young", "Jovem").Replace("Freezing", "Congelando")
+                             .Replace("Too Fast?", "Muito Rápido?").Replace("Max LOS Speed", "Velocidade Máx");
+            }
 
             TxtGhostSpeedGuess.Text = guess; TxtGhostSpeedGuess.Foreground = c;
             TxtIntelSpeedGuess.Text = guess; TxtIntelSpeedGuess.Foreground = c;
@@ -215,17 +294,15 @@ namespace Hophesmoverlay
             UpdateGhostFiltering();
         }
 
+        // ... (Rest of the file follows the logic from Version 20.0) ...
+
         private void ToggleEvidenceByIndex(int index)
         {
-            // OPTIMIZATION: Access List directly
             if (index < 1 || index > _evidenceCheckBoxes.Count) return;
-
-            var t = _evidenceCheckBoxes[index - 1]; // Index is 1-based, List is 0-based
-
+            var t = _evidenceCheckBoxes[index - 1];
             if (t.IsChecked == false) t.IsChecked = true;
             else if (t.IsChecked == true) t.IsChecked = null;
             else t.IsChecked = false;
-
             UpdateGhostFiltering();
         }
 
@@ -234,7 +311,6 @@ namespace Hophesmoverlay
         // --- OPTIMIZED FILTERING ---
         private void UpdateGhostFiltering()
         {
-            // Use Cached List
             List<string> foundEv = new List<string>();
             List<string> ruledOutEv = new List<string>();
 
@@ -381,81 +457,67 @@ namespace Hophesmoverlay
         }
 
         private void PlayAudioCue(string type) { Task.Run(() => { try { if (type == "demon") { Console.Beep(200, 400); Thread.Sleep(100); Console.Beep(200, 400); } else if (type == "normal") { Console.Beep(500, 200); Thread.Sleep(100); Console.Beep(500, 200); Thread.Sleep(100); Console.Beep(500, 200); } else if (type == "spirit") { Console.Beep(1000, 300); Thread.Sleep(50); Console.Beep(1000, 300); Thread.Sleep(50); Console.Beep(1000, 800); } } catch { } }); }
-
-        private void SetLanguage(string lang)
-        {
-            _currentLang = lang; InitializeGhosts(lang); GhostsListControl.ItemsSource = null; GhostsListControl.ItemsSource = AllGhosts; GhostsIntelControl.ItemsSource = null; GhostsIntelControl.ItemsSource = AllGhosts;
-            if (lang == "PT")
-            {
-                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] RESETAR"; LblEvidence.Text = "EVIDÊNCIA (ALT+1-7)"; LblSmudge.Text = "INCENSO [F9]"; LblHunt.Text = "CAÇADA [F7]"; LblSpeed.Text = "VELOCIDADE (m/s)"; LblMiniSmudge.Text = "INCENSO"; LblMiniHunt.Text = "CAÇADA"; LblIntelSmudge.Text = "INCENSO"; LblIntelHunt.Text = "CAÇADA"; LblIntelSpeed.Text = "VELOC."; LblIntelEvidence.Text = "EVIDÊNCIA MARCADA"; LblIntelTargets.Text = "FANTASMAS POSSÍVEIS"; TxtGhostSpeedGuess.Text = "Toque no ritmo dos passos"; ChkEv1.Content = "EMF Nível 5"; ChkEv2.Content = "Spirit Box"; ChkEv3.Content = "Impressão Digital"; ChkEv4.Content = "Orbe Fantasma"; ChkEv5.Content = "Escrita Fantasma"; ChkEv6.Content = "Temperatura Baixa"; ChkEv7.Content = "D.O.T.S.";
-            }
-            else
-            {
-                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] RESET"; LblEvidence.Text = "EVIDENCE (ALT+1-7)"; LblSmudge.Text = "SMUDGE [F9]"; LblHunt.Text = "HUNT CD [F7]"; LblSpeed.Text = "SPEED (m/s)"; LblMiniSmudge.Text = "SMUDGE"; LblMiniHunt.Text = "HUNT CD"; LblIntelSmudge.Text = "SMUDGE"; LblIntelHunt.Text = "HUNT CD"; LblIntelSpeed.Text = "SPEED"; LblIntelEvidence.Text = "MARKED EVIDENCE"; LblIntelTargets.Text = "POSSIBLE TARGETS"; TxtGhostSpeedGuess.Text = "Select Speed & Tap"; ChkEv1.Content = "EMF Level 5"; ChkEv2.Content = "Spirit Box"; ChkEv3.Content = "Fingerprints"; ChkEv4.Content = "Ghost Orb"; ChkEv5.Content = "Ghost Writing"; ChkEv6.Content = "Freezing"; ChkEv7.Content = "D.O.T.S.";
-            }
-            UpdateGhostFiltering();
-        }
-
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject { if (depObj != null) for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) { DependencyObject child = VisualTreeHelper.GetChild(depObj, i); if (child != null && child is T) yield return (T)child; foreach (T childOfChild in FindVisualChildren<T>(child)) yield return childOfChild; } }
 
+        // --- COMPLETE GHOST DATABASE (V22.0) ---
         private void InitializeGhosts(string lang = "EN")
         {
             if (lang == "PT")
             {
                 AllGhosts = new List<Ghost> {
-                    new Ghost("Spirit", "👻", "EMF Nível 5", "Spirit Box", "Escrita Fantasma") { Tell = "Incenso para caçada por 180s" },
-                    new Ghost("Wraith", "👣", "EMF Nível 5", "Spirit Box", "D.O.T.S.") { Tell = "Não pisa no sal" },
-                    new Ghost("Phantom", "📷", "Spirit Box", "Impressão Digital", "D.O.T.S.") { Tell = "Pisca lento / Some na foto" },
-                    new Ghost("Poltergeist", "💥", "Spirit Box", "Impressão Digital", "Escrita Fantasma") { Tell = "Arremessa vários itens" },
-                    new Ghost("Banshee", "😱", "Impressão Digital", "Orbe Fantasma", "D.O.T.S.") { Tell = "Grito no microfone parabólico" },
-                    new Ghost("Jinn", "⚡", "EMF Nível 5", "Impressão Digital", "Temperatura Baixa") { Tell = "Rápido com energia ligada" },
-                    new Ghost("Mare", "💡", "Spirit Box", "Orbe Fantasma", "Escrita Fantasma") { Tell = "Odeia luz / Desliga luz instantâneo" },
-                    new Ghost("Revenant", "😈", "Orbe Fantasma", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Lento escondido / Rápido ao ver" },
-                    new Ghost("Shade", "🌑", "EMF Nível 5", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Tímido / Não caça se estiver perto" },
-                    new Ghost("Demon", "⸸", "Impressão Digital", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Caça a 70% / 60s cooldown" },
-                    new Ghost("Yurei", "🚪", "Orbe Fantasma", "Temperatura Baixa", "D.O.T.S.") { Tell = "Incenso prende na sala" },
-                    new Ghost("Oni", "👹", "EMF Nível 5", "Temperatura Baixa", "D.O.T.S.") { Tell = "Visível por mais tempo / Sem evento fumaça" },
-                    new Ghost("Yokai", "🔇", "Spirit Box", "Orbe Fantasma", "D.O.T.S.") { Tell = "Surdo na caçada / Voz atrai caçada" },
-                    new Ghost("Hantu", "❄", "Impressão Digital", "Orbe Fantasma", "Temperatura Baixa") { Tell = "Rápido no frio / Sai fumaça" },
-                    new Ghost("Goryo", "👀", "EMF Nível 5", "Impressão Digital", "D.O.T.S.") { Tell = "DOTS apenas na câmera" },
-                    new Ghost("Myling", "🤫", "EMF Nível 5", "Impressão Digital", "Escrita Fantasma") { Tell = "Passos silenciosos" },
-                    new Ghost("Onryo", "🔥", "Spirit Box", "Orbe Fantasma", "Temperatura Baixa") { Tell = "Fogo previne caçada" },
-                    new Ghost("The Twins", "♊", "EMF Nível 5", "Spirit Box", "Temperatura Baixa") { Tell = "Velocidades diferentes / Interações longe" },
-                    new Ghost("Raiju", "🔋", "EMF Nível 5", "Orbe Fantasma", "D.O.T.S.") { Tell = "Rápido perto de eletrônicos" },
-                    new Ghost("Obake", "🖐", "EMF Nível 5", "Impressão Digital", "Orbe Fantasma") { Tell = "Transmorfo / 6 Dedos" },
-                    new Ghost("The Mimic", "🎭", "Spirit Box", "Impressão Digital", "Temperatura Baixa") { Tell = "Orbes Falsos / Copia comportamentos" },
-                    new Ghost("Moroi", "☠", "Spirit Box", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Maldição / Velocidade por sanidade" },
-                    new Ghost("Deogen", "👁", "Spirit Box", "Escrita Fantasma", "D.O.T.S.") { Tell = "Sempre te acha / Lento perto" },
-                    new Ghost("Thaye", "⏳", "Orbe Fantasma", "Escrita Fantasma", "D.O.T.S.") { Tell = "Envelhece / Rápido no início -> Lento fim" },
+                    new Ghost("Spirit", "👻", "EMF Nível 5", "Spirit Box", "Escrita Fantasma") { Tell = "Smudge previne caça por 180s (Normal 90s).", HuntThreshold = "< 50%" },
+                    new Ghost("Wraith", "👣", "EMF Nível 5", "Spirit Box", "D.O.T.S.") { Tell = "Não pisa no sal. Teleporta para jogador (Gera EMF 2).", HuntThreshold = "< 50%" },
+                    new Ghost("Phantom", "📷", "Spirit Box", "Impressão Digital", "D.O.T.S.") { Tell = "Some na foto. Pisca lento na caçada (Visível menos tempo).", HuntThreshold = "< 50%" },
+                    new Ghost("Poltergeist", "💥", "Spirit Box", "Impressão Digital", "Escrita Fantasma") { Tell = "Joga múltiplos itens. Joga itens longe. Drena sanidade.", HuntThreshold = "< 50%" },
+                    new Ghost("Banshee", "😱", "Impressão Digital", "Orbe Fantasma", "D.O.T.S.") { Tell = "Grito no mic parabólico. Foca apenas 1 jogador. Ignora outros.", HuntThreshold = "Alvo 50%" },
+                    new Ghost("Jinn", "⚡", "EMF Nível 5", "Impressão Digital", "Temperatura Baixa") { Tell = "Velocidade: 2.5 m/s se longe e energia ON.", HuntThreshold = "< 50%" },
+                    new Ghost("Mare", "💡", "Spirit Box", "Orbe Fantasma", "Escrita Fantasma") { Tell = "Odeia luz. Apaga luz instantâneo. Caça cedo no escuro.", HuntThreshold = "60% / 40%" },
+                    new Ghost("Revenant", "😈", "Orbe Fantasma", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Velocidade: 3.0 m/s (Vendo) | 1.0 m/s (Escondido).", HuntThreshold = "< 50%" },
+                    new Ghost("Shade", "🌑", "EMF Nível 5", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Tímido. Não caça se houver jogadores na sala.", HuntThreshold = "< 35%" },
+                    new Ghost("Demon", "⸸", "Impressão Digital", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Pode caçar a qualquer %. Cooldown 20s. Smudge 60s.", HuntThreshold = "Qualquer" },
+                    new Ghost("Yurei", "🚪", "Orbe Fantasma", "Temperatura Baixa", "D.O.T.S.") { Tell = "Fecha portas totalmente. Smudge prende na sala.", HuntThreshold = "< 50%" },
+                    new Ghost("Oni", "👹", "EMF Nível 5", "Temperatura Baixa", "D.O.T.S.") { Tell = "Muito visível na caçada. Drena 20% sanidade ao tocar.", HuntThreshold = "< 50%" },
+                    new Ghost("Yokai", "🔇", "Spirit Box", "Orbe Fantasma", "D.O.T.S.") { Tell = "Surdo (Ouve < 2.5m). Falar perto atrai caçada cedo.", HuntThreshold = "80% (Voz)" },
+                    new Ghost("Hantu", "❄", "Impressão Digital", "Orbe Fantasma", "Temperatura Baixa") { Tell = "Velocidade: 1.4 - 2.7 m/s (Frio). Hálito na caçada.", HuntThreshold = "< 50%" },
+                    new Ghost("Goryo", "👀", "EMF Nível 5", "Impressão Digital", "D.O.T.S.") { Tell = "DOTS só na câmera e sem ninguém perto. Não troca de sala.", HuntThreshold = "< 50%" },
+                    new Ghost("Myling", "🤫", "EMF Nível 5", "Impressão Digital", "Escrita Fantasma") { Tell = "Passos silenciosos (< 12m). Mais sons no parabólico.", HuntThreshold = "< 50%" },
+                    new Ghost("Onryo", "🔥", "Spirit Box", "Orbe Fantasma", "Temperatura Baixa") { Tell = "Fogo previne caçada. Apagar 3 velas = Caça.", HuntThreshold = "60%" },
+                    new Ghost("The Twins", "♊", "EMF Nível 5", "Spirit Box", "Temperatura Baixa") { Tell = "Velocidade: 1.5 m/s (Lento) ou 1.9 m/s (Rápido).", HuntThreshold = "< 50%" },
+                    new Ghost("Raiju", "🔋", "EMF Nível 5", "Orbe Fantasma", "D.O.T.S.") { Tell = "Velocidade: 2.5 m/s perto de eletrônicos.", HuntThreshold = "< 65%" },
+                    new Ghost("Obake", "🖐", "EMF Nível 5", "Impressão Digital", "Orbe Fantasma") { Tell = "Mão de 6 Dedos. Muda de forma na caçada.", HuntThreshold = "< 50%" },
+                    new Ghost("The Mimic", "🎭", "Spirit Box", "Impressão Digital", "Temperatura Baixa") { Tell = "SEMPRE tem Orbes (Falsos). Copia qualquer fantasma.", HuntThreshold = "Copia" },
+                    new Ghost("Moroi", "☠", "Spirit Box", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Velocidade: 1.5 - 2.25 m/s (Sanidade). Smudge cega 7.5s.", HuntThreshold = "< 50%" },
+                    new Ghost("Deogen", "👁", "Spirit Box", "Escrita Fantasma", "D.O.T.S.") { Tell = "Velocidade: 3.0 m/s (Longe) -> 0.4 m/s (Perto). Te acha.", HuntThreshold = "< 40%" },
+                    new Ghost("Thaye", "⏳", "Orbe Fantasma", "Escrita Fantasma", "D.O.T.S.") { Tell = "Envelhece. Velocidade: 2.75 m/s -> 1.0 m/s.", HuntThreshold = "75% -> 15%" },
                 };
             }
             else
             {
                 AllGhosts = new List<Ghost> {
-                    new Ghost("Spirit", "👻", "EMF Level 5", "Spirit Box", "Ghost Writing") { Tell = "Smudge stops hunt 180s" },
-                    new Ghost("Wraith", "👣", "EMF Level 5", "Spirit Box", "D.O.T.S.") { Tell = "No salt steps" },
-                    new Ghost("Phantom", "📷", "Spirit Box", "Fingerprints", "D.O.T.S.") { Tell = "Blinks slow / Disappears in photo" },
-                    new Ghost("Poltergeist", "💥", "Spirit Box", "Fingerprints", "Ghost Writing") { Tell = "Throw explosion / Pile throw" },
-                    new Ghost("Banshee", "😱", "Fingerprints", "Ghost Orb", "D.O.T.S.") { Tell = "Paramic Scream / Roams to target" },
-                    new Ghost("Jinn", "⚡", "EMF Level 5", "Fingerprints", "Freezing") { Tell = "Fast w/ power" },
-                    new Ghost("Mare", "💡", "Spirit Box", "Ghost Orb", "Ghost Writing") { Tell = "Hates light / Instant light switch" },
-                    new Ghost("Revenant", "😈", "Ghost Orb", "Ghost Writing", "Freezing") { Tell = "Slow hidden / Fast visible" },
-                    new Ghost("Shade", "🌑", "EMF Level 5", "Ghost Writing", "Freezing") { Tell = "Shy / No hunt if near" },
-                    new Ghost("Demon", "⸸", "Fingerprints", "Ghost Writing", "Freezing") { Tell = "Hunt @ 70% / 60s CD" },
-                    new Ghost("Yurei", "🚪", "Ghost Orb", "Freezing", "D.O.T.S.") { Tell = "Smudge traps in room" },
-                    new Ghost("Oni", "👹", "EMF Level 5", "Freezing", "D.O.T.S.") { Tell = "Visible longer in hunt" },
-                    new Ghost("Yokai", "🔇", "Spirit Box", "Ghost Orb", "D.O.T.S.") { Tell = "Deaf in hunt / Voice triggers" },
-                    new Ghost("Hantu", "❄", "Fingerprints", "Ghost Orb", "Freezing") { Tell = "Fast in cold / Breath" },
-                    new Ghost("Goryo", "👀", "EMF Level 5", "Fingerprints", "D.O.T.S.") { Tell = "DOTS on Cam Only" },
-                    new Ghost("Myling", "🤫", "EMF Level 5", "Fingerprints", "Ghost Writing") { Tell = "Silent footsteps" },
-                    new Ghost("Onryo", "🔥", "Spirit Box", "Ghost Orb", "Freezing") { Tell = "Fire prevents hunt" },
-                    new Ghost("The Twins", "♊", "EMF Level 5", "Spirit Box", "Freezing") { Tell = "Split speeds / Decoys" },
-                    new Ghost("Raiju", "🔋", "EMF Level 5", "Ghost Orb", "D.O.T.S.") { Tell = "Fast near electronics" },
-                    new Ghost("Obake", "🖐", "EMF Level 5", "Fingerprints", "Ghost Orb") { Tell = "Shapeshift / 6-Finger" },
-                    new Ghost("The Mimic", "🎭", "Spirit Box", "Fingerprints", "Freezing") { Tell = "Fake Orbs / Copies behaviors" },
-                    new Ghost("Moroi", "☠", "Spirit Box", "Ghost Writing", "Freezing") { Tell = "Curse / Low sanity speed" },
-                    new Ghost("Deogen", "👁", "Spirit Box", "Ghost Writing", "D.O.T.S.") { Tell = "Always finds you / Slow close" },
-                    new Ghost("Thaye", "⏳", "Ghost Orb", "Ghost Writing", "D.O.T.S.") { Tell = "Ages / Fast start -> Slow end" },
+                    new Ghost("Spirit", "👻", "EMF Level 5", "Spirit Box", "Ghost Writing") { Tell = "Smudge prevents hunt for 180s (Normal 90s).", HuntThreshold = "< 50%" },
+                    new Ghost("Wraith", "👣", "EMF Level 5", "Spirit Box", "D.O.T.S.") { Tell = "No salt steps. Teleports to player (EMF 2).", HuntThreshold = "< 50%" },
+                    new Ghost("Phantom", "📷", "Spirit Box", "Fingerprints", "D.O.T.S.") { Tell = "Disappears in photo. Slow blink (Invisible longer).", HuntThreshold = "< 50%" },
+                    new Ghost("Poltergeist", "💥", "Spirit Box", "Fingerprints", "Ghost Writing") { Tell = "Throws multiple items at once. Drains sanity (2%).", HuntThreshold = "< 50%" },
+                    new Ghost("Banshee", "😱", "Fingerprints", "Ghost Orb", "D.O.T.S.") { Tell = "Paramic Scream. Targets 1 player (Ignores others).", HuntThreshold = "< 50% (Target)" },
+                    new Ghost("Jinn", "⚡", "EMF Level 5", "Fingerprints", "Freezing") { Tell = "Speed: 2.5 m/s if breaker ON and far.", HuntThreshold = "< 50%" },
+                    new Ghost("Mare", "💡", "Spirit Box", "Ghost Orb", "Ghost Writing") { Tell = "Hates lights. Immediate switch off. Hunts early in dark.", HuntThreshold = "60% / 40%" },
+                    new Ghost("Revenant", "😈", "Ghost Orb", "Ghost Writing", "Freezing") { Tell = "Speed: 3.0 m/s (Chasing) | 1.0 m/s (Hiding).", HuntThreshold = "< 50%" },
+                    new Ghost("Shade", "🌑", "EMF Level 5", "Ghost Writing", "Freezing") { Tell = "Shy. Won't hunt if players are in same room.", HuntThreshold = "< 35%" },
+                    new Ghost("Demon", "⸸", "Fingerprints", "Ghost Writing", "Freezing") { Tell = "Rare ability to hunt at any %. 20s cooldown.", HuntThreshold = "Any / 70%" },
+                    new Ghost("Yurei", "🚪", "Ghost Orb", "Freezing", "D.O.T.S.") { Tell = "Full door close (Sanity drain). Smudge traps it.", HuntThreshold = "< 50%" },
+                    new Ghost("Oni", "👹", "EMF Level 5", "Freezing", "D.O.T.S.") { Tell = "Very visible during hunt. Drains 20% sanity on hit.", HuntThreshold = "< 50%" },
+                    new Ghost("Yokai", "🔇", "Spirit Box", "Ghost Orb", "D.O.T.S.") { Tell = "Deaf (Hears < 2.5m). Talking triggers early hunt.", HuntThreshold = "80% (Voice)" },
+                    new Ghost("Hantu", "❄", "Fingerprints", "Ghost Orb", "Freezing") { Tell = "Speed: 1.4 - 2.7 m/s (Based on Temp). Cold breath.", HuntThreshold = "< 50%" },
+                    new Ghost("Goryo", "👀", "EMF Level 5", "Fingerprints", "D.O.T.S.") { Tell = "DOTS only on Cam and no one near. No roaming.", HuntThreshold = "< 50%" },
+                    new Ghost("Myling", "🤫", "EMF Level 5", "Fingerprints", "Ghost Writing") { Tell = "Silent footsteps during hunt (< 12m range).", HuntThreshold = "< 50%" },
+                    new Ghost("Onryo", "🔥", "Spirit Box", "Ghost Orb", "Freezing") { Tell = "Fire prevents hunt. Blowing 3 flames = Hunt.", HuntThreshold = "60%" },
+                    new Ghost("The Twins", "♊", "EMF Level 5", "Spirit Box", "Freezing") { Tell = "Speed: 1.5 m/s (Decoy) or 1.9 m/s (Main).", HuntThreshold = "< 50%" },
+                    new Ghost("Raiju", "🔋", "EMF Level 5", "Ghost Orb", "D.O.T.S.") { Tell = "Speed: 2.5 m/s near electronics.", HuntThreshold = "< 65%" },
+                    new Ghost("Obake", "🖐", "EMF Level 5", "Fingerprints", "Ghost Orb") { Tell = "6-Fingered Print. Shapeshifts (Blinks wrong model).", HuntThreshold = "< 50%" },
+                    new Ghost("The Mimic", "🎭", "Spirit Box", "Fingerprints", "Freezing") { Tell = "ALWAYS has Fake Orbs. Copies ANY ghost.", HuntThreshold = "Copy" },
+                    new Ghost("Moroi", "☠", "Spirit Box", "Ghost Writing", "Freezing") { Tell = "Speed: 1.5 - 2.25 m/s (Based on Sanity).", HuntThreshold = "< 50%" },
+                    new Ghost("Deogen", "👁", "Spirit Box", "Ghost Writing", "D.O.T.S.") { Tell = "Speed: 3.0 m/s (Far) -> 0.4 m/s (Close). Finds you.", HuntThreshold = "< 40%" },
+                    new Ghost("Thaye", "⏳", "Ghost Orb", "Ghost Writing", "D.O.T.S.") { Tell = "Ages. Speed: 2.75 m/s (Young) -> 1.0 m/s (Old).", HuntThreshold = "75% -> 15%" },
                 };
             }
         }
@@ -467,6 +529,7 @@ namespace Hophesmoverlay
         public string Symbol { get; set; }
         public List<string> Evidences { get; set; }
         public string Tell { get; set; }
+        public string HuntThreshold { get; set; }
         private bool _isEliminated;
         public bool IsEliminated { get => _isEliminated; set { _isEliminated = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEliminated")); } }
         public Brush PrimaryColorBrush { get { return (Brush)new BrushConverter().ConvertFrom(PrimaryColor); } }
