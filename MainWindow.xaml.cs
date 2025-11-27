@@ -308,6 +308,7 @@ namespace Hophesmoverlay
 
         private void Evidence_Changed(object sender, RoutedEventArgs e) => UpdateGhostFiltering();
 
+        // --- OPTIMIZED FILTERING ---
         private void UpdateGhostFiltering()
         {
             List<string> foundEv = new List<string>();
