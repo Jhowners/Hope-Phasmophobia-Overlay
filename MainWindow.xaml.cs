@@ -122,6 +122,8 @@ namespace Hophesmoverlay
 
         private void MenuEn_Click(object sender, RoutedEventArgs e) => SetLanguage("EN");
         private void MenuPt_Click(object sender, RoutedEventArgs e) => SetLanguage("PT");
+        private void MenuJp_Click(object sender, RoutedEventArgs e) => SetLanguage("JP");
+        private void MenuCht_Click(object sender, RoutedEventArgs e) => SetLanguage("Cht");
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
 
         // --- LANGUAGE LOGIC ---
@@ -154,6 +156,52 @@ namespace Hophesmoverlay
                 ChkEv5.Content = "Escrita Fantasma";
                 ChkEv6.Content = "Temperatura Baixa";
                 ChkEv7.Content = "D.O.T.S.";
+            }
+            else if  (lang == "JP")
+            {
+                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] リセット"; // [INS] MINI | [HOME] INTEL | [ALT+8] RESETAR
+                LblEvidence.Text = "証拠 (ALT+1-7)"; // EVIDENCE (ALT+1-7)
+                LblSmudge.Text = "スマッジ [F9]"; // SMUDGE [F9]
+                LblHunt.Text = "ハントCD [F7]"; // HUNT CD [F7]
+                LblSpeed.Text = "速度 (m/s)"; // SPEED (m/s)
+                LblMiniSmudge.Text = "スマッジ"; // SMUDGE
+                LblMiniHunt.Text = "ハントCD"; // HUNT CD
+                LblIntelSmudge.Text = "スマッジ"; // SMUDGE
+                LblIntelHunt.Text = "ハントCD"; // HUNT CD
+                LblIntelSpeed.Text = "速度"; // SPEED
+                LblIntelEvidence.Text = "マークされた証拠"; // MARKED EVIDENCE
+                LblIntelTargets.Text = "可能ゴースト"; // POSSIBLE TARGETS
+                TxtGhostSpeedGuess.Text = "足音に合わせてタップ"; // Select Speed & Tap
+                ChkEv1.Content = "EMF Lv.5"; // EMF Level 5
+                ChkEv2.Content = "スピリットBOX"; // Spirit Box
+                ChkEv3.Content = "指紋"; // Fingerprints
+                ChkEv4.Content = "オーブ"; // Ghost Orb
+                ChkEv5.Content = "ライティング"; // Ghost Writing
+                ChkEv6.Content = "氷点下"; // Freezing
+                ChkEv7.Content = "D.O.T.S."; // D.O.T.S.
+            }
+            else if  (lang == "Cht")
+            {
+                LblControls.Text = "[INS] MINI | [HOME] INTEL | [ALT+8] 重置"; // [INS] MINI | [HOME] INTEL | [ALT+8] RESETAR
+                LblEvidence.Text = "證據 (ALT+1-7)"; // EVIDENCE (ALT+1-7)
+                LblSmudge.Text = "聖木 [F9]"; // SMUDGE [F9]
+                LblHunt.Text = "獵殺CD [F7]"; // HUNT CD [F7]
+                LblSpeed.Text = "速度 (m/s)"; // SPEED (m/s)
+                LblMiniSmudge.Text = "聖木"; // SMUDGE
+                LblMiniHunt.Text = "獵殺CD"; // HUNT CD
+                LblIntelSmudge.Text = "聖木"; // SMUDGE
+                LblIntelHunt.Text = "獵殺CD"; // HUNT CD
+                LblIntelSpeed.Text = "速度"; // SPEED
+                LblIntelEvidence.Text = "已標記證據"; // MARKED EVIDENCE
+                LblIntelTargets.Text = "可能的鬼魂"; // POSSIBLE TARGETS
+                TxtGhostSpeedGuess.Text = "配合腳步聲點擊"; // Select Speed & Tap
+                ChkEv1.Content = "EMF 5級"; // EMF Level 5
+                ChkEv2.Content = "通靈盒"; // Spirit Box
+                ChkEv3.Content = "指紋"; // Fingerprints
+                ChkEv4.Content = "靈球"; // Ghost Orb
+                ChkEv5.Content = "筆跡"; // Ghost Writing
+                ChkEv6.Content = "寒溫"; // Freezing
+                ChkEv7.Content = "點陣"; // D.O.T.S.
             }
             else
             {
@@ -200,8 +248,12 @@ namespace Hophesmoverlay
         {
             _tapHistory.Clear();
             string txt = "-- m/s"; TxtBPM.Text = txt; TxtIntelBPM.Text = txt;
-            TxtGhostSpeedGuess.Text = (_currentLang == "PT") ? "Toque no ritmo dos passos" : "Select Speed & Tap";
-            TxtIntelSpeedGuess.Text = (_currentLang == "PT") ? "Aguardando" : "Waiting";
+            TxtGhostSpeedGuess.Text = (_currentLang == "PT") ? "Toque no ritmo dos passos" : 
+                                      (_currentLang == "JP") ? "速度を選択してタップ" : 
+                                      (_currentLang == "Cht") ? "選擇速度並點擊" : "Select Speed & Tap";
+            TxtIntelSpeedGuess.Text = (_currentLang == "PT") ? "Aguardando" : 
+                                      (_currentLang == "JP") ? "待機中" : 
+                                      (_currentLang == "Cht") ? "待機中" : "Waiting";
             TxtPacerStatus.Text = "FILTER: NONE"; TxtPacerStatus.Foreground = Brushes.Gray;
             _currentSpeedCategory = "None"; UpdateGhostFiltering();
         }
@@ -287,6 +339,50 @@ namespace Hophesmoverlay
                              .Replace("Chase", "Caça").Replace("Young", "Jovem").Replace("Freezing", "Congelando")
                              .Replace("Too Fast?", "Muito Rápido?").Replace("Max LOS Speed", "Velocidade Máx");
             }
+            else if (_currentLang == "JP")
+            {
+                guess = guess.Replace("Deogen (Very Close)", "デーモン (超接近)")
+                             .Replace("Rev (Passive)", "レヴナント (徘徊)")
+                             .Replace("Thaye (Old)", "セーイ (老衰)")
+                             .Replace("Twin (Slow 1.5)", "ツインズ (デコイ 1.5)")
+                             .Replace("Moroi (Hi-San)", "モーロイ (高正気)")
+                             .Replace("Hantu (Warm)", "ハントゥ (温かい)")
+                             .Replace("Normal Speed (1.7 m/s)", "通常速度 (1.7 m/s)")
+                             .Replace("Twin (Fast 1.9)", "ツインズ (本体 1.9)")
+                             .Replace("Hantu (Cool)", "ハントゥ (寒い)")
+                             .Replace("Raiju", "雷獣")
+                             .Replace("Jinn", "ジン")
+                             .Replace("Hantu", "ハントゥ")
+                             .Replace("Moroi", "モーロイ")
+                             .Replace("REV (Chase)", "レヴナント (ハント中)")
+                             .Replace("Thaye (Young)", "セーイ (若齢)")
+                             .Replace("Hantu (Freezing)", "ハントゥ (氷点下)")
+                             .Replace("MOROI (Max LOS Speed)", "モーロイ (最大速度)")
+                             .Replace("Too Fast? (Check taps)", "速すぎかも？ (タップを確認)")
+                             .Replace("FILTER: NONE", "フィルター: なし");
+            }
+            else if (_currentLang == "Cht")
+            {
+                guess = guess.Replace("Deogen (Very Close)", "惡魔 (超接近)")
+                             .Replace("Rev (Passive)", "亡魂 (徘徊)")
+                             .Replace("Thaye (Old)", "剎那 (衰老)")
+                             .Replace("Twin (Slow 1.5)", "攣魂 (分身 1.5)")
+                             .Replace("Moroi (Hi-San)", "魔洛伊 (高理智)")
+                             .Replace("Hantu (Warm)", "寒魔 (溫暖)")
+                             .Replace("Normal Speed (1.7 m/s)", "通常速度 (1.7 m/s)")
+                             .Replace("Twin (Fast 1.9)", "攣魂 (本體 1.9)")
+                             .Replace("Hantu (Cool)", "寒魔 (低溫)")
+                             .Replace("Raiju", "雷獸") 
+                             .Replace("Jinn", "巨靈")
+                             .Replace("Hantu", "寒魔")
+                             .Replace("Moroi", "魔洛伊")
+                             .Replace("REV (Chase)", "亡魂 (獵殺中)")
+                             .Replace("Thaye (Young)", "剎那 (年輕)")
+                             .Replace("Hantu (Freezing)", "寒魔 (寒溫)")
+                             .Replace("MOROI (Max LOS Speed)", "魔洛伊 (最高速)")
+                             .Replace("Too Fast? (Check taps)", "可能太快了？ (請確認點擊速度)")
+                             .Replace("FILTER: NONE", "篩選器: 無");
+            }
 
             TxtGhostSpeedGuess.Text = guess; TxtGhostSpeedGuess.Foreground = c;
             TxtIntelSpeedGuess.Text = guess; TxtIntelSpeedGuess.Foreground = c;
@@ -329,6 +425,26 @@ namespace Hophesmoverlay
                              .Replace("Ghost Writing", "Escrita").Replace("Freezing", "Gelado")
                              .Replace("D.O.T.S.", "DOTS");
                 }
+                else if (_currentLang == "JP")
+                {
+                    return ev.Replace("EMF Lv.5", "EMF5")
+                             .Replace("スピリットBox", "スピリットBox")
+                             .Replace("指紋", "指紋")
+                             .Replace("ゴーストオーブ", "オーブ")
+                             .Replace("ゴーストライティング", "ライティング")
+                             .Replace("氷点下の温度", "氷点下")
+                             .Replace("D.O.T.S.", "DOTS");
+                }
+                else if (_currentLang == "Cht")
+                {
+                    return ev.Replace("EMF 5級", "EMF 5")
+                             .Replace("通靈盒", "通靈盒")
+                             .Replace("指紋", "指紋")
+                             .Replace("靈球", "靈球")
+                             .Replace("筆跡", "筆跡")
+                             .Replace("寒溫", "寒溫")
+                             .Replace("點陣", "點陣");
+                }
                 return ev.Replace("Ghost ", "").Replace("Level ", "").Replace("Spirit ", "");
             }
 
@@ -343,13 +459,17 @@ namespace Hophesmoverlay
             }
             else
             {
-                TxtIntelFound.Text = (_currentLang == "PT") ? "AGUARDANDO..." : "WAITING...";
+                TxtIntelFound.Text = (_currentLang == "PT") ? "AGUARDANDO..." : 
+                                        (_currentLang == "JP") ? "待機中..." : 
+                                        (_currentLang == "Cht") ? "待機中..." : "WAITING...";
                 TxtIntelFound.Visibility = Visibility.Visible;
             }
 
             if (ruledOutEv.Count > 0)
             {
-                string notStr = (_currentLang == "PT") ? "NÃO: " : "NOT: ";
+                string notStr = (_currentLang == "PT") ? "NÃO: " : 
+                                (_currentLang == "JP") ? "除外: " :
+                                (_currentLang == "Cht") ? "除外: " : "NOT: ";
                 string ruledOutStr = notStr + string.Join(", ", ruledOutEv.Select(x => TranslateEv(x)));
                 TxtIntelRuledOut.Text = ruledOutStr; TxtIntelRuledOut.Visibility = Visibility.Visible;
             }
@@ -397,8 +517,8 @@ namespace Hophesmoverlay
         private void StopSmudgeTimer()
         {
             _smudgeTimer.Stop();
-            string ready = (_currentLang == "PT") ? "PRONTO" : "READY";
-            string wait = (_currentLang == "PT") ? "AGUARDANDO" : "WAITING...";
+            string ready = (_currentLang == "PT") ? "PRONTO" : (_currentLang == "JP") ? "準備完了" : (_currentLang == "Cht") ? "準備完畢" : "READY";
+            string wait = (_currentLang == "PT") ? "AGUARDANDO" : (_currentLang == "JP") ? "待機中..." : (_currentLang == "Cht") ? "待機中..." : "WAITING...";
             TxtTimer.Text = ready; TxtMiniTimer.Text = ready; TxtIntelTimer.Text = ready;
             TxtTimerStatus.Text = wait; TxtMiniStatus.Text = wait; TxtIntelStatus.Text = wait;
             TxtTimer.Foreground = Brushes.White; TxtMiniTimer.Foreground = Brushes.White; TxtIntelTimer.Foreground = Brushes.White;
@@ -413,11 +533,11 @@ namespace Hophesmoverlay
         {
             if (!_smudgeTimer.IsEnabled && (TxtTimer.Text == "READY" || TxtTimer.Text == "PRONTO")) return;
             string timeText, statusText; Brush colorBrush, statusBrush;
-            string readyTxt = (_currentLang == "PT") ? "ESPÍRITO!" : "SPIRIT!";
-            string huntTxt = (_currentLang == "PT") ? "ATAQUE IMINENTE" : "HUNT IMMINENT";
-            string safeTxt = (_currentLang == "PT") ? "SEGURO (TODOS)" : "SAFE (ALL)";
-            string demonTxt = (_currentLang == "PT") ? "DEMON PERIGO" : "DEMON UNSAFE";
-            string normTxt = (_currentLang == "PT") ? "NORMAL PERIGO" : "NORMAL UNSAFE";
+            string readyTxt = (_currentLang == "PT") ? "ESPÍRITO!" : (_currentLang == "JP") ? "スピリット！" : (_currentLang == "Cht") ? "通靈盒！" : "SPIRIT!";
+            string huntTxt = (_currentLang == "PT") ? "ATAQUE IMINENTE" : (_currentLang == "JP") ? "ハント接近" : (_currentLang == "Cht") ? "寒魔靠近" : "HUNT IMMINENT";
+            string safeTxt = (_currentLang == "PT") ? "SEGURO (TODOS)" : (_currentLang == "JP") ? "安全 (すべて)" : (_currentLang == "Cht") ? "安全 (全部)" : "SAFE (ALL)";
+            string demonTxt = (_currentLang == "PT") ? "DEMON PERIGO" : (_currentLang == "JP") ? "デーモン 危険" : (_currentLang == "Cht") ? "惡魔 危險" : "DEMON UNSAFE";
+            string normTxt = (_currentLang == "PT") ? "NORMAL PERIGO" : (_currentLang == "JP") ? "通常ゴースト 危険" : (_currentLang == "Cht") ? "一般鬼魂 危險" : "NORMAL UNSAFE";
 
             if (_timerSecondsRemaining <= 0) { timeText = readyTxt; statusText = huntTxt; colorBrush = Brushes.Red; statusBrush = Brushes.Red; }
             else
@@ -444,14 +564,14 @@ namespace Hophesmoverlay
         private void HuntTimer_Tick(object sender, EventArgs e)
         {
             _huntTimerSeconds--; ProgressHuntTimer.Value = _huntTimerSeconds; UpdateHuntTimerDisplay();
-            if (_huntTimerSeconds <= 0) { _huntTimer.Stop(); PlayAudioCue("spirit"); TxtHuntTimer.Text = (_currentLang == "PT") ? "PRONTO" : "READY"; TxtMiniHuntTimer.Text = TxtHuntTimer.Text; TxtIntelHuntTimer.Text = TxtHuntTimer.Text; TxtHuntTimer.Foreground = Brushes.Red; }
+            if (_huntTimerSeconds <= 0) { _huntTimer.Stop(); PlayAudioCue("spirit"); TxtHuntTimer.Text = (_currentLang == "PT") ? "PRONTO" : (_currentLang == "JP") ? "準備完了" : (_currentLang == "Cht") ? "準備完畢" : "READY"; TxtMiniHuntTimer.Text = TxtHuntTimer.Text; TxtIntelHuntTimer.Text = TxtHuntTimer.Text; TxtHuntTimer.Foreground = Brushes.Red; }
         }
         private void UpdateHuntTimerDisplay()
         {
             TimeSpan t = TimeSpan.FromSeconds(_huntTimerSeconds); string txt = string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds); Brush c = Brushes.White; string status = "SAFE";
-            string safeTxt = (_currentLang == "PT") ? "SEGURO" : "SAFE";
+            string safeTxt = (_currentLang == "PT") ? "SEGURO" : (_currentLang == "JP") ? "安全" : (_currentLang == "Cht") ? "安全" : "SAFE";
             string demonTxt = "DEMON!";
-            string readyTxt = (_currentLang == "PT") ? "PRONTO" : "READY";
+            string readyTxt = (_currentLang == "PT") ? "PRONTO" : (_currentLang == "JP") ? "準備完了" : (_currentLang == "Cht") ? "準備完畢" : "READY";
             if (_huntTimerSeconds > 5) { c = Brushes.LightGreen; status = safeTxt; } else if (_huntTimerSeconds > 0) { c = (Brush)new BrushConverter().ConvertFrom("#FF6666"); status = demonTxt; } else { c = Brushes.Red; status = readyTxt; }
             TxtHuntTimer.Text = txt; TxtHuntTimer.Foreground = c; TxtMiniHuntTimer.Text = txt; TxtMiniHuntTimer.Foreground = c; TxtIntelHuntTimer.Text = txt; TxtIntelHuntTimer.Foreground = c; TxtHuntTimerStatus.Text = status; TxtHuntTimerStatus.Foreground = c;
         }
@@ -489,6 +609,64 @@ namespace Hophesmoverlay
                     new Ghost("Moroi", "☠", "Spirit Box", "Escrita Fantasma", "Temperatura Baixa") { Tell = "Velocidade: 1.5 - 2.25 m/s (Sanidade). Smudge cega 7.5s.", HuntThreshold = "< 50%" },
                     new Ghost("Deogen", "👁", "Spirit Box", "Escrita Fantasma", "D.O.T.S.") { Tell = "Velocidade: 3.0 m/s (Longe) -> 0.4 m/s (Perto). Te acha.", HuntThreshold = "< 40%" },
                     new Ghost("Thaye", "⏳", "Orbe Fantasma", "Escrita Fantasma", "D.O.T.S.") { Tell = "Envelhece. Velocidade: 2.75 m/s -> 1.0 m/s.", HuntThreshold = "75% -> 15%" },
+                };
+            }
+            else if (lang == "JP")
+            {
+                AllGhosts = new List<Ghost> {
+                    new Ghost("スピリット", "👻", "EMF Lv.5", "スピリットBox", "ライティング") { Tell = "スマッジはハントを180秒間防ぐ（通常は90秒）。", HuntThreshold = "< 50%" },
+                    new Ghost("レイス", "👣", "EMF Lv.5", "スピリットBox", "D.O.T.S.") { Tell = "塩踏まない。プレイヤーにテレポートする（EMF2発生）。", HuntThreshold = "< 50%" },
+                    new Ghost("ファントム", "📷", "スピリットBox", "指紋", "D.O.T.S.") { Tell = "写真に写ると消える。ハント中の点滅が遅い（不可視時間が長い）。", HuntThreshold = "< 50%" },
+                    new Ghost("ポルターガイスト", "💥", "スピリットBox", "指紋", "ライティング") { Tell = "複数のアイテムを同時に投げる。正気度を急激に減らす（一つあたり2%）。", HuntThreshold = "< 50%" },
+                    new Ghost("バンシー", "😱", "指紋", "オーブ", "D.O.T.S.") { Tell = "指向性マイクで叫び声が聞こえる。1人のプレイヤーのみをターゲットにする（他は無視）。", HuntThreshold = "ターゲット < 50%" },
+                    new Ghost("ジン", "⚡", "EMF Lv.5", "指紋", "氷点下") { Tell = "ブレーカーONで遠くにいる場合、速度2.5 m/s。", HuntThreshold = "< 50%" },
+                    new Ghost("メアー", "💡", "スピリットBox", "オーブ", "ライティング") { Tell = "光を嫌う。すぐに照明を消す。暗闇では早くハントする。", HuntThreshold = "60% / 40%" },
+                    new Ghost("レヴナント", "😈", "オーブ", "ライティング", "氷点下") { Tell = "追跡中速度：3.0 m/s | 隠れ時：1.0 m/s", HuntThreshold = "< 50%" },
+                    new Ghost("シェード", "🌑", "EMF Lv.5", "ライティング", "氷点下") { Tell = "恥ずかしがり。プレイヤーが同じ部屋にいるとハントしない。", HuntThreshold = "< 35%" },
+                    new Ghost("デーモン", "⸸", "指紋", "ライティング", "氷点下") { Tell = "いつでもハント開始可能。スマッジのクールダウンは20秒。", HuntThreshold = "いつでも / 70%" },
+                    new Ghost("幽霊", "🚪", "オーブ", "氷点下", "D.O.T.S.") { Tell = "ドアを完全に閉める（正気度消耗）。スマッジで部屋に閉じ込められる。", HuntThreshold = "< 50%" },
+                    new Ghost("鬼", "👹", "EMF Lv.5", "氷点下", "D.O.T.S.") { Tell = "ハント中は非常によく見える。「はぁー」しない、ヒット時に正気度2倍減少。", HuntThreshold = "< 50%" },
+                    new Ghost("妖怪", "🔇", "スピリットBox", "オーブ", "D.O.T.S.") { Tell = "難聴（2.5m未満しか聞こえない）。近くで話すとハントが早まる。", HuntThreshold = "80%（喋る時）" },
+                    new Ghost("ハントゥ", "❄", "指紋", "オーブ", "氷点下") { Tell = "速度：1.4 - 2.7 m/s（温度に依存）。ハント中に冷たい息。", HuntThreshold = "< 50%" },
+                    new Ghost("御霊", "👀", "EMF Lv.5", "指紋", "D.O.T.S.") { Tell = "DOTSはカメラ越しのみ、近くに誰もいない時。部屋を移動しない。", HuntThreshold = "< 50%" },
+                    new Ghost("マイリング", "🤫", "EMF Lv.5", "指紋", "ライティング") { Tell = "ハント中の足音が静か（12m未満でしか聞こえない）。", HuntThreshold = "< 50%" },
+                    new Ghost("怨霊", "🔥", "スピリットBox", "オーブ", "氷点下") { Tell = "炎（ライターやろうそく）はハントを防ぐ。炎を3回消すとハント。", HuntThreshold = "60%" },
+                    new Ghost("ツインズ", "♊", "EMF Lv.5", "スピリットBox", "氷点下") { Tell = "速度：1.5 m/s（デコイ）または 1.9 m/s（本体）。", HuntThreshold = "< 50%" },
+                    new Ghost("雷獣", "🔋", "EMF Lv.5", "オーブ", "D.O.T.S.") { Tell = "電子機器の近くで速度2.5 m/s。", HuntThreshold = "< 65%" },
+                    new Ghost("化け狐", "🖐", "EMF Lv.5", "指紋", "オーブ") { Tell = "6本指の指紋。ハント中に姿を変える（違うモデルで点滅）。", HuntThreshold = "< 50%" },
+                    new Ghost("ミミック", "🎭", "スピリットBox", "指紋", "氷点下") { Tell = "常に偽のオーブを持つ。任意のゴーストをコピーする。", HuntThreshold = "コピー対象依存" },
+                    new Ghost("モーロイ", "☠", "スピリットBox", "ライティング", "氷点下") { Tell = "速度：1.5 - 2.25 m/s（正気度依存）。スマッジで失明時間が7.5秒に延長。", HuntThreshold = "< 50%" },
+                    new Ghost("デオヘン", "👁", "スピリットBox", "ライティング", "D.O.T.S.") { Tell = "速度：3.0 m/s（遠い）-> 0.4 m/s（近い）。プレイヤーを見つける。", HuntThreshold = "< 40%" },
+                    new Ghost("セーイ", "⏳", "オーブ", "ライティング", "D.O.T.S.") { Tell = "年齢を重ねる。速度：2.75 m/s（若齢）-> 1.0 m/s（老衰）。", HuntThreshold = "75% -> 15%" },
+                };
+            }
+            else if (lang == "Cht")
+            {
+                AllGhosts = new List<Ghost> {
+                    new Ghost("魂魄", "👻", "EMF 5", "通靈盒", "筆跡") { Tell = "聖木可防止獵殺180秒（正常為90秒）。", HuntThreshold = "< 50%" },
+                    new Ghost("魅影", "👣", "EMF 5", "通靈盒", "點陣") { Tell = "不踩鹽。會傳送至玩家身邊（會有EMF 2）。", HuntThreshold = "< 50%" },
+                    new Ghost("幻影", "📷", "通靈盒", "指紋", "點陣") { Tell = "被相機拍到會消失。獵殺中閃爍頻率較慢（消失時間較長）。", HuntThreshold = "< 50%" },
+                    new Ghost("騷靈", "💥", "通靈盒", "指紋", "筆跡") { Tell = "同時投擲複數物體。一個可降低2%理智。", HuntThreshold = "< 50%" },
+                    new Ghost("女妖", "😱", "指紋", "靈球", "點陣") { Tell = "收音器有時能聽到女妖獨特的哀嚎聲。鎖定攻擊一個人（無視其他人）。", HuntThreshold = "目標 < 50%" },
+                    new Ghost("巨靈", "⚡", "EMF 5", "指紋", "寒溫") { Tell = "電閘開啟並遠處有玩家在視野內時，速度2.5 m/s。", HuntThreshold = "< 50%" },
+                    new Ghost("夢魘", "💡", "通靈盒", "靈球", "筆跡") { Tell = "討厭光，會立刻關閉照明。黑暗中更快獵殺。", HuntThreshold = "60% / 40%" },
+                    new Ghost("亡魂", "😈", "靈球", "筆跡", "寒溫") { Tell = "視野內速度：3.0 m/s | 視野外速度：1.0 m/s", HuntThreshold = "< 50%" },
+                    new Ghost("暗影", "🌑", "EMF 5", "筆跡", "寒溫") { Tell = "有玩家在相同房間時不會獵殺。", HuntThreshold = "< 35%" },
+                    new Ghost("惡魔", "⸸", "指紋", "筆跡", "寒溫") { Tell = "隨時可獵殺。聖木CD 20秒。", HuntThreshold = "隨時 / 70%" },
+                    new Ghost("幽靈", "🚪", "靈球", "寒溫", "點陣") { Tell = "能力會完全關閉房門並消耗理智。薰香可將其困在房內。", HuntThreshold = "< 50%" },
+                    new Ghost("赤鬼", "👹", "EMF 5", "寒溫", "點陣") { Tell = "獵殺時閃些頻率較高。不會哈氣。鬼魂事件碰撞後理智減少量為2倍。", HuntThreshold = "< 50%" },
+                    new Ghost("妖怪", "🔇", "通靈盒", "靈球", "點陣") { Tell = "2.5m內才聽得到玩家說話。聽到說話聲會加速獵殺。", HuntThreshold = "80%（講話）" },
+                    new Ghost("寒魔", "❄", "指紋", "靈球", "寒溫") { Tell = "速度：1.4 - 2.7 m/s（溫度越低速度越快）。獵殺時會吐氣。", HuntThreshold = "< 50%" },
+                    new Ghost("御靈", "👀", "EMF 5", "指紋", "點陣") { Tell = "點陣只能透過攝影機看到。附近沒有人時不會遊蕩。", HuntThreshold = "< 50%" },
+                    new Ghost("鬼嬰", "🤫", "EMF 5", "指紋", "筆跡") { Tell = "獵殺時腳步聲較小（12m內才能聽到）。", HuntThreshold = "< 50%" },
+                    new Ghost("怨靈", "🔥", "通靈盒", "靈球", "寒溫") { Tell = "火焰（打火機或蠟燭）可防止獵殺。吹熄3次就會獵殺。", HuntThreshold = "60%" },
+                    new Ghost("攣魂", "♊", "EMF 5", "通靈盒", "寒溫") { Tell = "分身速度：1.5 m/s 本體速度：1.9 m/s", HuntThreshold = "< 50%" },
+                    new Ghost("雷魂", "🔋", "EMF 5", "靈球", "點陣") { Tell = "電子設備附近速度2.5 m/s。", HuntThreshold = "< 65%" },
+                    new Ghost("幻妖", "🖐", "EMF 5", "指紋", "靈球") { Tell = "6指指紋。獵殺中會切換模型。", HuntThreshold = "< 50%" },
+                    new Ghost("擬魂", "🎭", "通靈盒", "指紋", "寒溫") { Tell = "一定會出現靈球。可以模擬任意鬼魂。", HuntThreshold = "根據模擬對象" },
+                    new Ghost("魔洛伊", "☠", "通靈盒", "筆跡", "寒溫") { Tell = "速度：1.5 - 2.25 m/s（理智越低速度越快）。薰香可使其失明時間延長至7.5秒。", HuntThreshold = "< 50%" },
+                    new Ghost("霧影", "👁", "通靈盒", "筆跡", "點陣") { Tell = "遠距離時速度：3.0 m/s -> 近距離時速度：0.4 m/s", HuntThreshold = "< 40%" },
+                    new Ghost("剎那", "⏳", "靈球", "筆跡", "點陣") { Tell = "遊戲初期速度：2.75 m/s -> 隨遊戲時間經過：1.0 m/s", HuntThreshold = "75% -> 15%" },
                 };
             }
             else

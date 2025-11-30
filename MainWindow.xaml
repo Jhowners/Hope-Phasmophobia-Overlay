@@ -101,6 +101,8 @@
                     <MenuItem Header="Language / Idioma">
                         <MenuItem Header="English" Click="MenuEn_Click"/>
                         <MenuItem Header="Português (Brasil)" Click="MenuPt_Click"/>
+                        <MenuItem Header="日本語" Click="MenuJp_Click"/>
+                        <MenuItem Header="繁體中文" Click="MenuCht_Click"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Exit / Sair" Click="MenuExit_Click"/>
