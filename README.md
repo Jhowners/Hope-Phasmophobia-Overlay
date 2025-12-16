@@ -53,8 +53,8 @@ Don't guess. Know.
 Right-click the overlay window to switch languages instantly:
 * 🇺🇸 **English** (Default)
 * 🇧🇷 **Português (Brasil)**
-* 🇯🇵 **Japanese (日本語)**
-* 🇹🇼 **Traditional Chinese (繁體中文)**
+* 🇯🇵 **Japanese (日本語)** (Thanks to Aozakimimu148 七瀬七々 )
+* 🇹🇼 **Traditional Chinese (繁體中文)** (Thanks to Aozakimimu148 七瀬七々 )
 
 ---
 
