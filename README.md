@@ -60,7 +60,7 @@ Don't guess. Know.
 | **Alt + 1-8** | Toggle Evidence (EMF, Box, Fingerprints, etc.) |
 | **Home** | Toggle **Intel Mode** (Tactical HUD) |
 | **Insert** | Toggle **Survival Mode** (Mini Timer) |
-| **Right-Click** | Close |
+| **Right-Click** | Options menu [Change Language] |
 
 ---
 
