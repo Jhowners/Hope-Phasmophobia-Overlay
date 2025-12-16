@@ -8,12 +8,16 @@
         Title="Hophesmoverlay" Height="750" Width="520"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         Topmost="True" ResizeMode="CanResizeWithGrip"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        TextOptions.TextHintingMode="Fixed">
 
     <Window.Resources>
         <local:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
         <local:BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <SolidColorBrush x:Key="GlassBg" Color="#66000000"/>
+        <SolidColorBrush x:Key="GlassBg" Color="#77000000"/>
         <LinearGradientBrush x:Key="BorderGradient" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#9d00ff" Offset="0.0"/>
             <GradientStop Color="#8a0303" Offset="1.0"/>
@@ -21,16 +25,17 @@
 
         <Style TargetType="Button">
             <Setter Property="Background" Value="#44000000"/>
-            <Setter Property="Foreground" Value="#CCC"/>
+            <Setter Property="Foreground" Value="#DDD"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Padding" Value="8,3"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,4"/>
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="4" BorderBrush="#666" BorderThickness="1">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" BorderBrush="#777" BorderThickness="1">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -46,7 +51,7 @@
         </Style>
 
         <Style x:Key="NeonCheckbox" TargetType="CheckBox">
-            <Setter Property="Foreground" Value="#BBBBBB"/>
+            <Setter Property="Foreground" Value="#EEEEEE"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Margin" Value="0,5"/>
@@ -59,7 +64,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Width="18" Height="18" BorderBrush="#666" BorderThickness="1" CornerRadius="4" Background="#44000000" Margin="0,0,8,0">
+                            <Border Width="18" Height="18" BorderBrush="#999" BorderThickness="1" CornerRadius="4" Background="#44000000" Margin="0,0,8,0">
                                 <Grid>
                                     <Path Name="CheckMark" Data="M 2,9 L 6,13 L 14,4" Stroke="#9d00ff" StrokeThickness="2" Visibility="Collapsed"/>
                                     <Path Name="XMark" Data="M 3,3 L 15,15 M 15,3 L 3,15" Stroke="#FF4444" StrokeThickness="2" Visibility="Collapsed"/>
@@ -74,9 +79,9 @@
                             </Trigger>
                             <Trigger Property="IsChecked" Value="{x:Null}">
                                 <Setter TargetName="XMark" Property="Visibility" Value="Visible"/>
-                                <Setter Property="Foreground" Value="#FF6666"/>
+                                <Setter Property="Foreground" Value="#FF8888"/>
                                 <Setter Property="FontStyle" Value="Italic"/>
-                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="Opacity" Value="0.9"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -88,7 +93,7 @@
     <Grid>
         <Border x:Name="MainJournal" Background="{StaticResource GlassBg}" BorderBrush="{StaticResource BorderGradient}" BorderThickness="2" CornerRadius="12" Margin="10">
             <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.4"/>
+                <DropShadowEffect Color="Black" BlurRadius="12" Opacity="0.5" ShadowDepth="2"/>
             </Border.Effect>
 
             <Border.ContextMenu>
@@ -96,6 +101,8 @@
                     <MenuItem Header="Language / Idioma">
                         <MenuItem Header="English" Click="MenuEn_Click"/>
                         <MenuItem Header="Português (Brasil)" Click="MenuPt_Click"/>
+                        <MenuItem Header="日本語" Click="MenuJp_Click"/>
+                        <MenuItem Header="繁體中文" Click="MenuCht_Click"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Exit / Sair" Click="MenuExit_Click"/>
@@ -110,14 +117,14 @@
 
                 <Grid Grid.Row="0" Margin="0,0,0,20">
                     <StackPanel>
-                        <TextBlock Text="HOPE PHASMOPHOBIA OVERLAY" FontFamily="Segoe UI Light" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center">
+                        <TextBlock Text="HOPE PHASMOPHOBIA OVERLAY" FontFamily="Segoe UI" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Effect>
-                                <DropShadowEffect Color="#9d00ff" BlurRadius="15" ShadowDepth="0"/>
+                                <DropShadowEffect Color="#9d00ff" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
                             </TextBlock.Effect>
                         </TextBlock>
-                        <TextBlock x:Name="LblControls" Text="[INS] MINI | [HOME] INTEL | [ALT+8] RESET" Foreground="#AAA" FontSize="10" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock x:Name="LblControls" Text="[PSBREAK] MINI | [HOME] INTEL | [ALT+8] RESET" Foreground="#CCC" FontSize="11" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                     </StackPanel>
-                    <Button Content="☕ Support" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#66332200" Foreground="#FFD700" Click="BtnDonate_Click"/>
+                    <Button Content="☕ Support" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#66332200" Foreground="#FFD700" Click="BtnDonate_Click" BorderBrush="#995500"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -132,7 +139,7 @@
                             <ItemsControl Name="GhostsListControl">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,4" CornerRadius="8" Height="60" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}" BorderThickness="2">
+                                        <Border Margin="0,4" CornerRadius="8" Height="68" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}" BorderThickness="2">
                                             <Border.BorderBrush>
                                                 <DrawingBrush Stretch="Fill">
                                                     <DrawingBrush.Drawing>
@@ -145,28 +152,30 @@
                                                 </DrawingBrush>
                                             </Border.BorderBrush>
                                             <Border.Background>
-                                                <SolidColorBrush Color="#66000000"/>
+                                                <SolidColorBrush Color="#99050505"/>
                                             </Border.Background>
                                             <Grid ClipToBounds="True">
-                                                <TextBlock Text="{Binding Symbol}" FontSize="55" Foreground="{Binding PrimaryColorBrush}" Opacity="0.4" FontFamily="Segoe UI Symbol" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
-                                                    <TextBlock.Effect>
-                                                        <DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="White" Opacity="0.3"/>
-                                                    </TextBlock.Effect>
+                                                <TextBlock Text="{Binding Symbol}" FontSize="55" Foreground="{Binding PrimaryColorBrush}" Opacity="0.25" FontFamily="Segoe UI Symbol" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
                                                     <TextBlock.RenderTransform>
                                                         <RotateTransform Angle="-5"/>
                                                     </TextBlock.RenderTransform>
                                                 </TextBlock>
                                                 <StackPanel VerticalAlignment="Center" Margin="15,0">
-                                                    <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="ExtraBold" FontSize="16">
-                                                        <TextBlock.Effect>
-                                                            <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Opacity="1"/>
-                                                        </TextBlock.Effect>
-                                                    </TextBlock>
-                                                    <TextBlock Text="{Binding Tell}" Foreground="#DDD" FontSize="11" FontStyle="Italic" TextWrapping="Wrap" Margin="0,2,0,0">
-                                                        <TextBlock.Effect>
-                                                            <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1" Opacity="1"/>
-                                                        </TextBlock.Effect>
-                                                    </TextBlock>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="17">
+                                                            <TextBlock.Effect>
+                                                                <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Opacity="0.8"/>
+                                                            </TextBlock.Effect>
+                                                        </TextBlock>
+                                                        <Border Grid.Column="1" HorizontalAlignment="Left" Margin="10,2,0,0" Background="#BB000000" CornerRadius="3" Padding="6,1">
+                                                            <TextBlock Text="{Binding HuntThreshold}" Foreground="#FF6666" FontSize="10" FontWeight="ExtraBold" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </Grid>
+                                                    <TextBlock Text="{Binding Tell}" Foreground="#EEEEEE" FontSize="11" FontStyle="Normal" TextWrapping="Wrap" Margin="0,3,0,0" MaxWidth="330" LineHeight="14"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -177,7 +186,7 @@
                     </Border>
 
                     <StackPanel Grid.Column="2">
-                        <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#BBB" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#CCC" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
                         <StackPanel>
                             <CheckBox x:Name="ChkEv1" Content="EMF Level 5" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
                             <CheckBox x:Name="ChkEv2" Content="Spirit Box" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
@@ -187,55 +196,55 @@
                             <CheckBox x:Name="ChkEv6" Content="Freezing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
                             <CheckBox x:Name="ChkEv7" Content="D.O.T.S." Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
                         </StackPanel>
-                        <Separator Background="#555" Margin="0,10"/>
+                        <Separator Background="#666" Margin="0,12"/>
 
-                        <Grid Margin="0,10,0,0">
+                        <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="#66000000" BorderBrush="#444" BorderThickness="1" CornerRadius="6" Padding="5">
+                            <Border Grid.Column="0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
                                 <StackPanel>
-                                    <TextBlock x:Name="LblSmudge" Text="SMUDGE [F9]" Foreground="#AAA" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                    <TextBlock Name="TxtTimer" Text="READY" Foreground="White" FontSize="20" FontWeight="Light" HorizontalAlignment="Center" Margin="0,2"/>
-                                    <TextBlock Name="TxtTimerStatus" Text="WAITING..." FontSize="9" Foreground="#777" HorizontalAlignment="Center"/>
-                                    <ProgressBar Name="ProgressTimer" Height="3" Maximum="180" Value="180" Background="#33FFFFFF" BorderThickness="0" Foreground="#9d00ff"/>
+                                    <TextBlock x:Name="LblSmudge" Text="SMUDGE [F9]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="TxtTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
+                                    <TextBlock Name="TxtTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
+                                    <ProgressBar Name="ProgressTimer" Height="4" Maximum="180" Value="180" Background="#33FFFFFF" BorderThickness="0" Foreground="#9d00ff" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
-                            <Border Grid.Column="2" Background="#66000000" BorderBrush="#444" BorderThickness="1" CornerRadius="6" Padding="5">
+                            <Border Grid.Column="2" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
                                 <StackPanel>
-                                    <TextBlock x:Name="LblHunt" Text="HUNT CD [F7]" Foreground="#AAA" FontSize="9" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                    <TextBlock Name="TxtHuntTimer" Text="READY" Foreground="White" FontSize="20" FontWeight="Light" HorizontalAlignment="Center" Margin="0,2"/>
-                                    <TextBlock Name="TxtHuntTimerStatus" Text="WAITING..." FontSize="9" Foreground="#777" HorizontalAlignment="Center"/>
-                                    <ProgressBar Name="ProgressHuntTimer" Height="3" Maximum="25" Value="25" Background="#33FFFFFF" BorderThickness="0" Foreground="#FF4444"/>
+                                    <TextBlock x:Name="LblHunt" Text="HUNT CD [F7]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="TxtHuntTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
+                                    <TextBlock Name="TxtHuntTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
+                                    <ProgressBar Name="ProgressHuntTimer" Height="4" Maximum="25" Value="25" Background="#33FFFFFF" BorderThickness="0" Foreground="#FF4444" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
 
-                        <Border Margin="0,10,0,0" Background="#66000000" BorderBrush="#444" BorderThickness="1" CornerRadius="6" Padding="12">
+                        <Border Margin="0,15,0,0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="12">
                             <StackPanel>
                                 <Grid Margin="0,0,0,5">
-                                    <TextBlock x:Name="LblSpeed" Text="SPEED (m/s)" Foreground="#AAA" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="LblSpeed" Text="SPEED (m/s)" Foreground="#CCC" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <TextBlock Text="[F10]" Foreground="#777" FontSize="9" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <TextBlock Text="[F10]" Foreground="#888" FontSize="10" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                         <Button Content="RST (F11)" HorizontalAlignment="Right" Click="BtnResetPace_Click" FontSize="9"/>
                                     </StackPanel>
                                 </Grid>
-                                <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#88222222" Foreground="Black" FontSize="11" BorderBrush="Transparent" SelectionChanged="CmbSpeed_SelectionChanged">
+                                <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#99222222" Foreground="White" FontSize="11" BorderBrush="#555" SelectionChanged="CmbSpeed_SelectionChanged" Padding="4">
                                     <ComboBoxItem Content="50% Speed"/>
                                     <ComboBoxItem Content="75% Speed"/>
                                     <ComboBoxItem Content="100% (Default)"/>
                                     <ComboBoxItem Content="125% Speed"/>
                                     <ComboBoxItem Content="150% Speed"/>
                                 </ComboBox>
-                                <TextBlock Name="TxtBPM" Text="-- m/s" Foreground="White" FontSize="28" FontWeight="Light" HorizontalAlignment="Center" Margin="0,2">
+                                <TextBlock Name="TxtBPM" Text="-- m/s" Foreground="White" FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1"/>
+                                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="2" Opacity="0.8"/>
                                     </TextBlock.Effect>
                                 </TextBlock>
-                                <TextBlock Name="TxtGhostSpeedGuess" Text="Select Speed &amp; Tap" FontSize="10" Foreground="#777" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
-                                <TextBlock Name="TxtPacerStatus" Text="FILTER: NONE" FontSize="9" Foreground="#666" HorizontalAlignment="Center" Margin="0,5,0,0" FontWeight="Bold"/>
+                                <TextBlock Name="TxtGhostSpeedGuess" Text="Select Speed &amp; Tap" FontSize="11" Foreground="#DDD" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                                <TextBlock Name="TxtPacerStatus" Text="FILTER: NONE" FontSize="10" Foreground="#888" HorizontalAlignment="Center" Margin="0,8,0,0" FontWeight="Bold"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -245,11 +254,19 @@
 
         <Border x:Name="MiniHud" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,50,0,0" Background="{StaticResource GlassBg}" BorderBrush="{StaticResource BorderGradient}" BorderThickness="2" CornerRadius="8" Padding="15">
             <StackPanel>
-                <TextBlock x:Name="LblMiniSmudge" Text="SMUDGE" FontSize="9" Foreground="#999" HorizontalAlignment="Center"/>
-                <TextBlock Name="TxtMiniTimer" Text="03:00" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBlock Name="TxtMiniStatus" Text="SAFE" FontSize="10" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="LblMiniHunt" Text="HUNT CD" FontSize="9" Foreground="#999" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                <TextBlock Name="TxtMiniHuntTimer" Text="00:25" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="LblMiniSmudge" Text="SMUDGE" FontSize="10" Foreground="#BBB" HorizontalAlignment="Center"/>
+                <TextBlock Name="TxtMiniTimer" Text="03:00" FontSize="26" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+                <TextBlock Name="TxtMiniStatus" Text="SAFE" FontSize="11" FontWeight="Bold" Foreground="LightGreen" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="LblMiniHunt" Text="HUNT CD" FontSize="10" Foreground="#BBB" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                <TextBlock Name="TxtMiniHuntTimer" Text="00:25" FontSize="26" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="1"/>
+                    </TextBlock.Effect>
+                </TextBlock>
             </StackPanel>
         </Border>
 
@@ -260,58 +277,51 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Background="#20FFFFFF" Padding="12">
+                <Border Grid.Row="0" Background="#33FFFFFF" Padding="12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock x:Name="LblIntelSmudge" Text="SMUDGE" FontSize="9" Foreground="#88AAFF" HorizontalAlignment="Center"/>
-                            <TextBlock Name="TxtIntelTimer" Text="03:00" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                            <TextBlock Name="TxtIntelStatus" Text="SAFE" FontSize="9" Foreground="LightGreen" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="LblIntelHunt" Text="HUNT CD" FontSize="9" Foreground="#FF8888" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                            <TextBlock Name="TxtIntelHuntTimer" Text="00:25" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="LblIntelSmudge" Text="SMUDGE" FontSize="10" Foreground="#AAEEFF" HorizontalAlignment="Center"/>
+                            <TextBlock Name="TxtIntelTimer" Text="03:00" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                            <TextBlock Name="TxtIntelStatus" Text="SAFE" FontSize="10" Foreground="LightGreen" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="LblIntelHunt" Text="HUNT CD" FontSize="10" Foreground="#FFAAAA" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                            <TextBlock Name="TxtIntelHuntTimer" Text="00:25" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                            <Grid Margin="0,0,0,2" HorizontalAlignment="Right">
-                                <TextBlock x:Name="LblIntelSpeed" Text="SPEED" FontSize="9" Foreground="#88AAFF" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                <Button Content="CLR" FontSize="8" Padding="4,1" Margin="0" HorizontalAlignment="Right" Click="BtnResetPace_Click"/>
+                            <Grid Margin="0,0,0,4" HorizontalAlignment="Right">
+                                <TextBlock x:Name="LblIntelSpeed" Text="SPEED" FontSize="10" Foreground="#AAEEFF" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <Button Content="CLR" FontSize="9" Padding="4,2" Margin="0" HorizontalAlignment="Right" Click="BtnResetPace_Click"/>
                             </Grid>
-                            <TextBlock Name="TxtIntelBPM" Text="-- m/s" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
-                            <TextBlock Name="TxtIntelSpeedGuess" Text="Waiting" FontSize="9" Foreground="#BBB" HorizontalAlignment="Right"/>
+                            <TextBlock Name="TxtIntelBPM" Text="-- m/s" FontSize="22" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                            <TextBlock Name="TxtIntelSpeedGuess" Text="Waiting" FontSize="10" Foreground="#DDD" HorizontalAlignment="Right"/>
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Padding="12,8" BorderBrush="#333" BorderThickness="0,1">
+                <Border Grid.Row="1" Padding="12,8" BorderBrush="#444" BorderThickness="0,1">
                     <StackPanel>
-                        <TextBlock x:Name="LblIntelEvidence" Text="MARKED EVIDENCE" FontSize="9" Foreground="#AAA"/>
-                        <TextBlock Name="TxtIntelFound" Text="NONE" FontSize="11" Foreground="Yellow" TextWrapping="Wrap" FontWeight="SemiBold"/>
-                        <TextBlock Name="TxtIntelRuledOut" Text="" FontSize="10" Foreground="#FF4444" TextWrapping="Wrap" FontWeight="SemiBold" Visibility="Collapsed" Margin="0,2,0,0"/>
+                        <TextBlock x:Name="LblIntelEvidence" Text="MARKED EVIDENCE" FontSize="10" Foreground="#CCC"/>
+                        <TextBlock Name="TxtIntelFound" Text="NONE" FontSize="12" Foreground="Yellow" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,2,0,0"/>
+                        <TextBlock Name="TxtIntelRuledOut" Text="" FontSize="11" Foreground="#FF6666" TextWrapping="Wrap" FontWeight="SemiBold" Visibility="Collapsed" Margin="0,4,0,0"/>
                     </StackPanel>
                 </Border>
                 <Border Grid.Row="2" Padding="12" MaxHeight="350">
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
                         <StackPanel>
-                            <TextBlock x:Name="LblIntelTargets" Text="POSSIBLE TARGETS" FontSize="9" Foreground="#AAA" Margin="0,0,0,5"/>
+                            <TextBlock x:Name="LblIntelTargets" Text="POSSIBLE TARGETS" FontSize="10" Foreground="#CCC" Margin="0,0,0,8"/>
                             <ItemsControl Name="GhostsIntelControl">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,2" CornerRadius="4" Padding="5" Background="#44000000" BorderThickness="1" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}">
-                                            <Border.BorderBrush>
-                                                <DrawingBrush Stretch="Fill">
-                                                    <DrawingBrush.Drawing>
-                                                        <GeometryDrawing Brush="{Binding EvidenceGradient}">
-                                                            <GeometryDrawing.Geometry>
-                                                                <RectangleGeometry Rect="0,0,100,100"/>
-                                                            </GeometryDrawing.Geometry>
-                                                        </GeometryDrawing>
-                                                    </DrawingBrush.Drawing>
-                                                </DrawingBrush>
-                                            </Border.BorderBrush>
+                                        <Border Margin="0,3" CornerRadius="5" Padding="6" Background="#55000000" BorderBrush="#666" BorderThickness="1" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}">
                                             <StackPanel Orientation="Horizontal">
-                                                <Ellipse Width="8" Height="8" Fill="{Binding PrimaryColorBrush}" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                <Ellipse Width="10" Height="10" Fill="{Binding PrimaryColorBrush}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                                    <Ellipse.Effect>
+                                                        <DropShadowEffect Color="{Binding PrimaryColor}" BlurRadius="6" Opacity="0.8" ShadowDepth="0"/>
+                                                    </Ellipse.Effect>
+                                                </Ellipse>
+                                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
