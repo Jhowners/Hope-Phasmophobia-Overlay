@@ -189,12 +189,12 @@
                         <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#CCC" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
                         <StackPanel>
                             <CheckBox x:Name="ChkEv1" Content="EMF Level 5" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv2" Content="Spirit Box" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv3" Content="Fingerprints" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv4" Content="Ghost Orb" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv5" Content="Ghost Writing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv6" Content="Freezing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                            <CheckBox x:Name="ChkEv7" Content="D.O.T.S." Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv2" Content="D.O.T.S." Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv3" Content="Ultraviolet" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv4" Content="Freezing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv5" Content="Ghost Orb" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv6" Content="Ghost Writing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                            <CheckBox x:Name="ChkEv7" Content="Spirit Box" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
                         </StackPanel>
                         <Separator Background="#666" Margin="0,12"/>
 
@@ -231,7 +231,7 @@
                                         <Button Content="RST (F11)" HorizontalAlignment="Right" Click="BtnResetPace_Click" FontSize="9"/>
                                     </StackPanel>
                                 </Grid>
-                                <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#99222222" Foreground="White" FontSize="11" BorderBrush="#555" SelectionChanged="CmbSpeed_SelectionChanged" Padding="4">
+                                <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#99222222" Foreground="Black" FontSize="11" BorderBrush="#555" SelectionChanged="CmbSpeed_SelectionChanged" Padding="4">
                                     <ComboBoxItem Content="50% Speed"/>
                                     <ComboBoxItem Content="75% Speed"/>
                                     <ComboBoxItem Content="100% (Default)"/>
