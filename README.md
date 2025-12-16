@@ -6,6 +6,8 @@
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-F16061.svg)](https://ko-fi.com/hopesan)
 
+> **❄️ v0.15.1.0 UPDATE:** Full support for **Winter's Jest** (Obambo, Gallu, Dayan), new Japanese/Chinese localization, and laptop-friendly controls!
+
 **Stop fighting your memory. Start fighting the Ghost.**
 
 Phasmophobia is a game of cognitive endurance. When a Revenant starts hunting, your brain shifts into "Fight or Flight." In that split second, trying to mentally calculate footstep speed or remember Smudge cooldowns adds **Cognitive Load**—mental friction that causes hesitation and errors.
@@ -25,14 +27,16 @@ HPO keeps you in the **Flow State** by using:
 
 ## ⚡ Key Features
 
-### 1. Real-Time Deduction Engine
+### 1. Real-Time Deduction Engine (Winter's Jest Ready)
 Don't guess. Know.
+* **New Ghosts:** Fully updated logic for **Obambo**, **Gallu**, and **Dayan**.
 * **Frictionless Filtering:** As you mark evidence via hotkeys, the ghost list filters instantly.
 * **Smart Logic:** Marking "Normal Speed" on the Pacer automatically eliminates the Revenant. Marking "Ghost Orb" eliminates the Mimic (unless you flag it as a Fake Orb).
 
 ### 2. The Ghost Pacer (BPM)
 * **Rhythm Entrainment:** Tap `F10` to the sound of the ghost's footsteps.
-* **Instant Identification:** The app calculates the BPM and cross-references it with your evidence list, highlighting potential matches (e.g., Hantu, Moroi, Thaye) in real-time.
+* **Dynamic Speed Analysis:** The app calculates the BPM and cross-references it with your evidence list.
+    * *New in v0.15.1:* Now detects **Dayan's** variable speed (Fast/Slow depending on player movement).
 
 ### 3. Smart Smudge Timer
 * **Audio-Visual Cues:** Tracks the hidden cooldowns for Spirits (180s), Demons (60s), and Standard Ghosts (90s).
@@ -41,7 +45,16 @@ Don't guess. Know.
 ### 4. Three Tactical Modes
 * **📖 Analysis Mode:** Full journal view for the van or safe spots.
 * **🧠 Intel Mode [HOME]:** A compact, peripheral HUD designed for looping. Shows only vital stats without blocking your vision.
-* **⏱️ Survival Mode [PAUSE BREAK]:** Strips the UI down to just the Timer. Zero distractions for the heat of the chase.
+* **⏱️ Survival Mode [PAUSE/BREAK]:** Strips the UI down to just the Timer. Zero distractions for the heat of the chase.
+
+---
+
+## 🌍 Localization / Languages
+Right-click the overlay window to switch languages instantly:
+* 🇺🇸 **English** (Default)
+* 🇧🇷 **Português (Brasil)**
+* 🇯🇵 **Japanese (日本語)**
+* 🇹🇼 **Traditional Chinese (繁體中文)**
 
 ---
 
@@ -52,15 +65,16 @@ Don't guess. Know.
 ### Global Hotkeys
 | Key | Function |
 | :--- | :--- |
-| **F7** | Start / Restart Crucifix Timer (0:25) |
-| **F8** | Stop / Reset Smudge Timer 
+| **F7** | Start / Restart Hunt Cooldown Timer (0:25) |
+| **F8** | Stop Smudge Timer |
 | **F9** | Start / Restart Smudge Timer (3:00) |
 | **F10** | Tap for Ghost Speed (BPM) |
 | **F11** | Reset Speed / Pacer |
-| **Alt + 1-8** | Toggle Evidence (EMF, Box, Fingerprints, etc.) |
+| **Alt + 1-7** | Toggle Evidence (Matches In-Game Journal Order) |
+| **Alt + 8** | Reset All Evidence |
 | **Home** | Toggle **Intel Mode** (Tactical HUD) |
-| **Insert** | Toggle **Survival Mode** (Mini Timer) |
-| **Right-Click** | Options menu [Change Language] |
+| **Pause/Break** | Toggle **Survival Mode** (Mini Timer) |
+| **Right-Click** | Options Menu [Change Language] |
 
 ---
 
@@ -76,8 +90,10 @@ This application is an **External Overlay**.
 
 1. Go to the **[Releases Page](../../releases)**.
 2. Download the latest `.zip` file.
-3. Extract the folder to your desktop.
+3. Extract the folder to your desktop (Do not run from inside the zip).
 4. Run `Hophesmoverlay.exe`.
+
+> **Note:** If you experience slight stuttering in the Main Menu, don't worry! This is normal due to game engine priority. The overlay runs perfectly smooth once you load into a lobby or contract.
 
 ---
 
@@ -85,7 +101,7 @@ This application is an **External Overlay**.
 
 This project is free and open source because I believe essential tools should be accessible to everyone.
 
-If this tool saves your life during an Apocalypse Run, consider buying me a coffee to support future features (like Voice Recognition)!
+If this tool saves your life during an Apocalypse Run, consider buying me a coffee to support future features!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/hopesan)
 
@@ -93,7 +109,7 @@ If this tool saves your life during an Apocalypse Run, consider buying me a coff
 
 ## 👨‍💻 For Developers (Portfolio Note)
 This project demonstrates:
-* **WPF & XAML:** Complex UI binding, transparent window layering, and dynamic resource dictionaries.
+* **WPF & XAML:** Complex UI binding, transparent window layering, and dynamic resource dictionaries for localization.
 * **P/Invoke (User32.dll):** Implementation of Global Low-Level Keyboard Hooks for hotkey detection outside the application focus.
 * **MVVM Architecture:** Clean separation of logic and UI using `INotifyPropertyChanged`.
 * **Multi-Threading:** High-priority dispatcher timers to ensure UI responsiveness during heavy game load.
