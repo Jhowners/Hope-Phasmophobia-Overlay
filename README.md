@@ -41,7 +41,7 @@ Don't guess. Know.
 ### 4. Three Tactical Modes
 * **📖 Analysis Mode:** Full journal view for the van or safe spots.
 * **🧠 Intel Mode [HOME]:** A compact, peripheral HUD designed for looping. Shows only vital stats without blocking your vision.
-* **⏱️ Survival Mode [INSERT]:** Strips the UI down to just the Timer. Zero distractions for the heat of the chase.
+* **⏱️ Survival Mode [PAUSE BREAK]:** Strips the UI down to just the Timer. Zero distractions for the heat of the chase.
 
 ---
 
