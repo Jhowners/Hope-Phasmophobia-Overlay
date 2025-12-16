@@ -20,16 +20,11 @@ namespace Hophesmoverlay
         // --- NATIVE METHODS ---
         [DllImport("user32.dll")] private static extern short GetAsyncKeyState(int vKey);
 
-        // --- KEYS ---
-        private const int VK_MENU = 0x12; // Alt
-        private const int VK_F6 = 0x75;
-        private const int VK_F7 = 0x76;
-        private const int VK_F8 = 0x77;
-        private const int VK_F9 = 0x78;
-        private const int VK_F10 = 0x79;
-        private const int VK_F11 = 0x7A;
-        private const int VK_INSERT = 0x2D;
-        private const int VK_HOME = 0x24;
+        private const int VK_MENU = 0x12;
+        private const int VK_F6 = 0x75; private const int VK_F7 = 0x76;
+        private const int VK_F8 = 0x77; private const int VK_F9 = 0x78;
+        private const int VK_F10 = 0x79; private const int VK_F11 = 0x7A;
+        private const int VK_PAUSE = 0x13; private const int VK_HOME = 0x24;
 
         // --- THREADING ---
         private CancellationTokenSource _cancellationTokenSource;
@@ -99,7 +94,7 @@ namespace Hophesmoverlay
                 CheckKey(VK_F9, () => ResetSmudgeTimer());
                 CheckKey(VK_F10, () => CalculateBPM());
                 CheckKey(VK_F11, () => ResetPace());
-                CheckKey(VK_INSERT, () => SetViewMode(1));
+                CheckKey(VK_PAUSE, () => SetViewMode(1));
                 CheckKey(VK_HOME, () => SetViewMode(2));
 
                 bool isAltDown = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
