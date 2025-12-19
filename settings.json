@@ -1,0 +1,14 @@
+{
+    "Opacity": 0.9,
+    "Language": "en",
+    "Keys": {
+        "Reset": 8,
+        "SmudgeStop": 119,
+        "SmudgeStart": 120,
+        "HuntStop": 117,
+        "HuntStart": 118,
+        "SpeedTap": 121,
+        "SpeedReset": 122,
+        "HuntDuration": 112
+    }
+}

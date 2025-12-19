@@ -1,0 +1,310 @@
+{
+    "Code": "CHT",
+    "UI": {
+        "Controls": "[F1] 獵殺計時 | [HOME] 情報 | [ALT+BACK] 復原",
+        "EvidenceHeader": "證據 (ALT+1-7)",
+        "SmudgeHeader": "聖木 [F9]",
+        "HuntHeader": "十字架 [F7]",
+        "SpeedHeader": "速度 (m/s)",
+        "Ready": "準備",
+        "Waiting": "等待...",
+        "Safe": "安全",
+        "Demon": "惡魔危險",
+        "Ev1": "EMF 5級",
+        "Ev2": "點陣",
+        "Ev3": "紫外線",
+        "Ev4": "寒溫",
+        "Ev5": "靈球",
+        "Ev6": "筆跡",
+        "Ev7": "通靈盒"
+    },
+    "SpeedSys": {
+        "DeogenStill": "霧影 / 達揚 (靜止)",
+        "RevPassive": "亡魂 (被動) / 剎那 (老)",
+        "Slow": "攣魂 (慢) / 魔洛伊 (高理智) / 寒魔 (暖)",
+        "Normal": "正常速度 (1.7 m/s)",
+        "Fast": "攣魂 (快) / 寒魔 (冷) / 奧班波",
+        "VeryFast": "雷魂 / 巨靈 / 寒魔 / 魔洛伊 / 達揚",
+        "SuperFast": "亡魂 (獵殺) / 剎那 (年輕) / 寒魔",
+        "MaxLOS": "魔洛伊 (最大視野加速)",
+        "Impossible": "太快？ (檢查點擊)"
+    },
+    "Ghosts": [
+        {
+            "ID": "Spirit",
+            "Name": "魂魄",
+            "Symbol": "👻",
+            "Evidences": [ "EMF 5級", "通靈盒", "筆跡" ],
+            "Tell": "聖木防止獵殺180秒。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Wraith",
+            "Name": "魅影",
+            "Symbol": "👣",
+            "Evidences": [ "EMF 5級", "通靈盒", "點陣" ],
+            "Tell": "不踩鹽。傳送至玩家。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Phantom",
+            "Name": "幻影",
+            "Symbol": "📷",
+            "Evidences": [ "通靈盒", "紫外線", "點陣" ],
+            "Tell": "拍照消失。獵殺閃爍慢。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Poltergeist",
+            "Name": "騷靈",
+            "Symbol": "💥",
+            "Evidences": [ "通靈盒", "紫外線", "筆跡" ],
+            "Tell": "投擲多物。降理智。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Banshee",
+            "Name": "女妖",
+            "Symbol": "😱",
+            "Evidences": [ "紫外線", "靈球", "點陣" ],
+            "Tell": "收音器尖叫。鎖定一人。",
+            "HuntThreshold": "目標 < 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Jinn",
+            "Name": "巨靈",
+            "Symbol": "⚡",
+            "Evidences": [ "EMF 5級", "紫外線", "寒溫" ],
+            "Tell": "開電閘且遠距時加速。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Mare",
+            "Name": "夢魘",
+            "Symbol": "💡",
+            "Evidences": [ "通靈盒", "靈球", "筆跡" ],
+            "Tell": "討厭光。黑暗中獵殺快。",
+            "HuntThreshold": "60% / 40%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Revenant",
+            "Name": "亡魂",
+            "Symbol": "😈",
+            "Evidences": [ "靈球", "筆跡", "寒溫" ],
+            "Tell": "視野內極快，躲藏極慢。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.9,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Shade",
+            "Name": "暗影",
+            "Symbol": "🌑",
+            "Evidences": [ "EMF 5級", "筆跡", "寒溫" ],
+            "Tell": "害羞。有人在不獵殺。",
+            "HuntThreshold": "< 35%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Demon",
+            "Name": "惡魔",
+            "Symbol": "⸸",
+            "Evidences": [ "紫外線", "筆跡", "寒溫" ],
+            "Tell": "隨時獵殺。CD 20秒。",
+            "HuntThreshold": "隨時 / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yurei",
+            "Name": "幽靈",
+            "Symbol": "🚪",
+            "Evidences": [ "靈球", "寒溫", "點陣" ],
+            "Tell": "關門降理智。聖木可困住。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Oni",
+            "Name": "赤鬼",
+            "Symbol": "👹",
+            "Evidences": [ "EMF 5級", "寒溫", "點陣" ],
+            "Tell": "獵殺時明顯。碰撞降理智。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yokai",
+            "Name": "妖怪",
+            "Symbol": "🔇",
+            "Evidences": [ "通靈盒", "靈球", "點陣" ],
+            "Tell": "重聽。說話會引發獵殺。",
+            "HuntThreshold": "80% (說話)",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Hantu",
+            "Name": "寒魔",
+            "Symbol": "❄",
+            "Evidences": [ "紫外線", "靈球", "寒溫" ],
+            "Guaranteed": "寒溫",
+            "Tell": "低溫加速。吐白氣。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.4,
+            "MaxSpeed": 2.7
+        },
+        {
+            "ID": "Goryo",
+            "Name": "御靈",
+            "Symbol": "👀",
+            "Evidences": [ "EMF 5級", "紫外線", "點陣" ],
+            "Guaranteed": "點陣",
+            "Tell": "點陣僅攝影機可見。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Myling",
+            "Name": "鬼嬰",
+            "Symbol": "🤫",
+            "Evidences": [ "EMF 5級", "紫外線", "筆跡" ],
+            "Tell": "腳步聲小。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Onryo",
+            "Name": "怨靈",
+            "Symbol": "🔥",
+            "Evidences": [ "通靈盒", "靈球", "寒溫" ],
+            "Tell": "怕火。熄火獵殺。",
+            "HuntThreshold": "60%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Twins",
+            "Name": "攣魂",
+            "Symbol": "♊",
+            "Evidences": [ "EMF 5級", "通靈盒", "寒溫" ],
+            "Tell": "分身快，本體慢。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 2.3
+        },
+        {
+            "ID": "Raiju",
+            "Name": "雷魂",
+            "Symbol": "🔋",
+            "Evidences": [ "EMF 5級", "靈球", "點陣" ],
+            "Tell": "電子儀器附近加速。",
+            "HuntThreshold": "< 65%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Obake",
+            "Name": "幻妖",
+            "Symbol": "🖐",
+            "Evidences": [ "EMF 5級", "紫外線", "靈球" ],
+            "Guaranteed": "紫外線",
+            "Tell": "六指指紋。變形。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Mimic",
+            "Name": "擬魂",
+            "Symbol": "🎭",
+            "Evidences": [ "通靈盒", "紫外線", "寒溫" ],
+            "Guaranteed": "假靈球",
+            "Tell": "假靈球。模仿其他鬼。",
+            "HuntThreshold": "模仿",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Moroi",
+            "Name": "魔洛伊",
+            "Symbol": "☠",
+            "Evidences": [ "通靈盒", "筆跡", "寒溫" ],
+            "Guaranteed": "通靈盒",
+            "Tell": "理智低加速。聖木致盲久。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Deogen",
+            "Name": "霧影",
+            "Symbol": "👁",
+            "Evidences": [ "通靈盒", "筆跡", "點陣" ],
+            "Guaranteed": "通靈盒",
+            "Tell": "無法躲藏。遠快近慢。",
+            "HuntThreshold": "< 40%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Thaye",
+            "Name": "剎那",
+            "Symbol": "⏳",
+            "Evidences": [ "靈球", "筆跡", "點陣" ],
+            "Tell": "會衰老。初期快後期慢。",
+            "HuntThreshold": "75% -> 15%",
+            "MinSpeed": 1.0,
+            "MaxSpeed": 2.75
+        },
+        {
+            "ID": "Obambo",
+            "Name": "奧班波",
+            "Symbol": "🔄",
+            "Evidences": [ "筆跡", "紫外線", "點陣" ],
+            "Tell": "情緒化。切換狀態。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.45,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Gallu",
+            "Name": "加魯",
+            "Symbol": "🛡️",
+            "Evidences": [ "EMF 5級", "紫外線", "通靈盒" ],
+            "Tell": "攻擊防禦道具。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.36,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Dayan",
+            "Name": "達揚",
+            "Symbol": "🏃",
+            "Evidences": [ "EMF 5級", "靈球", "通靈盒" ],
+            "Tell": "動則快，靜則慢。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.2,
+            "MaxSpeed": 2.25
+        }
+    ]
+}
