@@ -1,0 +1,310 @@
+{
+    "Code": "EN",
+    "UI": {
+        "Controls": "[F1] ACTIVE HUNT | [HOME] INTEL | [ALT+BACK] UNDO",
+        "EvidenceHeader": "EVIDENCE (ALT+1-7)",
+        "SmudgeHeader": "SMUDGE [F9]",
+        "HuntHeader": "CRUCIFIX [F7]",
+        "SpeedHeader": "SPEED (m/s)",
+        "Ready": "READY",
+        "Waiting": "WAITING...",
+        "Safe": "SAFE",
+        "Demon": "DEMON UNSAFE",
+        "Ev1": "EMF Level 5",
+        "Ev2": "D.O.T.S.",
+        "Ev3": "Ultraviolet",
+        "Ev4": "Freezing",
+        "Ev5": "Ghost Orb",
+        "Ev6": "Ghost Writing",
+        "Ev7": "Spirit Box"
+    },
+    "SpeedSys": {
+        "DeogenStill": "Deogen / Dayan (Still)",
+        "RevPassive": "Rev (Passive) / Thaye (Old)",
+        "Slow": "Twin (Slow) / Moroi (Hi-San) / Hantu (Warm)",
+        "Normal": "Normal Speed (1.7 m/s)",
+        "Fast": "Twin (Fast) / Hantu (Cool) / Obambo",
+        "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
+        "SuperFast": "REV (Chase) / Thaye (Young) / Hantu",
+        "MaxLOS": "MOROI (Max LOS Speed)",
+        "Impossible": "Too Fast? (Check taps)"
+    },
+    "Ghosts": [
+        {
+            "ID": "Spirit",
+            "Name": "Spirit",
+            "Symbol": "👻",
+            "Evidences": [ "EMF Level 5", "Spirit Box", "Ghost Writing" ],
+            "Tell": "Smudge prevents hunt for 180s.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Wraith",
+            "Name": "Wraith",
+            "Symbol": "👣",
+            "Evidences": [ "EMF Level 5", "Spirit Box", "D.O.T.S." ],
+            "Tell": "No salt steps. Teleports to player.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Phantom",
+            "Name": "Phantom",
+            "Symbol": "📷",
+            "Evidences": [ "Spirit Box", "Ultraviolet", "D.O.T.S." ],
+            "Tell": "Disappears in photo. Slow blink.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Poltergeist",
+            "Name": "Poltergeist",
+            "Symbol": "💥",
+            "Evidences": [ "Spirit Box", "Ultraviolet", "Ghost Writing" ],
+            "Tell": "Throws multiple items. Drains sanity.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Banshee",
+            "Name": "Banshee",
+            "Symbol": "😱",
+            "Evidences": [ "Ultraviolet", "Ghost Orb", "D.O.T.S." ],
+            "Tell": "Paramic Scream. Targets 1 player.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Jinn",
+            "Name": "Jinn",
+            "Symbol": "⚡",
+            "Evidences": [ "EMF Level 5", "Ultraviolet", "Freezing" ],
+            "Tell": "Fast if breaker ON and far.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Mare",
+            "Name": "Mare",
+            "Symbol": "💡",
+            "Evidences": [ "Spirit Box", "Ghost Orb", "Ghost Writing" ],
+            "Tell": "Hates lights. Hunts early in dark.",
+            "HuntThreshold": "60% / 40%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Revenant",
+            "Name": "Revenant",
+            "Symbol": "😈",
+            "Evidences": [ "Ghost Orb", "Ghost Writing", "Freezing" ],
+            "Tell": "Fast when chasing (3.0), slow when hiding (1.0).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.9,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Shade",
+            "Name": "Shade",
+            "Symbol": "🌑",
+            "Evidences": [ "EMF Level 5", "Ghost Writing", "Freezing" ],
+            "Tell": "Shy. Won't hunt if players near.",
+            "HuntThreshold": "< 35%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Demon",
+            "Name": "Demon",
+            "Symbol": "⸸",
+            "Evidences": [ "Ultraviolet", "Ghost Writing", "Freezing" ],
+            "Tell": "Hard cooldown 20s. Can hunt any time.",
+            "HuntThreshold": "Any / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yurei",
+            "Name": "Yurei",
+            "Symbol": "🚪",
+            "Evidences": [ "Ghost Orb", "Freezing", "D.O.T.S." ],
+            "Tell": "Slams door. Smudge traps it.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Oni",
+            "Name": "Oni",
+            "Symbol": "👹",
+            "Evidences": [ "EMF Level 5", "Freezing", "D.O.T.S." ],
+            "Tell": "Visible during hunt. Drains sanity on hit.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yokai",
+            "Name": "Yokai",
+            "Symbol": "🔇",
+            "Evidences": [ "Spirit Box", "Ghost Orb", "D.O.T.S." ],
+            "Tell": "Deaf. Talking triggers hunt.",
+            "HuntThreshold": "80% (Voice)",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Hantu",
+            "Name": "Hantu",
+            "Symbol": "❄",
+            "Evidences": [ "Ultraviolet", "Ghost Orb", "Freezing" ],
+            "Guaranteed": "Freezing",
+            "Tell": "Fast in cold. Cold breath.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.4,
+            "MaxSpeed": 2.7
+        },
+        {
+            "ID": "Goryo",
+            "Name": "Goryo",
+            "Symbol": "👀",
+            "Evidences": [ "EMF Level 5", "Ultraviolet", "D.O.T.S." ],
+            "Guaranteed": "D.O.T.S.",
+            "Tell": "DOTS only on cam. No roaming.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Myling",
+            "Name": "Myling",
+            "Symbol": "🤫",
+            "Evidences": [ "EMF Level 5", "Ultraviolet", "Ghost Writing" ],
+            "Tell": "Silent footsteps during hunt.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Onryo",
+            "Name": "Onryo",
+            "Symbol": "🔥",
+            "Evidences": [ "Spirit Box", "Ghost Orb", "Freezing" ],
+            "Tell": "Fire prevents hunt. 3 Blows = Hunt.",
+            "HuntThreshold": "60%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Twins",
+            "Name": "The Twins",
+            "Symbol": "♊",
+            "Evidences": [ "EMF Level 5", "Spirit Box", "Freezing" ],
+            "Tell": "Decoy (Fast) or Main (Slow).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 2.3
+        },
+        {
+            "ID": "Raiju",
+            "Name": "Raiju",
+            "Symbol": "🔋",
+            "Evidences": [ "EMF Level 5", "Ghost Orb", "D.O.T.S." ],
+            "Tell": "Fast near electronics.",
+            "HuntThreshold": "< 65%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Obake",
+            "Name": "Obake",
+            "Symbol": "🖐",
+            "Evidences": [ "EMF Level 5", "Ultraviolet", "Ghost Orb" ],
+            "Guaranteed": "Ultraviolet",
+            "Tell": "6-Finger print. Shapeshifts.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Mimic",
+            "Name": "The Mimic",
+            "Symbol": "🎭",
+            "Evidences": [ "Spirit Box", "Ultraviolet", "Freezing" ],
+            "Guaranteed": "Fake Orbs",
+            "Tell": "Fake Orbs. Copies ghosts.",
+            "HuntThreshold": "Copy",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Moroi",
+            "Name": "Moroi",
+            "Symbol": "☠",
+            "Evidences": [ "Spirit Box", "Ghost Writing", "Freezing" ],
+            "Guaranteed": "Spirit Box",
+            "Tell": "Fast at low sanity. LOS Boost.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Deogen",
+            "Name": "Deogen",
+            "Symbol": "👁",
+            "Evidences": [ "Spirit Box", "Ghost Writing", "D.O.T.S." ],
+            "Guaranteed": "Spirit Box",
+            "Tell": "Always finds you. Fast far.",
+            "HuntThreshold": "< 40%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Thaye",
+            "Name": "Thaye",
+            "Symbol": "⏳",
+            "Evidences": [ "Ghost Orb", "Ghost Writing", "D.O.T.S." ],
+            "Tell": "Ages. Starts fast, gets slow.",
+            "HuntThreshold": "75% -> 15%",
+            "MinSpeed": 1.0,
+            "MaxSpeed": 2.75
+        },
+        {
+            "ID": "Obambo",
+            "Name": "Obambo",
+            "Symbol": "🔄",
+            "Evidences": [ "Ghost Writing", "Ultraviolet", "D.O.T.S." ],
+            "Tell": "Volatile. Switches passive/aggressive.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.45,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Gallu",
+            "Name": "Gallu",
+            "Symbol": "🛡️",
+            "Evidences": [ "EMF Level 5", "Ultraviolet", "Spirit Box" ],
+            "Tell": "Aggressive vs Crucifix/Incense.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.36,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Dayan",
+            "Name": "Dayan",
+            "Symbol": "🏃",
+            "Evidences": [ "EMF Level 5", "Ghost Orb", "Spirit Box" ],
+            "Tell": "Fast if you move. Slow if you stand.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.2,
+            "MaxSpeed": 2.25
+        }
+    ]
+}

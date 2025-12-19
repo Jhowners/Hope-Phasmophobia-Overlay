@@ -1,0 +1,310 @@
+{
+    "Code": "JP",
+    "UI": {
+        "Controls": "[F1] ハント計測 | [HOME] 情報 | [ALT+BACK] 元に戻す",
+        "EvidenceHeader": "証拠 (ALT+1-7)",
+        "SmudgeHeader": "スマッジ [F9]",
+        "HuntHeader": "十字架 [F7]",
+        "SpeedHeader": "速度 (m/s)",
+        "Ready": "準備完了",
+        "Waiting": "待機中...",
+        "Safe": "安全",
+        "Demon": "デーモン危険",
+        "Ev1": "EMF Lv.5",
+        "Ev2": "D.O.T.S.",
+        "Ev3": "紫外線",
+        "Ev4": "氷点下",
+        "Ev5": "ゴーストオーブ",
+        "Ev6": "ライティング",
+        "Ev7": "スピリットBOX"
+    },
+    "SpeedSys": {
+        "DeogenStill": "デオヘン / ダヤン (静止)",
+        "RevPassive": "レヴ (非視認) / セーイ (老)",
+        "Slow": "ツインズ (遅) / モーロイ (正気度高) / ハントゥ (暖)",
+        "Normal": "標準速度 (1.7 m/s)",
+        "Fast": "ツインズ (速) / ハントゥ (冷) / オバンボ",
+        "VeryFast": "雷獣 / ジン / ハントゥ / モーロイ / ダヤン",
+        "SuperFast": "レヴ (視認) / セーイ (若) / ハントゥ",
+        "MaxLOS": "モーロイ (最大加速)",
+        "Impossible": "速すぎる? (タップ確認)"
+    },
+    "Ghosts": [
+        {
+            "ID": "Spirit",
+            "Name": "スピリット",
+            "Symbol": "👻",
+            "Evidences": [ "EMF Lv.5", "スピリットBOX", "ライティング" ],
+            "Tell": "スマッジ効果180秒。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Wraith",
+            "Name": "レイス",
+            "Symbol": "👣",
+            "Evidences": [ "EMF Lv.5", "スピリットBOX", "D.O.T.S." ],
+            "Tell": "塩を踏まない。テレポートする。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Phantom",
+            "Name": "ファントム",
+            "Symbol": "📷",
+            "Evidences": [ "スピリットBOX", "紫外線", "D.O.T.S." ],
+            "Tell": "写真で消える。点滅が遅い。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Poltergeist",
+            "Name": "ポルターガイスト",
+            "Symbol": "💥",
+            "Evidences": [ "スピリットBOX", "紫外線", "ライティング" ],
+            "Tell": "物を同時に投げる。正気度を下げる。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Banshee",
+            "Name": "バンシー",
+            "Symbol": "😱",
+            "Evidences": [ "紫外線", "オーブ", "D.O.T.S." ],
+            "Tell": "指向性マイクで叫び声。一人を狙う。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Jinn",
+            "Name": "ジン",
+            "Symbol": "⚡",
+            "Evidences": [ "EMF Lv.5", "紫外線", "氷点下" ],
+            "Tell": "電源ONで遠くの敵に速い。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Mare",
+            "Name": "メアー",
+            "Symbol": "💡",
+            "Evidences": [ "スピリットBOX", "オーブ", "ライティング" ],
+            "Tell": "光を嫌う。暗闇でハントが早い。",
+            "HuntThreshold": "60% / 40%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Revenant",
+            "Name": "レヴナント",
+            "Symbol": "😈",
+            "Evidences": [ "オーブ", "ライティング", "氷点下" ],
+            "Tell": "視認で超高速、隠れると遅い。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.9,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Shade",
+            "Name": "シェード",
+            "Symbol": "🌑",
+            "Evidences": [ "EMF Lv.5", "ライティング", "氷点下" ],
+            "Tell": "恥ずかしがり。近くにいるとハントしない。",
+            "HuntThreshold": "< 35%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Demon",
+            "Name": "デーモン",
+            "Symbol": "⸸",
+            "Evidences": [ "紫外線", "ライティング", "氷点下" ],
+            "Tell": "いつでもハント可能。CD20秒。",
+            "HuntThreshold": "Any / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yurei",
+            "Name": "幽霊",
+            "Symbol": "🚪",
+            "Evidences": [ "オーブ", "氷点下", "D.O.T.S." ],
+            "Tell": "ドアを閉める。スマッジで閉じ込め可。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Oni",
+            "Name": "鬼",
+            "Symbol": "👹",
+            "Evidences": [ "EMF Lv.5", "氷点下", "D.O.T.S." ],
+            "Tell": "ハント中よく見える。正気度吸収。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yokai",
+            "Name": "妖怪",
+            "Symbol": "🔇",
+            "Evidences": [ "スピリットBOX", "オーブ", "D.O.T.S." ],
+            "Tell": "耳が遠い。声に反応。",
+            "HuntThreshold": "80% (声)",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Hantu",
+            "Name": "ハントゥ",
+            "Symbol": "❄",
+            "Evidences": [ "紫外線", "オーブ", "氷点下" ],
+            "Guaranteed": "氷点下",
+            "Tell": "寒いと速い。白い息。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.4,
+            "MaxSpeed": 2.7
+        },
+        {
+            "ID": "Goryo",
+            "Name": "御霊",
+            "Symbol": "👀",
+            "Evidences": [ "EMF Lv.5", "紫外線", "D.O.T.S." ],
+            "Guaranteed": "D.O.T.S.",
+            "Tell": "DOTSはカメラのみ。移動しない。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Myling",
+            "Name": "マイリング",
+            "Symbol": "🤫",
+            "Evidences": [ "EMF Lv.5", "紫外線", "ライティング" ],
+            "Tell": "足音が静か。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Onryo",
+            "Name": "怨霊",
+            "Symbol": "🔥",
+            "Evidences": [ "スピリットBOX", "オーブ", "氷点下" ],
+            "Tell": "火を恐れる。火を消すとハント。",
+            "HuntThreshold": "60%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Twins",
+            "Name": "ツインズ",
+            "Symbol": "♊",
+            "Evidences": [ "EMF Lv.5", "スピリットBOX", "氷点下" ],
+            "Tell": "兄（遅い）と弟（速い）。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 2.3
+        },
+        {
+            "ID": "Raiju",
+            "Name": "雷獣",
+            "Symbol": "🔋",
+            "Evidences": [ "EMF Lv.5", "オーブ", "D.O.T.S." ],
+            "Tell": "電子機器で加速。",
+            "HuntThreshold": "< 65%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Obake",
+            "Name": "化け狐",
+            "Symbol": "🖐",
+            "Evidences": [ "EMF Lv.5", "紫外線", "オーブ" ],
+            "Guaranteed": "紫外線",
+            "Tell": "6本指。変身する。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Mimic",
+            "Name": "ミミック",
+            "Symbol": "🎭",
+            "Evidences": [ "スピリットBOX", "紫外線", "氷点下" ],
+            "Guaranteed": "偽オーブ",
+            "Tell": "偽オーブ。他ゴーストを真似る。",
+            "HuntThreshold": "コピー",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Moroi",
+            "Name": "モーロイ",
+            "Symbol": "☠",
+            "Evidences": [ "スピリットBOX", "ライティング", "氷点下" ],
+            "Guaranteed": "スピリットBOX",
+            "Tell": "正気度が低いと速い。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Deogen",
+            "Name": "デオヘン",
+            "Symbol": "👁",
+            "Evidences": [ "スピリットBOX", "ライティング", "D.O.T.S." ],
+            "Guaranteed": "スピリットBOX",
+            "Tell": "必ず見つかる。遠くで速く、近くで遅い。",
+            "HuntThreshold": "< 40%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Thaye",
+            "Name": "セーイ",
+            "Symbol": "⏳",
+            "Evidences": [ "オーブ", "ライティング", "D.O.T.S." ],
+            "Tell": "老化する。最初は速い。",
+            "HuntThreshold": "75% -> 15%",
+            "MinSpeed": 1.0,
+            "MaxSpeed": 2.75
+        },
+        {
+            "ID": "Obambo",
+            "Name": "オバンボ",
+            "Symbol": "🔄",
+            "Evidences": [ "ライティング", "紫外線", "D.O.T.S." ],
+            "Tell": "不安定。頻繁に性格が変わる。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.45,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Gallu",
+            "Name": "ガル",
+            "Symbol": "🛡️",
+            "Evidences": [ "EMF Lv.5", "紫外線", "スピリットBOX" ],
+            "Tell": "守りのアイテムに攻撃的。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.36,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Dayan",
+            "Name": "ダヤン",
+            "Symbol": "🏃",
+            "Evidences": [ "EMF Lv.5", "オーブ", "スピリットBOX" ],
+            "Tell": "動くと速い。止まると遅い。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.2,
+            "MaxSpeed": 2.25
+        }
+    ]
+}
