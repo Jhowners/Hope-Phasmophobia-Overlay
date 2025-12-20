@@ -142,7 +142,7 @@ namespace Hophesmoverlay
                         CheckKey(vKey, () => ToggleEvidenceByIndex(idx));
                     }
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(20);
             }
         }
 
@@ -588,8 +588,17 @@ namespace Hophesmoverlay
         {
             bool isDown = (GetAsyncKeyState(key) & 0x8000) != 0;
             if (!_keyStateTracker.ContainsKey(key)) _keyStateTracker[key] = false;
-            if (isDown && !_keyStateTracker[key]) { _keyStateTracker[key] = true; Dispatcher.InvokeAsync(action, DispatcherPriority.Send); }
-            else if (!isDown && _keyStateTracker[key]) { _keyStateTracker[key] = false; }
+
+            if (isDown && !_keyStateTracker[key])
+            {
+                _keyStateTracker[key] = true;
+                // CHANGED PRIORITY TO 'Normal' (Smoother)
+                Dispatcher.InvokeAsync(action, DispatcherPriority.Normal);
+            }
+            else if (!isDown && _keyStateTracker[key])
+            {
+                _keyStateTracker[key] = false;
+            }
         }
         protected override void OnClosed(EventArgs e) { _cancellationTokenSource.Cancel(); base.OnClosed(e); }
         private void BtnDonate_Click(object sender, RoutedEventArgs e) { try { Process.Start(new ProcessStartInfo { FileName = "https://ko-fi.com/hopesan", UseShellExecute = true }); } catch { } }
@@ -628,54 +637,69 @@ namespace Hophesmoverlay
         public double MaxSpeed { get; set; }
         public string SpeedInfo { get; set; }
 
-        // NEW: GUARANTEED EVIDENCE
+        // GUARANTEED EVIDENCE
         public string Guaranteed { get; set; }
         public string GuaranteedText => !string.IsNullOrEmpty(Guaranteed) ? $"⚠ Guaranteed: {Guaranteed}" : "";
         public bool HasGuaranteed => !string.IsNullOrEmpty(Guaranteed);
 
         private bool _isEliminated;
-        public bool IsEliminated { get => _isEliminated; set { _isEliminated = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEliminated")); } }
-
-        public Brush PrimaryColorBrush { get { return (Brush)new BrushConverter().ConvertFrom(PrimaryColor); } }
-        public string PrimaryColor
+        public bool IsEliminated
         {
-            get
-            {
-                foreach (var ev in Evidences)
-                {
-                    if (IsType(ev, "Freezing")) return "#00CED1";
-                    if (IsType(ev, "EMF")) return "#DC143C";
-                    if (IsType(ev, "DOTS")) return "#39FF14";
-                    if (IsType(ev, "UV")) return "#8A2BE2";
-                    if (IsType(ev, "SpiritBox")) return "#FF4500";
-                    if (IsType(ev, "Writing")) return "#FFD700";
-                    if (IsType(ev, "Orb")) return "#E0FFFF";
-                }
-                return "#FFFFFF";
-            }
+            get => _isEliminated;
+            set { _isEliminated = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEliminated")); }
         }
 
-        public Brush EvidenceGradient
+        // --- OPTIMIZATION START: Cache the colors so we don't calculate them every frame ---
+        private Brush _cachedPrimaryColor;
+        private Brush _cachedGradient;
+
+        public Brush PrimaryColorBrush => _cachedPrimaryColor;
+        public Brush EvidenceGradient => _cachedGradient;
+
+        public Ghost(string n, string s, params string[] e)
         {
-            get
+            Name = n; Symbol = s; Evidences = e.ToList();
+            InitializeColors(); // Calculate colors ONCE upon creation
+        }
+        // --- OPTIMIZATION END ---
+
+        private void InitializeColors()
+        {
+            // 1. Calculate Primary Color
+            string colorHex = "#FFFFFF";
+            foreach (var ev in Evidences)
             {
-                var stops = new GradientStopCollection();
-                Color GetColor(string ev)
-                {
-                    if (IsType(ev, "EMF")) return Color.FromRgb(220, 20, 60);
-                    if (IsType(ev, "UV")) return Color.FromRgb(138, 43, 226);
-                    if (IsType(ev, "Freezing")) return Color.FromRgb(0, 206, 209);
-                    if (IsType(ev, "SpiritBox")) return Color.FromRgb(255, 69, 0);
-                    if (IsType(ev, "Orb")) return Color.FromRgb(224, 255, 255);
-                    if (IsType(ev, "Writing")) return Color.FromRgb(255, 215, 0);
-                    if (IsType(ev, "DOTS")) return Color.FromRgb(57, 255, 20);
-                    return Colors.White;
-                }
-                if (Evidences.Count >= 1) stops.Add(new GradientStop(GetColor(Evidences[0]), 0.0));
-                if (Evidences.Count >= 2) stops.Add(new GradientStop(GetColor(Evidences[1]), 0.5));
-                if (Evidences.Count >= 3) stops.Add(new GradientStop(GetColor(Evidences[2]), 1.0));
-                return new LinearGradientBrush(stops, new Point(0, 0), new Point(1, 0)) { Opacity = 0.9 };
+                if (IsType(ev, "Freezing")) { colorHex = "#00CED1"; break; }
+                if (IsType(ev, "EMF")) { colorHex = "#DC143C"; break; }
+                if (IsType(ev, "DOTS")) { colorHex = "#39FF14"; break; }
+                if (IsType(ev, "UV")) { colorHex = "#8A2BE2"; break; }
+                if (IsType(ev, "SpiritBox")) { colorHex = "#FF4500"; break; }
+                if (IsType(ev, "Writing")) { colorHex = "#FFD700"; break; }
+                if (IsType(ev, "Orb")) { colorHex = "#E0FFFF"; break; }
             }
+            _cachedPrimaryColor = (Brush)new BrushConverter().ConvertFrom(colorHex);
+            if (_cachedPrimaryColor.CanFreeze) _cachedPrimaryColor.Freeze(); // Lock it for performance
+
+            // 2. Calculate Gradient
+            var stops = new GradientStopCollection();
+            Color GetColor(string ev)
+            {
+                if (IsType(ev, "EMF")) return Color.FromRgb(220, 20, 60);
+                if (IsType(ev, "UV")) return Color.FromRgb(138, 43, 226);
+                if (IsType(ev, "Freezing")) return Color.FromRgb(0, 206, 209);
+                if (IsType(ev, "SpiritBox")) return Color.FromRgb(255, 69, 0);
+                if (IsType(ev, "Orb")) return Color.FromRgb(224, 255, 255);
+                if (IsType(ev, "Writing")) return Color.FromRgb(255, 215, 0);
+                if (IsType(ev, "DOTS")) return Color.FromRgb(57, 255, 20);
+                return Colors.White;
+            }
+
+            if (Evidences.Count >= 1) stops.Add(new GradientStop(GetColor(Evidences[0]), 0.0));
+            if (Evidences.Count >= 2) stops.Add(new GradientStop(GetColor(Evidences[1]), 0.5));
+            if (Evidences.Count >= 3) stops.Add(new GradientStop(GetColor(Evidences[2]), 1.0));
+
+            _cachedGradient = new LinearGradientBrush(stops, new Point(0, 0), new Point(1, 0)) { Opacity = 0.9 };
+            if (_cachedGradient.CanFreeze) _cachedGradient.Freeze(); // Lock it
         }
 
         private bool IsType(string ev, string type)
@@ -690,7 +714,6 @@ namespace Hophesmoverlay
             return false;
         }
 
-        public Ghost(string n, string s, params string[] e) { Name = n; Symbol = s; Evidences = e.ToList(); }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
