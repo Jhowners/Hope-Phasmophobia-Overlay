@@ -115,7 +115,7 @@ namespace Hophesmoverlay
         {
             while (!token.IsCancellationRequested)
             {
-                // Use Keys from Config
+                // 1. Global Timers (No Modifier needed)
                 CheckKey(_config.Keys.HuntStop, () => StopHuntTimer());
                 CheckKey(_config.Keys.HuntStart, () => ResetHuntTimer());
                 CheckKey(_config.Keys.SmudgeStop, () => StopSmudgeTimer());
@@ -124,24 +124,28 @@ namespace Hophesmoverlay
                 CheckKey(_config.Keys.SpeedReset, () => ResetPace());
                 CheckKey(_config.Keys.HuntDuration, () => ToggleHuntDuration());
 
+                // 2. Views
                 CheckKey(VK_PAUSE, () => SetViewMode(1));
                 CheckKey(VK_HOME, () => SetViewMode(2));
 
+                // 3. ALT MODIFIER ACTIONS
                 bool isAltDown = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
 
-                // ALT + BACKSPACE (Smart Reset)
                 if (isAltDown)
                 {
+                    // Smart Reset
                     CheckKey(_config.Keys.Reset, () => SmartReset());
 
-                    // Alt + Numbers
-                    for (int i = 1; i <= 7; i++)
-                    {
-                        int vKey = 0x30 + i;
-                        int idx = i;
-                        CheckKey(vKey, () => ToggleEvidenceByIndex(idx));
-                    }
+                    // Evidence Toggles (Using the editable keys!)
+                    CheckKey(_config.Keys.Evidence1, () => ToggleEvidenceByIndex(1));
+                    CheckKey(_config.Keys.Evidence2, () => ToggleEvidenceByIndex(2));
+                    CheckKey(_config.Keys.Evidence3, () => ToggleEvidenceByIndex(3));
+                    CheckKey(_config.Keys.Evidence4, () => ToggleEvidenceByIndex(4));
+                    CheckKey(_config.Keys.Evidence5, () => ToggleEvidenceByIndex(5));
+                    CheckKey(_config.Keys.Evidence6, () => ToggleEvidenceByIndex(6));
+                    CheckKey(_config.Keys.Evidence7, () => ToggleEvidenceByIndex(7));
                 }
+
                 Thread.Sleep(20);
             }
         }
