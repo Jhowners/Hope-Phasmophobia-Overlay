@@ -35,6 +35,13 @@ namespace Hophesmoverlay
         public int SpeedTap { get; set; } = 0x79; // F10
         public int SpeedReset { get; set; } = 0x7A; // F11
         public int HuntDuration { get; set; } = 112; // F12
+        public int Evidence1 { get; set; } = 49; // Key '1'
+        public int Evidence2 { get; set; } = 50; // Key '2'
+        public int Evidence3 { get; set; } = 51; // Key '3'
+        public int Evidence4 { get; set; } = 52; // Key '4'
+        public int Evidence5 { get; set; } = 53; // Key '5'
+        public int Evidence6 { get; set; } = 54; // Key '6'
+        public int Evidence7 { get; set; } = 55; // Key '7'
     }
 
     // --- 2. LANGUAGE MODEL ---

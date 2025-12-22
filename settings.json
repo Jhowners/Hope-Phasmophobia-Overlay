@@ -9,6 +9,13 @@
         "HuntStart": 118,
         "SpeedTap": 121,
         "SpeedReset": 122,
-        "HuntDuration": 112
+        "HuntDuration": 112,
+        "Evidence1": 49,
+        "Evidence2": 50,
+        "Evidence3": 51,
+        "Evidence4": 52,
+        "Evidence5": 53,
+        "Evidence6": 54,
+        "Evidence7": 55
     }
 }
