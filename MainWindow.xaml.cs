@@ -81,6 +81,10 @@ namespace Hophesmoverlay
 
             // 1. LOAD CONFIG
             _config = AppSettings.Load();
+            if (!File.Exists("settings.json"))
+            {
+                _config.Save();
+            }
             this.Opacity = _config.Opacity;
 
             // 2. SETUP CHECKBOXES
