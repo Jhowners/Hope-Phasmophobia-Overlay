@@ -737,4 +737,25 @@ namespace Hophesmoverlay
         public object Convert(object v, Type t, object p, System.Globalization.CultureInfo c) => (bool)v ? Visibility.Collapsed : Visibility.Visible;
         public object ConvertBack(object v, Type t, object p, System.Globalization.CultureInfo c) => throw new NotImplementedException();
     }
+    public class EvidenceColorConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string ev = value as string ?? "";
+
+            // Colors match your initialization logic
+            if (ev.Contains("EMF")) return new SolidColorBrush(Color.FromRgb(220, 20, 60)); // Red
+            if (ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") || ev.Contains("Digital") || ev.Contains("指") || ev.Contains("紫")) return new SolidColorBrush(Color.FromRgb(138, 43, 226)); // Violet
+            if (ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") || ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷")) return new SolidColorBrush(Color.FromRgb(0, 206, 209)); // Cyan
+            if (ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") || ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒")) return new SolidColorBrush(Color.FromRgb(255, 69, 0)); // Orange
+            if (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("灵球") || ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉")) return new SolidColorBrush(Color.FromRgb(224, 255, 255)); // Light Cyan
+            if (ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") || ev.Contains("ライティング")) return new SolidColorBrush(Color.FromRgb(255, 215, 0)); // Gold
+            if (ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("點陣")) return new SolidColorBrush(Color.FromRgb(57, 255, 20)); // Green
+
+            return Brushes.LightGray; // Fallback
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    }
+
 }

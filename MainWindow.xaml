@@ -17,6 +17,8 @@
     <Window.Resources>
         <local:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
         <local:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <local:EvidenceColorConverter x:Key="EvColorConv"/>
+
         <SolidColorBrush x:Key="GlassBg" Color="#77000000"/>
         <LinearGradientBrush x:Key="BorderGradient" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#9d00ff" Offset="0.0"/>
@@ -139,7 +141,7 @@
                             <ItemsControl Name="GhostsListControl">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,4" CornerRadius="8" Height="68" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}" BorderThickness="2">
+                                        <Border Margin="0,4" CornerRadius="8" MinHeight="68" Visibility="{Binding IsEliminated, Converter={StaticResource InverseBoolToVis}}" BorderThickness="2">
                                             <Border.BorderBrush>
                                                 <DrawingBrush Stretch="Fill">
                                                     <DrawingBrush.Drawing>
@@ -160,7 +162,8 @@
                                                         <RotateTransform Angle="-5"/>
                                                     </TextBlock.RenderTransform>
                                                 </TextBlock>
-                                                <StackPanel VerticalAlignment="Center" Margin="15,0">
+
+                                                <StackPanel VerticalAlignment="Center" Margin="15,4">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
@@ -180,8 +183,24 @@
                                                             </Border>
                                                         </StackPanel>
                                                     </Grid>
-                                                    <TextBlock Text="{Binding GuaranteedText}" Visibility="{Binding HasGuaranteed, Converter={StaticResource BoolToVis}}" Foreground="#FFD700" FontSize="10" FontWeight="Bold" Margin="0,2,0,0" FontStyle="Italic"/>
-                                                    <TextBlock Text="{Binding Tell}" Foreground="#EEEEEE" FontSize="11" FontStyle="Normal" TextWrapping="Wrap" Margin="0,3,0,0" MaxWidth="330" LineHeight="14"/>
+
+                                                    <ItemsControl ItemsSource="{Binding Evidences}" Margin="0,4,0,2">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border BorderBrush="{Binding Converter={StaticResource EvColorConv}}" BorderThickness="1" CornerRadius="3" Margin="0,0,4,4" Padding="5,1" Background="#44000000">
+                                                                    <TextBlock Text="{Binding}" FontSize="9" FontWeight="SemiBold" Foreground="{Binding Converter={StaticResource EvColorConv}}"/>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+
+                                                    <TextBlock Text="{Binding GuaranteedText}" Visibility="{Binding HasGuaranteed, Converter={StaticResource BoolToVis}}" Foreground="#FFD700" FontSize="10" FontWeight="Bold" Margin="0,0,0,0" FontStyle="Italic"/>
+                                                    <TextBlock Text="{Binding Tell}" Foreground="#EEEEEE" FontSize="11" FontStyle="Normal" TextWrapping="Wrap" Margin="0,2,0,0" MaxWidth="330" LineHeight="14"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -192,7 +211,7 @@
                     </Border>
 
                     <StackPanel Grid.Column="2">
-                        <StackPanel Grid.Column="2">
+                        <StackPanel>
                             <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#CCC" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
                             <StackPanel>
                                 <CheckBox x:Name="ChkEv1" Content="EMF Level 5" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
@@ -237,16 +256,13 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-
                                         <TextBlock Grid.Column="0" Text="HUNT [F1]" Foreground="#FF8888" FontSize="10" FontWeight="Bold" VerticalAlignment="Center"/>
-
                                         <ComboBox Grid.Column="1" Name="CmbMapSize" Width="85" FontSize="9" Padding="2" SelectedIndex="0" Background="#99000000" Foreground="Black" BorderThickness="0">
                                             <ComboBoxItem Content="Small (30s)"/>
                                             <ComboBoxItem Content="Medium (50s)"/>
                                             <ComboBoxItem Content="Large (60s)"/>
                                         </ComboBox>
                                     </Grid>
-
                                     <TextBlock Name="TxtActiveHunt" Text="-- / 30s" Foreground="#FF4444" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0">
                                         <TextBlock.Effect>
                                             <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0"/>
