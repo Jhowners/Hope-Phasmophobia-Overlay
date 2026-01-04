@@ -1,0 +1,310 @@
+{
+    "Code": "ES",
+    "UI": {
+        "Controls": "[F1] CAZA ACTIVA | [HOME] INFO | [ALT+BACK] DESHACER",
+        "EvidenceHeader": "EVIDENCIAS (ALT+1-7)",
+        "SmudgeHeader": "INCIENSO [F9]",
+        "HuntHeader": "CRUCIFIJO [F7]",
+        "SpeedHeader": "VELOCIDAD (m/s)",
+        "Ready": "LISTO",
+        "Waiting": "ESPERANDO...",
+        "Safe": "SEGURO",
+        "Demon": "DEMONIO PELIGRO",
+        "Ev1": "EMF Nivel 5",
+        "Ev2": "D.O.T.S.",
+        "Ev3": "Ultravioleta",
+        "Ev4": "Temp. Heladas",
+        "Ev5": "Orbe Fantasma",
+        "Ev6": "Escritura Fantasma",
+        "Ev7": "Spirit Box"
+    },
+    "SpeedSys": {
+        "DeogenStill": "Deogen / Dayan (Quieto)",
+        "RevPassive": "Rev (Pasivo) / Thaye (Viejo)",
+        "Slow": "Gemelos (Lento) / Moroi (Baja Cordura) / Hantu (Calor)",
+        "Normal": "Velocidad Normal (1.7 m/s)",
+        "Fast": "Gemelos (Rápido) / Hantu (Frío) / Obambo",
+        "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
+        "SuperFast": "REVENANT (Persecución) / Thaye (Joven) / Hantu",
+        "MaxLOS": "MOROI (Velocidad Máx LOS)",
+        "Impossible": "Demasiado Rápido? (Verificar pasos)"
+    },
+    "Ghosts": [
+        {
+            "ID": "Spirit",
+            "Name": "Espíritu",
+            "Symbol": "👻",
+            "Evidences": [ "EMF Nivel 5", "Spirit Box", "Escritura Fantasma" ],
+            "Tell": "Incienso evita caza por 180s.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Wraith",
+            "Name": "Espectro",
+            "Symbol": "👣",
+            "Evidences": [ "EMF Nivel 5", "Spirit Box", "D.O.T.S." ],
+            "Tell": "No pisa sal. Se teletransporta al jugador.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Phantom",
+            "Name": "Ente",
+            "Symbol": "📷",
+            "Evidences": [ "Spirit Box", "Ultravioleta", "D.O.T.S." ],
+            "Tell": "Desaparece en fotos. Parpadeo lento.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Poltergeist",
+            "Name": "Poltergeist",
+            "Symbol": "💥",
+            "Evidences": [ "Spirit Box", "Ultravioleta", "Escritura Fantasma" ],
+            "Tell": "Lanza múltiples objetos. Drena cordura.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Banshee",
+            "Name": "Banshee",
+            "Symbol": "😱",
+            "Evidences": [ "Ultravioleta", "Orbe Fantasma", "D.O.T.S." ],
+            "Tell": "Grito parabólico. Persigue a 1 jugador.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Jinn",
+            "Name": "Jinn",
+            "Symbol": "⚡",
+            "Evidences": [ "EMF Nivel 5", "Ultravioleta", "Temp. Heladas" ],
+            "Tell": "Rápido si la luz está ON y lejos.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Mare",
+            "Name": "Pesadilla",
+            "Symbol": "💡",
+            "Evidences": [ "Spirit Box", "Orbe Fantasma", "Escritura Fantasma" ],
+            "Tell": "Odia la luz. Caza temprano a oscuras.",
+            "HuntThreshold": "60% / 40%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Revenant",
+            "Name": "Revenant",
+            "Symbol": "😈",
+            "Evidences": [ "Orbe Fantasma", "Escritura Fantasma", "Temp. Heladas" ],
+            "Tell": "Rápido si te ve (3.0), lento si no (1.0).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.9,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Shade",
+            "Name": "Sombra",
+            "Symbol": "🌑",
+            "Evidences": [ "EMF Nivel 5", "Escritura Fantasma", "Temp. Heladas" ],
+            "Tell": "Tímido. No caza si hay gente cerca.",
+            "HuntThreshold": "< 35%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Demon",
+            "Name": "Demonio",
+            "Symbol": "⸸",
+            "Evidences": [ "Ultravioleta", "Escritura Fantasma", "Temp. Heladas" ],
+            "Tell": "20s cooldown. Puede cazar cuando sea.",
+            "HuntThreshold": "Cualquiera / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yurei",
+            "Name": "Yurei",
+            "Symbol": "🚪",
+            "Evidences": [ "Orbe Fantasma", "Temp. Heladas", "D.O.T.S." ],
+            "Tell": "Azota puertas. El incienso lo atrapa.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Oni",
+            "Name": "Oni",
+            "Symbol": "👹",
+            "Evidences": [ "EMF Nivel 5", "Temp. Heladas", "D.O.T.S." ],
+            "Tell": "Visible al cazar. Drena cordura al tocar.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yokai",
+            "Name": "Yokai",
+            "Symbol": "🔇",
+            "Evidences": [ "Spirit Box", "Orbe Fantasma", "D.O.T.S." ],
+            "Tell": "Sordo. Hablar activa la caza.",
+            "HuntThreshold": "80% (Voz)",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Hantu",
+            "Name": "Hantu",
+            "Symbol": "❄",
+            "Evidences": [ "Ultravioleta", "Orbe Fantasma", "Temp. Heladas" ],
+            "Guaranteed": "Temp. Heladas",
+            "Tell": "Rápido en frío. Aliento helado.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.4,
+            "MaxSpeed": 2.7
+        },
+        {
+            "ID": "Goryo",
+            "Name": "Goryo",
+            "Symbol": "👀",
+            "Evidences": [ "EMF Nivel 5", "Ultravioleta", "D.O.T.S." ],
+            "Guaranteed": "D.O.T.S.",
+            "Tell": "DOTS solo en cámara. No deambula.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Myling",
+            "Name": "Myling",
+            "Symbol": "🤫",
+            "Evidences": [ "EMF Nivel 5", "Ultravioleta", "Escritura Fantasma" ],
+            "Tell": "Pasos silenciosos al cazar.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Onryo",
+            "Name": "Onryo",
+            "Symbol": "🔥",
+            "Evidences": [ "Spirit Box", "Orbe Fantasma", "Temp. Heladas" ],
+            "Tell": "El fuego evita caza. 3 soplidos = Caza.",
+            "HuntThreshold": "60%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Twins",
+            "Name": "Gemelos",
+            "Symbol": "♊",
+            "Evidences": [ "EMF Nivel 5", "Spirit Box", "Temp. Heladas" ],
+            "Tell": "Señuelo (Rápido) o Principal (Lento).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 2.3
+        },
+        {
+            "ID": "Raiju",
+            "Name": "Raiju",
+            "Symbol": "🔋",
+            "Evidences": [ "EMF Nivel 5", "Orbe Fantasma", "D.O.T.S." ],
+            "Tell": "Rápido cerca de electrónica.",
+            "HuntThreshold": "< 65%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Obake",
+            "Name": "Obake",
+            "Symbol": "🖐",
+            "Evidences": [ "EMF Nivel 5", "Ultravioleta", "Orbe Fantasma" ],
+            "Guaranteed": "Ultravioleta",
+            "Tell": "Huella de 6 dedos. Cambia de forma.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Mimic",
+            "Name": "El Mímico",
+            "Symbol": "🎭",
+            "Evidences": [ "Spirit Box", "Ultravioleta", "Temp. Heladas" ],
+            "Guaranteed": "Orbes Falsos",
+            "Tell": "Orbes falsos. Copia otros fantasmas.",
+            "HuntThreshold": "Copia",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Moroi",
+            "Name": "Moroi",
+            "Symbol": "☠",
+            "Evidences": [ "Spirit Box", "Escritura Fantasma", "Temp. Heladas" ],
+            "Guaranteed": "Spirit Box",
+            "Tell": "Rápido con baja cordura. Acelera al ver.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Deogen",
+            "Name": "Deogen",
+            "Symbol": "👁",
+            "Evidences": [ "Spirit Box", "Escritura Fantasma", "D.O.T.S." ],
+            "Guaranteed": "Spirit Box",
+            "Tell": "Siempre te encuentra. Rápido de lejos.",
+            "HuntThreshold": "< 40%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Thaye",
+            "Name": "Thaye",
+            "Symbol": "⏳",
+            "Evidences": [ "Orbe Fantasma", "Escritura Fantasma", "D.O.T.S." ],
+            "Tell": "Envejece. Empieza rápido, se vuelve lento.",
+            "HuntThreshold": "75% -> 15%",
+            "MinSpeed": 1.0,
+            "MaxSpeed": 2.75
+        },
+        {
+            "ID": "Obambo",
+            "Name": "Obambo",
+            "Symbol": "🔄",
+            "Evidences": [ "Escritura Fantasma", "Ultravioleta", "D.O.T.S." ],
+            "Tell": "Volátil. Alterna entre pasivo/agresivo.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.45,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Gallu",
+            "Name": "Gallu",
+            "Symbol": "🛡️",
+            "Evidences": [ "EMF Nivel 5", "Ultravioleta", "Spirit Box" ],
+            "Tell": "Agresivo contra Crucifijo/Incienso.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.36,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Dayan",
+            "Name": "Dayan",
+            "Symbol": "🏃",
+            "Evidences": [ "EMF Nivel 5", "Orbe Fantasma", "Spirit Box" ],
+            "Tell": "Rápido si te mueves. Lento si paras.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.2,
+            "MaxSpeed": 2.25
+        }
+    ]
+}

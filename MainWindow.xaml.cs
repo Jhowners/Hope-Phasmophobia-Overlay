@@ -615,6 +615,9 @@ namespace Hophesmoverlay
         private void MenuPt_Click(object sender, RoutedEventArgs e) => ChangeLanguage("pt");
         private void MenuJp_Click(object sender, RoutedEventArgs e) => ChangeLanguage("jp");
         private void MenuCht_Click(object sender, RoutedEventArgs e) => ChangeLanguage("cht");
+        private void MenuDe_Click(object sender, RoutedEventArgs e) => ChangeLanguage("de");
+        private void MenuEs_Click(object sender, RoutedEventArgs e) => ChangeLanguage("es");
+        private void MenuRu_Click(object sender, RoutedEventArgs e) => ChangeLanguage("ru");
         private void ChangeLanguage(string langCode) { _config.Language = langCode; _config.Save(); LoadLanguage(langCode); }
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
         private void SetViewMode(int mode)
@@ -743,14 +746,47 @@ namespace Hophesmoverlay
         {
             string ev = value as string ?? "";
 
-            // Colors match your initialization logic
-            if (ev.Contains("EMF")) return new SolidColorBrush(Color.FromRgb(220, 20, 60)); // Red
-            if (ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") || ev.Contains("Digital") || ev.Contains("指") || ev.Contains("紫")) return new SolidColorBrush(Color.FromRgb(138, 43, 226)); // Violet
-            if (ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") || ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷")) return new SolidColorBrush(Color.FromRgb(0, 206, 209)); // Cyan
-            if (ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") || ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒")) return new SolidColorBrush(Color.FromRgb(255, 69, 0)); // Orange
-            if (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("灵球") || ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉")) return new SolidColorBrush(Color.FromRgb(224, 255, 255)); // Light Cyan
-            if (ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") || ev.Contains("ライティング")) return new SolidColorBrush(Color.FromRgb(255, 215, 0)); // Gold
-            if (ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("點陣")) return new SolidColorBrush(Color.FromRgb(57, 255, 20)); // Green
+            // EMF 5 (Red)
+            // RU: ЭМП | DE/ES/PT: EMF
+            if (ev.Contains("EMF") || ev.Contains("ЭМП"))
+                return new SolidColorBrush(Color.FromRgb(220, 20, 60));
+
+            // Ultraviolet (Violet)
+            // RU: Ультрафиолет | DE: Ultraviolett | ES: Ultravioleta
+            if (ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") || ev.Contains("Digital") ||
+                ev.Contains("Ультрафиолет") || ev.Contains("指") || ev.Contains("紫"))
+                return new SolidColorBrush(Color.FromRgb(138, 43, 226));
+
+            // Freezing Temps (Cyan)
+            // RU: Минусовая | DE: Gefrier | ES: Heladas | PT: Negativas/Gelado
+            if (ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") ||
+                ev.Contains("Минусовая") || ev.Contains("Gefrier") || ev.Contains("Heladas") || ev.Contains("Negativas") ||
+                ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷"))
+                return new SolidColorBrush(Color.FromRgb(0, 206, 209));
+
+            // Spirit Box (Orange)
+            // RU: Радио | Others: Box
+            if (ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") ||
+                ev.Contains("Радио") || ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒"))
+                return new SolidColorBrush(Color.FromRgb(255, 69, 0));
+
+            // Ghost Orbs (Light Cyan)
+            // RU: огонёк | DE/ES/PT: Orb/Orbe
+            if (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("огонёк") ||
+                ev.Contains("灵球") || ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉"))
+                return new SolidColorBrush(Color.FromRgb(224, 255, 255));
+
+            // Ghost Writing (Gold)
+            // RU: Блокнот | DE: Buch | ES: Escritura | PT: Escrita
+            if (ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("Escritura") ||
+                ev.Contains("Блокнот") || ev.Contains("Buch") ||
+                ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") || ev.Contains("ライティング"))
+                return new SolidColorBrush(Color.FromRgb(255, 215, 0));
+
+            // D.O.T.S. (Green)
+            // RU: Проектор | Others: DOTS
+            if (ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("Проектор") || ev.Contains("點陣"))
+                return new SolidColorBrush(Color.FromRgb(57, 255, 20));
 
             return Brushes.LightGray; // Fallback
         }

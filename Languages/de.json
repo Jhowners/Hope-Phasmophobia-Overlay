@@ -1,0 +1,310 @@
+{
+    "Code": "DE",
+    "UI": {
+        "Controls": "[F1] AKTIVE JAGD | [HOME] INFO | [ALT+BACK] ZURÜCK",
+        "EvidenceHeader": "BEWEISE (ALT+1-7)",
+        "SmudgeHeader": "RÄUCHERWERK [F9]",
+        "HuntHeader": "KRUZIFIX [F7]",
+        "SpeedHeader": "GESCHWINDIGKEIT (m/s)",
+        "Ready": "BEREIT",
+        "Waiting": "WARTEN...",
+        "Safe": "SICHER",
+        "Demon": "DÄMON UNSICHER",
+        "Ev1": "EMF Ebene 5",
+        "Ev2": "D.O.T.S. Projektor",
+        "Ev3": "Ultraviolett",
+        "Ev4": "Gefriertemperaturen",
+        "Ev5": "Geisterorb",
+        "Ev6": "Geisterbuch",
+        "Ev7": "Geisterbox"
+    },
+    "SpeedSys": {
+        "DeogenStill": "Deogen / Dayan (Stillstehend)",
+        "RevPassive": "Rev (Passiv) / Thaye (Alt)",
+        "Slow": "Zwillinge (Langsam) / Moroi (Wenig Sanity) / Hantu (Warm)",
+        "Normal": "Normale Geschw. (1.7 m/s)",
+        "Fast": "Zwillinge (Schnell) / Hantu (Kalt) / Obambo",
+        "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
+        "SuperFast": "REVENANT (Jagd) / Thaye (Jung) / Hantu",
+        "MaxLOS": "MOROI (Max LOS Geschw.)",
+        "Impossible": "Zu schnell? (Schritte prüfen)"
+    },
+    "Ghosts": [
+        {
+            "ID": "Spirit",
+            "Name": "Spirit",
+            "Symbol": "👻",
+            "Evidences": [ "EMF Ebene 5", "Geisterbox", "Geisterbuch" ],
+            "Tell": "Räucherwerk verhindert Jagd für 180s.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Wraith",
+            "Name": "Gespenst",
+            "Symbol": "👣",
+            "Evidences": [ "EMF Ebene 5", "Geisterbox", "D.O.T.S." ],
+            "Tell": "Keine Salzschritte. Teleportiert zum Spieler.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Phantom",
+            "Name": "Phantom",
+            "Symbol": "📷",
+            "Evidences": [ "Geisterbox", "Ultraviolett", "D.O.T.S." ],
+            "Tell": "Verschwindet bei Foto. Blinkt langsam.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Poltergeist",
+            "Name": "Poltergeist",
+            "Symbol": "💥",
+            "Evidences": [ "Geisterbox", "Ultraviolett", "Geisterbuch" ],
+            "Tell": "Wirft viele Dinge. Senkt Sanity.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Banshee",
+            "Name": "Banshee",
+            "Symbol": "😱",
+            "Evidences": [ "Ultraviolett", "Geisterorb", "D.O.T.S." ],
+            "Tell": "Parabol-Schrei. Jagd nur 1 Spieler.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Jinn",
+            "Name": "Jinn",
+            "Symbol": "⚡",
+            "Evidences": [ "EMF Ebene 5", "Ultraviolett", "Gefriertemp." ],
+            "Tell": "Schnell wenn Sicherung AN & weit weg.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Mare",
+            "Name": "Mahr",
+            "Symbol": "💡",
+            "Evidences": [ "Geisterbox", "Geisterorb", "Geisterbuch" ],
+            "Tell": "Hasst Licht. Jagt früh im Dunkeln.",
+            "HuntThreshold": "60% / 40%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Revenant",
+            "Name": "Revenant",
+            "Symbol": "😈",
+            "Evidences": [ "Geisterorb", "Geisterbuch", "Gefriertemp." ],
+            "Tell": "Schnell bei Sicht (3.0), langsam ohne (1.0).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.9,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Shade",
+            "Name": "Shade",
+            "Symbol": "🌑",
+            "Evidences": [ "EMF Ebene 5", "Geisterbuch", "Gefriertemp." ],
+            "Tell": "Schüchtern. Jagt nicht wenn Spieler nah.",
+            "HuntThreshold": "< 35%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Demon",
+            "Name": "Dämon",
+            "Symbol": "⸸",
+            "Evidences": [ "Ultraviolett", "Geisterbuch", "Gefriertemp." ],
+            "Tell": "20s Cooldown. Kann jederzeit jagen.",
+            "HuntThreshold": "Jederzeit / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yurei",
+            "Name": "Yurei",
+            "Symbol": "🚪",
+            "Evidences": [ "Geisterorb", "Gefriertemp.", "D.O.T.S." ],
+            "Tell": "Knallt Türen. Räucherwerk fängt ihn.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Oni",
+            "Name": "Oni",
+            "Symbol": "👹",
+            "Evidences": [ "EMF Ebene 5", "Gefriertemp.", "D.O.T.S." ],
+            "Tell": "Sichtbar bei Jagd. Zieht Sanity ab.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Yokai",
+            "Name": "Yokai",
+            "Symbol": "🔇",
+            "Evidences": [ "Geisterbox", "Geisterorb", "D.O.T.S." ],
+            "Tell": "Taub. Stimme löst Jagd aus.",
+            "HuntThreshold": "80% (Stimme)",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Hantu",
+            "Name": "Hantu",
+            "Symbol": "❄",
+            "Evidences": [ "Ultraviolett", "Geisterorb", "Gefriertemp." ],
+            "Guaranteed": "Gefriertemp.",
+            "Tell": "Schnell in Kälte. Kalter Atem.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.4,
+            "MaxSpeed": 2.7
+        },
+        {
+            "ID": "Goryo",
+            "Name": "Goryo",
+            "Symbol": "👀",
+            "Evidences": [ "EMF Ebene 5", "Ultraviolett", "D.O.T.S." ],
+            "Guaranteed": "D.O.T.S.",
+            "Tell": "D.O.T.S. nur via Kamera. Roamt nicht.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Myling",
+            "Name": "Myling",
+            "Symbol": "🤫",
+            "Evidences": [ "EMF Ebene 5", "Ultraviolett", "Geisterbuch" ],
+            "Tell": "Leise Schritte während der Jagd.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "Onryo",
+            "Name": "Onryo",
+            "Symbol": "🔥",
+            "Evidences": [ "Geisterbox", "Geisterorb", "Gefriertemp." ],
+            "Tell": "Feuer stoppt Jagd. 3x Ausblasen = Jagd.",
+            "HuntThreshold": "60%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Twins",
+            "Name": "Zwillinge",
+            "Symbol": "♊",
+            "Evidences": [ "EMF Ebene 5", "Geisterbox", "Gefriertemp." ],
+            "Tell": "Köder (Schnell) oder Haupt (Langsam).",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 2.3
+        },
+        {
+            "ID": "Raiju",
+            "Name": "Raiju",
+            "Symbol": "🔋",
+            "Evidences": [ "EMF Ebene 5", "Geisterorb", "D.O.T.S." ],
+            "Tell": "Schnell bei Elektronik.",
+            "HuntThreshold": "< 65%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.5
+        },
+        {
+            "ID": "Obake",
+            "Name": "Obake",
+            "Symbol": "🖐",
+            "Evidences": [ "EMF Ebene 5", "Ultraviolett", "Geisterorb" ],
+            "Guaranteed": "Ultraviolett",
+            "Tell": "6-Finger Abdruck. Formwandler.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 2.8
+        },
+        {
+            "ID": "The Mimic",
+            "Name": "Mimic",
+            "Symbol": "🎭",
+            "Evidences": [ "Geisterbox", "Ultraviolett", "Gefriertemp." ],
+            "Guaranteed": "Fake Orbs",
+            "Tell": "Fake Orbs. Kopiert Geister.",
+            "HuntThreshold": "Kopie",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Moroi",
+            "Name": "Moroi",
+            "Symbol": "☠",
+            "Evidences": [ "Geisterbox", "Geisterbuch", "Gefriertemp." ],
+            "Guaranteed": "Geisterbox",
+            "Tell": "Schnell bei wenig Sanity. LOS Boost.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.5,
+            "MaxSpeed": 3.75
+        },
+        {
+            "ID": "Deogen",
+            "Name": "Deogen",
+            "Symbol": "👁",
+            "Evidences": [ "Geisterbox", "Geisterbuch", "D.O.T.S." ],
+            "Guaranteed": "Geisterbox",
+            "Tell": "Findet dich immer. Schnell wenn fern.",
+            "HuntThreshold": "< 40%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Thaye",
+            "Name": "Thaye",
+            "Symbol": "⏳",
+            "Evidences": [ "Geisterorb", "Geisterbuch", "D.O.T.S." ],
+            "Tell": "Altert. Startet schnell, wird langsam.",
+            "HuntThreshold": "75% -> 15%",
+            "MinSpeed": 1.0,
+            "MaxSpeed": 2.75
+        },
+        {
+            "ID": "Obambo",
+            "Name": "Obambo",
+            "Symbol": "🔄",
+            "Evidences": [ "Geisterbuch", "Ultraviolett", "D.O.T.S." ],
+            "Tell": "Volatil. Wechselt Passiv/Aggressiv.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.45,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Gallu",
+            "Name": "Gallu",
+            "Symbol": "🛡️",
+            "Evidences": [ "EMF Ebene 5", "Ultraviolett", "Geisterbox" ],
+            "Tell": "Aggressiv gegen Kruzifix/Räucherwerk.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.36,
+            "MaxSpeed": 1.96
+        },
+        {
+            "ID": "Dayan",
+            "Name": "Dayan",
+            "Symbol": "🏃",
+            "Evidences": [ "EMF Ebene 5", "Geisterorb", "Geisterbox" ],
+            "Tell": "Schnell wenn du rennst. Langsam wenn du stehst.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.2,
+            "MaxSpeed": 2.25
+        }
+    ]
+}
