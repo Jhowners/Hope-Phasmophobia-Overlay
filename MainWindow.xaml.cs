@@ -307,7 +307,7 @@ namespace Hophesmoverlay
                         HuntThreshold = g.HuntThreshold,
                         MinSpeed = g.MinSpeed,
                         MaxSpeed = g.MaxSpeed,
-                        Guaranteed = g.Guaranteed, // Mapped Guaranteed Evidence
+                        Guaranteed = g.Guaranteed,
                         SpeedInfo = (g.MinSpeed == g.MaxSpeed) ? $"{g.MinSpeed:0.0} m/s" : $"{g.MinSpeed:0.0} - {g.MaxSpeed:0.0} m/s"
                     });
                 }
@@ -788,7 +788,7 @@ namespace Hophesmoverlay
             if (ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("Проектор") || ev.Contains("點陣"))
                 return new SolidColorBrush(Color.FromRgb(57, 255, 20));
 
-            return Brushes.LightGray; // Fallback
+            return Brushes.LightGray; 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
