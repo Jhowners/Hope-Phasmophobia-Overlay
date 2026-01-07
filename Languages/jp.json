@@ -294,7 +294,7 @@
             "Tell": "守りのアイテムに攻撃的。",
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.36,
-            "MaxSpeed": 1.96
+            "MaxSpeed": 3.25
         },
         {
             "ID": "Dayan",

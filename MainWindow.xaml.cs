@@ -50,8 +50,8 @@ namespace Hophesmoverlay
         private List<CheckBox> _evidenceCheckBoxes = new List<CheckBox>();
 
         // These lists now use IDs (Strings) to match the JSON "ID" field
-        private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic", "Dayan", "Obambo" };
-        private readonly List<string> _slowGhosts = new List<string> { "Revenant", "Hantu", "Deogen", "Thaye", "The Mimic", "The Twins", "Moroi", "Dayan", "Obambo" };
+        private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic", "Dayan", "Obambo", "Gallu" };
+        private readonly List<string> _slowGhosts = new List<string> { "Revenant", "Hantu", "Deogen", "Thaye", "The Mimic", "The Twins", "Moroi", "Dayan", "Obambo", "Gallu" };
 
         // Timers
         private DispatcherTimer _smudgeTimer;
@@ -62,7 +62,7 @@ namespace Hophesmoverlay
         // NEW: Hunt Duration Timer
         private DispatcherTimer _huntDurationTimer;
         private int _huntDurationSeconds = 0;
-        private int _huntDurationLimit = 30; 
+        private int _huntDurationLimit = 30;
 
         public MainWindow()
         {
@@ -461,23 +461,48 @@ namespace Hophesmoverlay
             {
                 bool elim = false;
 
-                // 1. Evidence Check
+                // 1. Evidence Check (The "Fuzzy" Logic)
                 foreach (var ev in foundEv)
                 {
-                    if (ghost.Name == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("靈球"))) continue;
-                    if (!ghost.Evidences.Contains(ev)) { elim = true; break; }
+                    // FIX: Use ID "The Mimic" because ghost.Name changes in Russian/German ("Der Mimic", "Мимик")
+                    if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("靈球") || ev.Contains("Geestbal") || ev.Contains("огонёк")))
+                        continue;
+
+                    // FIX: Check if Ghost Evidence contains Checkbox OR Checkbox contains Ghost Evidence
+                    // This handles "D.O.T.S." matching "D.O.T.S. Projektor"
+                    bool match = ghost.Evidences.Any(gEv =>
+                        ev.IndexOf(gEv, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        gEv.IndexOf(ev, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                    if (!match)
+                    {
+                        elim = true;
+                        break;
+                    }
                 }
 
                 if (!elim)
                 {
                     foreach (var ev in ruledOutEv)
                     {
-                        if (ghost.Evidences.Contains(ev)) { elim = true; break; }
-                        if (ghost.Name == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe"))) { elim = true; break; }
+                        // FIX: Same Fuzzy Logic for Ruling Out
+                        bool match = ghost.Evidences.Any(gEv =>
+                            ev.IndexOf(gEv, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                            gEv.IndexOf(ev, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                        if (match)
+                        {
+                            // FIX: Use ID "The Mimic"
+                            if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("Geestbal") || ev.Contains("огонёк")))
+                                continue;
+
+                            elim = true;
+                            break;
+                        }
                     }
                 }
 
-                // 2. Speed Check (Advanced Tolerance)
+                // 2. Speed Check (Standard Logic)
                 if (!elim)
                 {
                     if (_currentSpeedCategory == "Fast")
@@ -493,7 +518,6 @@ namespace Hophesmoverlay
                         if (ghost.ID == "Revenant") elim = true;
                     }
 
-                    // Tolerance Check: If speed calculated is wildly outside the ghost's capabilities
                     if (!elim && _lastCalculatedSpeed > 0 && _currentSpeedCategory != "None")
                     {
                         double margin = 0.15;
@@ -503,7 +527,12 @@ namespace Hophesmoverlay
                         }
                     }
                 }
+
+                // 3. Visual Update
                 ghost.IsEliminated = elim;
+                // Make sure to set Opacity so the "Gray out" effect works!
+                // (Ensure you added the 'Opacity' property to your Ghost class as discussed before)
+                // ghost.Opacity = elim ? 0.3 : 1.0; 
             }
         }
 
@@ -618,6 +647,7 @@ namespace Hophesmoverlay
         private void MenuDe_Click(object sender, RoutedEventArgs e) => ChangeLanguage("de");
         private void MenuEs_Click(object sender, RoutedEventArgs e) => ChangeLanguage("es");
         private void MenuRu_Click(object sender, RoutedEventArgs e) => ChangeLanguage("ru");
+        private void MenuNl_Click(object sender, RoutedEventArgs e) => ChangeLanguage("nl");
         private void ChangeLanguage(string langCode) { _config.Language = langCode; _config.Save(); LoadLanguage(langCode); }
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
         private void SetViewMode(int mode)
@@ -713,15 +743,54 @@ namespace Hophesmoverlay
             if (_cachedGradient.CanFreeze) _cachedGradient.Freeze(); // Lock it
         }
 
+        // Inside the Ghost class (at the bottom of your .cs file)
+
         private bool IsType(string ev, string type)
         {
-            if (type == "EMF") return ev.Contains("EMF");
-            if (type == "UV") return ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") || ev.Contains("Digital") || ev.Contains("指") || ev.Contains("紫") || ev.Contains("紫外線");
-            if (type == "Freezing") return ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") || ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷") || ev.Contains("低");
-            if (type == "SpiritBox") return ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") || ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒") || ev.Contains("スピリット");
-            if (type == "Orb") return ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("灵球") || ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉");
-            if (type == "Writing") return ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") || ev.Contains("ライティング");
-            if (type == "DOTS") return ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("點陣");
+            // 1. EMF 5
+            if (type == "EMF")
+                return ev.Contains("EMF") || ev.Contains("ЭМП") || ev.Contains("Niveau 5");
+
+            // 2. Ultraviolet (UV)
+            if (type == "UV")
+                return ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") ||
+                       ev.Contains("Digital") || ev.Contains("指") || ev.Contains("紫") ||
+                       ev.Contains("紫外線") || ev.Contains("Ультрафиолет") || ev.Contains("Ultraviolett");
+
+            // 3. Freezing Temperatures
+            if (type == "Freezing")
+                return ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") ||
+                       ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷") || ev.Contains("低") ||
+                       ev.Contains("Минусовая") || ev.Contains("Gefrier") || ev.Contains("Heladas") ||
+                       ev.Contains("Negativas") || ev.Contains("Vries") || ev.Contains("Temp. Heladas");
+
+            // 4. Spirit Box
+            if (type == "SpiritBox")
+                return ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") ||
+                       ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒") ||
+                       ev.Contains("スピリット") || ev.Contains("Радио") ||
+                       ev.Contains("Geisterbox"); // <--- FIX
+
+            // 5. Ghost Orb
+            if (type == "Orb")
+                return ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("灵球") ||
+                       ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉") ||
+                       ev.Contains("огонёк") || ev.Contains("Geestbal") ||
+                       ev.Contains("Geisterorb"); // <--- FIX
+
+            // 6. Ghost Writing
+            if (type == "Writing")
+                return ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("Escritura") ||
+                       ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") ||
+                       ev.Contains("ライティング") || ev.Contains("Блокнот") ||
+                       ev.Contains("Buch") || ev.Contains("Geestboek") ||
+                       ev.Contains("Geisterbuch"); // <--- FIX
+
+            // 7. D.O.T.S.
+            if (type == "DOTS")
+                return ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("點陣") ||
+                       ev.Contains("Проектор");
+
             return false;
         }
 
@@ -747,51 +816,48 @@ namespace Hophesmoverlay
             string ev = value as string ?? "";
 
             // EMF 5 (Red)
-            // RU: ЭМП | DE/ES/PT: EMF
-            if (ev.Contains("EMF") || ev.Contains("ЭМП"))
+            if (ev.Contains("EMF") || ev.Contains("ЭМП") || ev.Contains("Niveau 5"))
                 return new SolidColorBrush(Color.FromRgb(220, 20, 60));
 
             // Ultraviolet (Violet)
-            // RU: Ультрафиолет | DE: Ultraviolett | ES: Ultravioleta
             if (ev.Contains("Ultraviolet") || ev.Contains("Violet") || ev.Contains("Finger") || ev.Contains("Digital") ||
-                ev.Contains("Ультрафиолет") || ev.Contains("指") || ev.Contains("紫"))
+                ev.Contains("Ультрафиолет") || ev.Contains("指") || ev.Contains("紫") || ev.Contains("Ultraviolett"))
                 return new SolidColorBrush(Color.FromRgb(138, 43, 226));
 
             // Freezing Temps (Cyan)
-            // RU: Минусовая | DE: Gefrier | ES: Heladas | PT: Negativas/Gelado
             if (ev.Contains("Freezing") || ev.Contains("Gelado") || ev.Contains("Baixa") ||
                 ev.Contains("Минусовая") || ev.Contains("Gefrier") || ev.Contains("Heladas") || ev.Contains("Negativas") ||
-                ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷"))
+                ev.Contains("Vries") || ev.Contains("氷") || ev.Contains("寒") || ev.Contains("冷"))
                 return new SolidColorBrush(Color.FromRgb(0, 206, 209));
 
             // Spirit Box (Orange)
-            // RU: Радио | Others: Box
+            // Fixed: Added "Geisterbox" for German
             if (ev.Contains("Spirit") || ev.Contains("Box") || ev.Contains("BOX") ||
+                ev.Contains("Geisterbox") || // <--- FIX FOR GERMAN
                 ev.Contains("Радио") || ev.Contains("通灵") || ev.Contains("通靈") || ev.Contains("盒"))
                 return new SolidColorBrush(Color.FromRgb(255, 69, 0));
 
             // Ghost Orbs (Light Cyan)
-            // RU: огонёк | DE/ES/PT: Orb/Orbe
             if (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("огонёк") ||
+                ev.Contains("Geestbal") ||
                 ev.Contains("灵球") || ev.Contains("靈球") || ev.Contains("オーブ") || ev.Contains("玉"))
                 return new SolidColorBrush(Color.FromRgb(224, 255, 255));
 
             // Ghost Writing (Gold)
-            // RU: Блокнот | DE: Buch | ES: Escritura | PT: Escrita
+            // Fixed: Added "Geisterbuch" for German
             if (ev.Contains("Writing") || ev.Contains("Escrita") || ev.Contains("Escritura") ||
                 ev.Contains("Блокнот") || ev.Contains("Buch") ||
+                ev.Contains("Geestboek") || ev.Contains("Geisterbuch") || // <--- FIX FOR GERMAN
                 ev.Contains("笔") || ev.Contains("筆") || ev.Contains("本") || ev.Contains("ライティング"))
                 return new SolidColorBrush(Color.FromRgb(255, 215, 0));
 
             // D.O.T.S. (Green)
-            // RU: Проектор | Others: DOTS
             if (ev.Contains("D.O.T.S.") || ev.Contains("DOTS") || ev.Contains("Проектор") || ev.Contains("點陣"))
                 return new SolidColorBrush(Color.FromRgb(57, 255, 20));
 
-            return Brushes.LightGray; 
+            return Brushes.LightGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
     }
-
 }
