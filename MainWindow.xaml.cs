@@ -464,7 +464,7 @@ namespace Hophesmoverlay
                 // 1. Evidence Check (The "Fuzzy" Logic)
                 foreach (var ev in foundEv)
                 {
-                    // FIX: Use ID "The Mimic" because ghost.Name changes in Russian/German ("Der Mimic", "Мимик")
+                    
                     if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("靈球") || ev.Contains("Geestbal") || ev.Contains("огонёк")))
                         continue;
 
