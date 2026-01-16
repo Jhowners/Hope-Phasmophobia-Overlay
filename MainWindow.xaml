@@ -109,6 +109,7 @@
                         <MenuItem Header="Русский" Click="MenuRu_Click"/>
                         <MenuItem Header="Español" Click="MenuEs_Click"/>
                         <MenuItem Header="Nederlands" Click="MenuNl_Click"/>
+                        <MenuItem Header="Українська" Click="MenuUk_Click"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Exit / Sair" Click="MenuExit_Click"/>

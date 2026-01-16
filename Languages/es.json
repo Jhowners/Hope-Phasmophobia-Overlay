@@ -16,7 +16,15 @@
         "Ev4": "Temp. Heladas",
         "Ev5": "Orbe Fantasma",
         "Ev6": "Escritura Fantasma",
-        "Ev7": "Spirit Box"
+        "Ev7": "Spirit Box",
+        "RpcSuspects": "Sospechosos",
+        "RpcID": "IDENTIFICADO",
+        "RpcFound": "Encontrado",
+        "RpcSearch": "Buscando pruebas...",
+        "RpcChasing": "Persecución",
+        "RpcNoMatch": "Sin coincidencias",
+        "RpcBtnDownload": "Descargar Overlay",
+        "RpcBtnCoffee": "Invítame un Café ☕"
     },
     "SpeedSys": {
         "DeogenStill": "Deogen / Dayan (Quieto)",

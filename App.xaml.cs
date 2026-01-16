@@ -1,21 +1,39 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
-public class BooleanToVisibilityConverter : System.Windows.Data.IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-    {
-        bool v = (bool)value;
-        return v ? Visibility.Visible : Visibility.Collapsed;
-    }
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
-}
 
-public class InverseBooleanToVisibilityConverter : System.Windows.Data.IValueConverter
+namespace Hophesmoverlay 
 {
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
     {
-        bool v = (bool)value;
-        return v ? Visibility.Collapsed : Visibility.Visible;
+        // 1. Create a static reference so we can call "App.DiscordRpc" from anywhere
+        public static RpcManager DiscordRpc { get; private set; }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // 2. Initialize Discord RPC when the app starts
+            try
+            {
+                DiscordRpc = new RpcManager();
+                DiscordRpc.Initialize();
+            }
+            catch (Exception ex)
+            {
+                // Just in case RPC fails, we don't want the app to crash
+                System.Diagnostics.Debug.WriteLine($"RPC Error: {ex.Message}");
+            }
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            // 3. Clean up the connection when the app closes
+            DiscordRpc?.Dispose();
+            base.OnExit(e);
+        }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
 }
