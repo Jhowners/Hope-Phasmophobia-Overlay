@@ -6,8 +6,8 @@ namespace Hophesmoverlay
     public class RpcManager
     {
         private DiscordRpcClient _client;
-        private const string AppId = "1461766452825817179"; // Keep your ID!
-        private Timestamps _startTimestamp; // <--- 1. Store the start time
+        private const string AppId = "1461766452825817179";
+        private Timestamps _startTimestamp;
 
         public void Initialize()
         {

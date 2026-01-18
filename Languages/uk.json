@@ -20,11 +20,11 @@
         "RpcSuspects": "Підозрювані",
         "RpcID": "ВИЗНАЧЕНО",
         "RpcFound": "Знайдено",
-        "RpcSearch": "Пошук доказів...",
+        "RpcSearch": "Пошук...",
         "RpcChasing": "Погоня",
         "RpcNoMatch": "Немає збігів",
-        "RpcBtnDownload": "Завантажити Оверлей",
-        "RpcBtnCoffee": "Пригостити кавою ☕"
+        "RpcBtnDownload": "Завантажити",
+        "RpcBtnCoffee": "На каву ☕"
     },
     "SpeedSys": {
         "DeogenStill": "Деоген / Дайан (Стоїть)",

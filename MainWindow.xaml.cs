@@ -817,6 +817,8 @@ namespace Hophesmoverlay
             if (_cachedGradient.CanFreeze) _cachedGradient.Freeze(); // Lock it
         }
 
+
+
         // Inside the Ghost class (at the bottom of your .cs file)
 
         private bool IsType(string ev, string type)
