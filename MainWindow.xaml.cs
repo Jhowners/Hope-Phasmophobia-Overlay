@@ -325,12 +325,18 @@ namespace Hophesmoverlay
             }
         }
 
-        // --- SPEED CALCULATOR ---
-        private void CalculateBPM()
+        private void CalculateBPM(bool isNewTap = true)
         {
             DateTime now = DateTime.Now;
+
+            // Always clear old taps (older than 3s) so we don't calculate stale data
             _tapHistory.RemoveAll(d => (now - d).TotalSeconds > 3);
-            _tapHistory.Add(now);
+
+            // ONLY add to history if this was a real key press
+            if (isNewTap)
+            {
+                _tapHistory.Add(now);
+            }
 
             if (_tapHistory.Count > 1)
             {
@@ -344,13 +350,19 @@ namespace Hophesmoverlay
                 {
                     int rawBpm = (int)(60 / avgInterval);
                     double ms = (rawBpm * 0.0148) / _speedMultiplier;
+
                     string speedText = $"{ms:F1} m/s";
                     TxtBPM.Text = speedText;
                     TxtIntelBPM.Text = speedText;
                     InterpretSpeed(ms);
                 }
             }
-            else { TxtBPM.Text = "Tap..."; TxtIntelBPM.Text = "Tap..."; }
+            // Only reset text if we have no history AND it was a real tap attempt
+            else if (isNewTap)
+            {
+                TxtBPM.Text = "Tap...";
+                TxtIntelBPM.Text = "Tap...";
+            }
         }
 
         private void InterpretSpeed(double ms)
@@ -536,7 +548,7 @@ namespace Hophesmoverlay
                 // (Ensure you added the 'Opacity' property to your Ghost class as discussed before)
                 // ghost.Opacity = elim ? 0.3 : 1.0; 
             }
-            UpdateDiscordStatus(); // need to see if this works
+            UpdateDiscordStatus();
         }
 
         // --- MISC LOGIC ---
@@ -551,12 +563,32 @@ namespace Hophesmoverlay
         }
 
         private void Evidence_Changed(object sender, RoutedEventArgs e) => UpdateGhostFiltering();
+
+        // 1. Handles the Discord Toggle in the Right-Click Menu
+        private void MenuDiscord_Click(object sender, RoutedEventArgs e)
+        {
+            // If checked, turn on. If unchecked, turn off.
+            if (MenuDiscord.IsChecked)
+            {
+                UpdateDiscordStatus();
+            }
+            else
+            {
+                App.DiscordRpc?.ClearPresence();
+            }
+        }
+
         private void BtnStopSmudge_Click(object sender, RoutedEventArgs e) => StopSmudgeTimer();
         private void BtnResetSmudge_Click(object sender, RoutedEventArgs e) => ResetSmudgeTimer();
         private void BtnResetPace_Click(object sender, RoutedEventArgs e) => ResetPace();
         private void CmbSpeed_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CmbSpeed.SelectedIndex == 0) _speedMultiplier = 0.5; else if (CmbSpeed.SelectedIndex == 1) _speedMultiplier = 0.75; else if (CmbSpeed.SelectedIndex == 2) _speedMultiplier = 1.0; else if (CmbSpeed.SelectedIndex == 3) _speedMultiplier = 1.25; else if (CmbSpeed.SelectedIndex == 4) _speedMultiplier = 1.5;
+            if (CmbSpeed.SelectedIndex == 0) _speedMultiplier = 0.5; 
+            else if (CmbSpeed.SelectedIndex == 1) _speedMultiplier = 0.75; 
+            else if (CmbSpeed.SelectedIndex == 2) _speedMultiplier = 1.0; 
+            else if (CmbSpeed.SelectedIndex == 3) _speedMultiplier = 1.15; 
+            else if (CmbSpeed.SelectedIndex == 4) _speedMultiplier = 1.25; 
+            else if (CmbSpeed.SelectedIndex == 5) _speedMultiplier = 1.5;
         }
 
         // --- TIMER LOGIC ---
@@ -628,6 +660,8 @@ namespace Hophesmoverlay
         // --- DISCORD RPC LOGIC ---
         private void UpdateDiscordStatus()
         {
+            if (MenuDiscord != null && !MenuDiscord.IsChecked) return;
+
             try
             {
                 // 1. Get Logic Data
@@ -722,6 +756,7 @@ namespace Hophesmoverlay
         private void MenuRu_Click(object sender, RoutedEventArgs e) => ChangeLanguage("ru");
         private void MenuNl_Click(object sender, RoutedEventArgs e) => ChangeLanguage("nl");
         private void MenuUk_Click(object sender, RoutedEventArgs e) => ChangeLanguage("uk");
+        private void MenuFr_Click(object sender, RoutedEventArgs e) => ChangeLanguage("fr");
         private void ChangeLanguage(string langCode) { _config.Language = langCode; _config.Save(); LoadLanguage(langCode); }
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
         private void SetViewMode(int mode)
