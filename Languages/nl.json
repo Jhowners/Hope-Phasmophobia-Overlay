@@ -16,7 +16,15 @@
         "Ev4": "Vriestemperaturen",
         "Ev5": "Geestbal",
         "Ev6": "Geestboek",
-        "Ev7": "Spirit Box"
+        "Ev7": "Spirit Box",
+        "RpcSuspects": "Verdachten",
+        "RpcID": "GEÏDENTIFICEERD",
+        "RpcFound": "Gevonden",
+        "RpcSearch": "Zoeken naar bewijs...",
+        "RpcChasing": "Achtervolging",
+        "RpcNoMatch": "Geen match",
+        "RpcBtnDownload": "Download Overlay",
+        "RpcBtnCoffee": "Trakteer op koffie ☕"
     },
     "SpeedSys": {
         "DeogenStill": "Deogen / Dayan (Stil)",

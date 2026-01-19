@@ -16,7 +16,15 @@
         "Ev4": "氷点下",
         "Ev5": "ゴーストオーブ",
         "Ev6": "ライティング",
-        "Ev7": "スピリットBOX"
+        "Ev7": "スピリットBOX",
+        "RpcSuspects": "候補",
+        "RpcID": "特定完了",
+        "RpcFound": "証拠",
+        "RpcSearch": "証拠を収集中...",
+        "RpcChasing": "チェイス中",
+        "RpcNoMatch": "該当なし",
+        "RpcBtnDownload": "オーバーレイをDL",
+        "RpcBtnCoffee": "コーヒーを奢る ☕"
     },
     "SpeedSys": {
         "DeogenStill": "デオヘン / ダヤン (静止)",

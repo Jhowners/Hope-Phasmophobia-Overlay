@@ -16,7 +16,15 @@
         "Ev4": "Gefriertemperaturen",
         "Ev5": "Geisterorb",
         "Ev6": "Geisterbuch",
-        "Ev7": "Geisterbox"
+        "Ev7": "Geisterbox",
+        "RpcSuspects": "Verdächtige",
+        "RpcID": "IDENTIFIZIERT",
+        "RpcFound": "Gefunden",
+        "RpcSearch": "Suche Beweise...",
+        "RpcChasing": "Jagd",
+        "RpcNoMatch": "Kein Treffer",
+        "RpcBtnDownload": "Overlay Holen",
+        "RpcBtnCoffee": "Spendier mir 'nen Kaffee ☕"
     },
     "SpeedSys": {
         "DeogenStill": "Deogen / Dayan (Stillstehend)",

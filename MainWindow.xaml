@@ -109,7 +109,11 @@
                         <MenuItem Header="Русский" Click="MenuRu_Click"/>
                         <MenuItem Header="Español" Click="MenuEs_Click"/>
                         <MenuItem Header="Nederlands" Click="MenuNl_Click"/>
+                        <MenuItem Header="Українська" Click="MenuUk_Click"/>
+                        <MenuItem Header="Français" Click="MenuFr_Click"/>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem x:Name="MenuDiscord" Header="Discord RPC" IsCheckable="True" IsChecked="True" Click="MenuDiscord_Click"/>
                     <Separator/>
                     <MenuItem Header="Exit / Sair" Click="MenuExit_Click"/>
                 </ContextMenu>
@@ -288,6 +292,7 @@
                                         <ComboBoxItem Content="50% Speed"/>
                                         <ComboBoxItem Content="75% Speed"/>
                                         <ComboBoxItem Content="100% (Default)"/>
+                                        <ComboBoxItem Content="Blood Moon (+15%)" Foreground="#FF5555" FontWeight="Bold"/>
                                         <ComboBoxItem Content="125% Speed"/>
                                         <ComboBoxItem Content="150% Speed"/>
                                     </ComboBox>

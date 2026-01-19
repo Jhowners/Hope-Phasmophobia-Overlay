@@ -16,7 +16,15 @@
         "Ev4": "Temperatura Baixa",
         "Ev5": "Orbe Fantasma",
         "Ev6": "Escrita Fantasma",
-        "Ev7": "Spirit Box"
+        "Ev7": "Spirit Box",
+        "RpcSuspects": "Suspeitos",
+        "RpcID": "FANTASMA",
+        "RpcFound": "Encontrado",
+        "RpcSearch": "Procurando evidências...",
+        "RpcChasing": "Fugindo",
+        "RpcNoMatch": "Nenhum",
+        "RpcBtnDownload": "Baixar Overlay",
+        "RpcBtnCoffee": "Cafezin ☕? nhom nhom"
     },
     "SpeedSys": {
         "DeogenStill": "Deogen / Dayan (Parado)",

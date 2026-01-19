@@ -16,7 +16,15 @@
         "Ev4": "Freezing",
         "Ev5": "Ghost Orb",
         "Ev6": "Ghost Writing",
-        "Ev7": "Spirit Box"
+        "Ev7": "Spirit Box",
+        "RpcSuspects": "Suspects",
+        "RpcID": "Ghost",
+        "RpcFound": "Found",
+        "RpcSearch": "Searching for evidence...",
+        "RpcChasing": "Chasing",
+        "RpcNoMatch": "No Match",
+        "RpcBtnDownload": "Download Overlay",
+        "RpcBtnCoffee": "Buy me a Coffee ☕"
     },
     "SpeedSys": {
         "DeogenStill": "Deogen / Dayan (Still)",

@@ -16,7 +16,15 @@
         "Ev4": "寒溫",
         "Ev5": "靈球",
         "Ev6": "筆跡",
-        "Ev7": "通靈盒"
+        "Ev7": "通靈盒",
+        "RpcSuspects": "嫌疑目標",
+        "RpcID": "已確認",
+        "RpcFound": "已發現",
+        "RpcSearch": "正在尋找證據...",
+        "RpcChasing": "被追獵中",
+        "RpcNoMatch": "無匹配鬼魂",
+        "RpcBtnDownload": "下載 Overlay",
+        "RpcBtnCoffee": "請我喝杯咖啡 ☕"
     },
     "SpeedSys": {
         "DeogenStill": "霧影 / 達揚 (靜止)",
