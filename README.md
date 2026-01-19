@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-F16061.svg)](https://ko-fi.com/hopesan)
 
-> **❄️ v0.15.1.0 UPDATE:** Full support for **Winter's Jest** (Obambo, Gallu, Dayan), new Japanese/Chinese localization, and laptop-friendly controls!
+> **🩸 v1.4 UPDATE:** Full support for **Blood Moon** (Event Speed Math), **Discord Rich Presence (RPC)**, and 6 new languages including French, German, and Ukrainian!
 
 **Stop fighting your memory. Start fighting the Ghost.**
 
@@ -27,20 +27,21 @@ HPO keeps you in the **Flow State** by using:
 
 ## ⚡ Key Features
 
-### 1. Real-Time Deduction Engine (Winter's Jest Ready)
+### 1. Real-Time Deduction Engine
 Don't guess. Know.
-* **New Ghosts:** Fully updated logic for **Obambo**, **Gallu**, and **Dayan**.
+* **Winter's Jest Ready:** Full logic for **Obambo**, **Gallu**, and **Dayan**.
 * **Frictionless Filtering:** As you mark evidence via hotkeys, the ghost list filters instantly.
 * **Smart Logic:** Marking "Normal Speed" on the Pacer automatically eliminates the Revenant. Marking "Ghost Orb" eliminates the Mimic (unless you flag it as a Fake Orb).
 
-### 2. The Ghost Pacer (BPM)
+### 2. The Ghost Pacer (BPM) + Blood Moon 🩸
 * **Rhythm Entrainment:** Tap `F10` to the sound of the ghost's footsteps.
 * **Dynamic Speed Analysis:** The app calculates the BPM and cross-references it with your evidence list.
-    * *New in v0.15.1:* Now detects **Dayan's** variable speed (Fast/Slow depending on player movement).
+* **Event Support:** Select **"Blood Moon (+15%)"** from the speed dropdown to automatically adjust math for the faster event ghosts.
 
-### 3. Smart Smudge Timer
-* **Audio-Visual Cues:** Tracks the hidden cooldowns for Spirits (180s), Demons (60s), and Standard Ghosts (90s).
-* **Panic Management:** Know exactly when you are safe to leave your hiding spot.
+### 3. Discord Rich Presence (RPC) 🎮
+* **Live Status:** Automatically displays your current investigation status on Discord.
+* **Real-Time Info:** Shows "Searching for Evidence," "Chasing (2.5 m/s)," or "Identified: Demon" to your friends.
+* *Privacy Mode:* Can be toggled off instantly via the Right-Click menu.
 
 ### 4. Three Tactical Modes
 * **📖 Analysis Mode:** Full journal view for the van or safe spots.
@@ -50,11 +51,19 @@ Don't guess. Know.
 ---
 
 ## 🌍 Localization / Languages
-Right-click the overlay window to switch languages instantly:
+Right-click the overlay window to switch languages instantly.
+Now supporting 10 languages!
+
 * 🇺🇸 **English** (Default)
 * 🇧🇷 **Português (Brasil)**
 * 🇯🇵 **Japanese (日本語)** (Thanks to Aozakimimu148 七瀬七々 )
 * 🇹🇼 **Traditional Chinese (繁體中文)** (Thanks to Aozakimimu148 七瀬七々 )
+* 🇩🇪 **Deutsch**
+* 🇪🇸 **Español**
+* 🇫🇷 **Français**
+* 🇳🇱 **Nederlands**
+* 🇷🇺 **Russian (Русский)**
+* 🇺🇦 **Ukrainian (Українська)**
 
 ---
 
@@ -65,16 +74,17 @@ Right-click the overlay window to switch languages instantly:
 ### Global Hotkeys
 | Key | Function |
 | :--- | :--- |
-| **F7** | Start / Restart Hunt Cooldown Timer (0:25) |
+| **F1** | Start / Stop Hunt Cooldown Timer |
+| **F7** | Start / Restart Crucifix Cooldown Timer (0:25) |
 | **F8** | Stop Smudge Timer |
 | **F9** | Start / Restart Smudge Timer (3:00) |
 | **F10** | Tap for Ghost Speed (BPM) |
 | **F11** | Reset Speed / Pacer |
 | **Alt + 1-7** | Toggle Evidence (Matches In-Game Journal Order) |
-| **Alt + 8** | Reset All Evidence |
+| **Alt + Backspace** | Reset All Evidence |
 | **Home** | Toggle **Intel Mode** (Tactical HUD) |
 | **Pause/Break** | Toggle **Survival Mode** (Mini Timer) |
-| **Right-Click** | Options Menu [Change Language] |
+| **Right-Click** | Options Menu [Language / Discord RPC] |
 
 ---
 
@@ -110,6 +120,7 @@ If this tool saves your life during an Apocalypse Run, consider buying me a coff
 ## 👨‍💻 For Developers (Portfolio Note)
 This project demonstrates:
 * **WPF & XAML:** Complex UI binding, transparent window layering, and dynamic resource dictionaries for localization.
+* **DiscordRPC:** Integration of external APIs for rich user presence.
 * **P/Invoke (User32.dll):** Implementation of Global Low-Level Keyboard Hooks for hotkey detection outside the application focus.
 * **MVVM Architecture:** Clean separation of logic and UI using `INotifyPropertyChanged`.
 * **Multi-Threading:** High-priority dispatcher timers to ensure UI responsiveness during heavy game load.
