@@ -87,6 +87,13 @@ namespace Hophesmoverlay
             }
             this.Opacity = _config.Opacity;
 
+            MenuDiscord.IsChecked = _config.EnableDiscord;
+
+            if (_config.EnableDiscord)
+            {
+                App.DiscordRpc?.Initialize();
+            }
+
             // 2. SETUP CHECKBOXES
             _evidenceCheckBoxes.Add(ChkEv1); _evidenceCheckBoxes.Add(ChkEv2);
             _evidenceCheckBoxes.Add(ChkEv3); _evidenceCheckBoxes.Add(ChkEv4);
@@ -567,9 +574,13 @@ namespace Hophesmoverlay
         // 1. Handles the Discord Toggle in the Right-Click Menu
         private void MenuDiscord_Click(object sender, RoutedEventArgs e)
         {
+            _config.EnableDiscord = MenuDiscord.IsChecked;
+            _config.Save();
+
             // If checked, turn on. If unchecked, turn off.
             if (MenuDiscord.IsChecked)
             {
+                App.DiscordRpc?.Initialize();
                 UpdateDiscordStatus();
             }
             else

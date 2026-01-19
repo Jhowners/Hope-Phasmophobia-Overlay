@@ -11,6 +11,8 @@ namespace Hophesmoverlay
         public string Language { get; set; } = "en";
         public KeyBindings Keys { get; set; } = new KeyBindings();
 
+        public bool EnableDiscord { get; set; } = true;
+
         public static AppSettings Load()
         {
             if (!File.Exists("settings.json")) return new AppSettings();
