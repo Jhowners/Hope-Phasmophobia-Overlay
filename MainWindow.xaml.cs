@@ -48,6 +48,8 @@ namespace Hophesmoverlay
         // Lists
         public List<Ghost> AllGhosts { get; set; } = new List<Ghost>();
         private List<CheckBox> _evidenceCheckBoxes = new List<CheckBox>();
+        private List<BehaviorType> _activeBehaviors = new List<BehaviorType> ();
+        private List<CheckBox> _behaviorCheckBoxes = new List<CheckBox>();
 
         // These lists now use IDs (Strings) to match the JSON "ID" field
         private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic", "Dayan", "Obambo", "Gallu" };
@@ -100,6 +102,8 @@ namespace Hophesmoverlay
             _evidenceCheckBoxes.Add(ChkEv5); _evidenceCheckBoxes.Add(ChkEv6);
             _evidenceCheckBoxes.Add(ChkEv7);
 
+            ScanForBehaviorToggles();
+
             // 3. LOAD LANGUAGE (From JSON)
             LoadLanguage(_config.Language);
 
@@ -147,7 +151,7 @@ namespace Hophesmoverlay
                     // Smart Reset
                     CheckKey(_config.Keys.Reset, () => SmartReset());
 
-                    // Evidence Toggles (Using the editable keys!)
+                    // Evidence Toggles (Using the editable keys)
                     CheckKey(_config.Keys.Evidence1, () => ToggleEvidenceByIndex(1));
                     CheckKey(_config.Keys.Evidence2, () => ToggleEvidenceByIndex(2));
                     CheckKey(_config.Keys.Evidence3, () => ToggleEvidenceByIndex(3));
@@ -254,6 +258,12 @@ namespace Hophesmoverlay
                 foreach (var box in _evidenceCheckBoxes)
                 {
                     box.IsChecked = false;
+                }
+
+                foreach (var box in _behaviorCheckBoxes)
+                {
+                    box.IsChecked = false;
+                    _activeBehaviors.Clear();
                 }
 
                 UpdateGhostFiltering();
@@ -523,6 +533,20 @@ namespace Hophesmoverlay
                     }
                 }
 
+                if (!elim && _activeBehaviors.Count > 0)
+                {
+                    foreach (var behavior in _activeBehaviors)
+                    {
+                        // Ask GhostRules: "Can this ghost exist with this behavior?"
+                        // If Check returns FALSE, the ghost is impossible.
+                        if (!GhostRules.Check(ghost.ID, behavior))
+                        {
+                            elim = true;
+                            break;
+                        }
+                    }
+                }
+
                 // 2. Speed Check (Standard Logic)
                 if (!elim)
                 {
@@ -557,6 +581,66 @@ namespace Hophesmoverlay
             }
             UpdateDiscordStatus();
         }
+
+        // --- ADD THESE 3 METHODS ---
+
+        // A. Helper to find all behavior checkboxes inside the scroll panel
+        private void ScanForBehaviorToggles()
+        {
+            // We look inside PanelZeroEv (the ScrollViewer) -> StackPanel -> WrapPanels -> CheckBoxes
+            if (PanelZeroEv.Content is StackPanel mainStack)
+            {
+                foreach (var child in mainStack.Children)
+                {
+                    if (child is WrapPanel wrap)
+                    {
+                        foreach (var wrapChild in wrap.Children)
+                        {
+                            if (wrapChild is CheckBox box) _behaviorCheckBoxes.Add(box);
+                        }
+                    }
+                }
+            }
+        }
+
+        // B. The Mode Switcher (Standard <-> 0 Evidence)
+        private void BtnModeSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            if (PanelEvidence.Visibility == Visibility.Visible)
+            {
+                // Go to 0 Evidence Mode
+                PanelEvidence.Visibility = Visibility.Collapsed;
+                PanelZeroEv.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // Go back to Standard Mode
+                PanelEvidence.Visibility = Visibility.Visible;
+                PanelZeroEv.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        // C. The Click Handler for the Behavior Buttons
+        private void Behavior_Click(object sender, RoutedEventArgs e)
+        {
+            // 1. Get the checkbox that was clicked
+            if (sender is CheckBox box && box.Tag != null)
+            {
+                // 2. Convert its "Tag" (e.g., "SaltStep") into a BehaviorType enum
+                if (Enum.TryParse(box.Tag.ToString(), out BehaviorType behavior))
+                {
+                    // 3. Add or Remove it from our active list
+                    if (box.IsChecked == true)
+                        _activeBehaviors.Add(behavior);
+                    else
+                        _activeBehaviors.Remove(behavior);
+
+                    // 4. Update the Ghost List immediately
+                    UpdateGhostFiltering();
+                }
+            }
+        }
+        // ---------------------------
 
         // --- MISC LOGIC ---
         private void ToggleEvidenceByIndex(int index)
@@ -769,7 +853,9 @@ namespace Hophesmoverlay
         private void MenuUk_Click(object sender, RoutedEventArgs e) => ChangeLanguage("uk");
         private void MenuFr_Click(object sender, RoutedEventArgs e) => ChangeLanguage("fr");
         private void ChangeLanguage(string langCode) { _config.Language = langCode; _config.Save(); LoadLanguage(langCode); }
-        private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
+        private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); 
+        }
+
         private void SetViewMode(int mode)
         {
             if (_currentView == mode) mode = 0; _currentView = mode;
@@ -778,6 +864,8 @@ namespace Hophesmoverlay
             else if (_currentView == 1) MiniHud.Visibility = Visibility.Visible;
             else if (_currentView == 2) IntelHud.Visibility = Visibility.Visible;
         }
+
+
     }
 
     // ==========================================
@@ -984,4 +1072,5 @@ namespace Hophesmoverlay
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
     }
+
 }

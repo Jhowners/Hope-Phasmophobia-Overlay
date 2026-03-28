@@ -52,6 +52,39 @@
             </Setter>
         </Style>
 
+        <Style x:Key="BehaviorToggle" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="Border" Background="#99000000" BorderBrush="#888" BorderThickness="1" CornerRadius="4" Padding="10,6">
+                            <TextBlock x:Name="Txt" Text="{TemplateBinding Content}" 
+                                       FontSize="12" FontWeight="SemiBold" Foreground="White" 
+                                       TextAlignment="Center" TextWrapping="Wrap" MaxWidth="110"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#CC228822"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#00FF00"/>
+                                <Setter TargetName="Txt" Property="Foreground" Value="White"/>
+                                <Setter TargetName="Txt" Property="FontWeight" Value="ExtraBold"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#00FF00" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#FF444444"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="NeonCheckbox" TargetType="CheckBox">
             <Setter Property="Foreground" Value="#EEEEEE"/>
             <Setter Property="FontSize" Value="13"/>
@@ -217,95 +250,192 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </Border>
-
+                    
                     <StackPanel Grid.Column="2">
-                        <StackPanel>
-                            <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#CCC" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <StackPanel>
-                                <CheckBox x:Name="ChkEv1" Content="EMF Level 5" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv2" Content="D.O.T.S." Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv3" Content="Ultraviolet" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv4" Content="Freezing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv5" Content="Ghost Orb" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv6" Content="Ghost Writing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <CheckBox x:Name="ChkEv7" Content="Spirit Box" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
-                                <TextBlock x:Name="TxtSystemMessage" Text="" Foreground="Orange" FontSize="11" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,5,5,0"/>
+
+                            <ToggleButton Name="BtnModeSwitch" Height="26" FontSize="11" FontWeight="Bold" Margin="0,0,0,10" Background="#44222222" Foreground="#00DDFF">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Content" Value="SWITCH TO: 0 EVIDENCE MODE"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <Border x:Name="TBorder" Background="{TemplateBinding Background}" BorderBrush="#00DDFF" BorderThickness="1" CornerRadius="4">
+                                                        <TextBlock Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="Content" Value="BACK TO: STANDARD MODE"/>
+                                                            <Setter TargetName="TBorder" Property="Background" Value="#44AA0000"/>
+                                                            <Setter TargetName="TBorder" Property="BorderBrush" Value="#FF4444"/>
+                                                            <Setter Property="Foreground" Value="#FF9999"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <StackPanel Name="PanelEvidence" Visibility="{Binding ElementName=BtnModeSwitch, Path=IsChecked, Converter={StaticResource InverseBoolToVis}}">
+                                <TextBlock x:Name="LblEvidence" Text="EVIDENCE (ALT+1-7)" Foreground="#CCC" FontSize="10" FontWeight="Bold" Margin="0,0,0,5"/>
+                                <StackPanel>
+                                    <CheckBox x:Name="ChkEv1" Content="EMF Level 5" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv2" Content="D.O.T.S." Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv3" Content="Ultraviolet" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv4" Content="Freezing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv5" Content="Ghost Orb" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv6" Content="Ghost Writing" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <CheckBox x:Name="ChkEv7" Content="Spirit Box" Style="{StaticResource NeonCheckbox}" Checked="Evidence_Changed" Unchecked="Evidence_Changed" Indeterminate="Evidence_Changed"/>
+                                    <TextBlock x:Name="TxtSystemMessage" Text="" Foreground="Orange" FontSize="11" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,5,5,0"/>
+                                </StackPanel>
                             </StackPanel>
+
+                            <ScrollViewer Name="PanelZeroEv" Visibility="{Binding ElementName=BtnModeSwitch, Path=IsChecked, Converter={StaticResource BoolToVis}}" VerticalScrollBarVisibility="Hidden" MaxHeight="350">
+                                <StackPanel>
+                                <TextBlock Text="GENDER" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                <WrapPanel Margin="0,0,0,8">
+                                    <CheckBox Content="Male Ghost" Style="{StaticResource BehaviorToggle}" Tag="MaleGhost" Click="Behavior_Click"/>
+                                    <CheckBox Content="Female Ghost" Style="{StaticResource BehaviorToggle}" Tag="FemaleGhost" Click="Behavior_Click"/>
+                                </WrapPanel>
+                                <TextBlock Text="HUNT VISUALS" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                    <WrapPanel Margin="0,0,0,8">
+                                        <CheckBox Content="Fast Blink" Style="{StaticResource BehaviorToggle}" Tag="PhantomBlink" Click="Behavior_Click"/>
+                                        <CheckBox Content="Slow Blink" Style="{StaticResource BehaviorToggle}" Tag="OniBlink" Click="Behavior_Click"/>
+                                        <CheckBox Content="Shapeshift" Style="{StaticResource BehaviorToggle}" Tag="ObakeShape" Click="Behavior_Click"/>
+                                        <CheckBox Content="Freezing Breath" Style="{StaticResource BehaviorToggle}" Tag="HantuBreath" Click="Behavior_Click"/>
+                                        <CheckBox Content="Wallhack" Style="{StaticResource BehaviorToggle}" Tag="DeogenWallhack" Click="Behavior_Click"/>
+                                    </WrapPanel>
+
+                                    <TextBlock Text="SPEED &amp; AUDIO" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                    <WrapPanel Margin="0,0,0,8">
+                                        <CheckBox Content="Quiet Steps" Style="{StaticResource BehaviorToggle}" Tag="MylingQuiet" Click="Behavior_Click"/>
+                                        <CheckBox Content="Deaf/Blind" Style="{StaticResource BehaviorToggle}" Tag="YokaiDeaf" Click="Behavior_Click"/>
+                                        <CheckBox Content="Defensive Speed" Style="{StaticResource BehaviorToggle}" Tag="GalluVariable" Click="Behavior_Click"/>
+                                        <CheckBox Content="Variable Speed" Style="{StaticResource BehaviorToggle}" Tag="ObamboVariable" Click="Behavior_Click"/>
+                                        <CheckBox Content="Fast Near Electronics" Style="{StaticResource BehaviorToggle}" Tag="RaijuElectronics" Click="Behavior_Click"/>
+                                    </WrapPanel>
+
+                                    <TextBlock Text="PHYSICS &amp; INTERACTIONS" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                    <WrapPanel Margin="0,0,0,8">
+                                        <CheckBox Content="Stepped in Salt" Style="{StaticResource BehaviorToggle}" Tag="SaltStep" Click="Behavior_Click"/>
+                                        <CheckBox Content="Airball Event" Style="{StaticResource BehaviorToggle}" Tag="Airball" Click="Behavior_Click"/>
+                                        <CheckBox Content="Breaker OFF" Style="{StaticResource BehaviorToggle}" Tag="BreakerOff" Click="Behavior_Click"/>
+                                        <CheckBox Content="Full Door Slam" Style="{StaticResource BehaviorToggle}" Tag="YureiSlam" Click="Behavior_Click"/>
+                                        <CheckBox Content="Multi-Throw" Style="{StaticResource BehaviorToggle}" Tag="PoltyThrow" Click="Behavior_Click"/>
+                                        <CheckBox Content="Light Switch Trap" Style="{StaticResource BehaviorToggle}" Tag="MareLightTrap" Click="Behavior_Click"/>
+                                        <CheckBox Content="Disappeared on Photo" Style="{StaticResource BehaviorToggle}" Tag="PhantomPhoto" Click="Behavior_Click"/>
+                                    </WrapPanel>
+
+                                    <TextBlock Text="TESTS" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                    <WrapPanel Margin="0,0,0,8">
+                                        <CheckBox Content="Banshee Scream" Style="{StaticResource BehaviorToggle}" Tag="BansheeScream" Click="Behavior_Click"/>
+                                        <CheckBox Content="Candle Hunt (3rd)" Style="{StaticResource BehaviorToggle}" Tag="OnryoCandle" Click="Behavior_Click"/>
+                                        <CheckBox Content="Mimic Orbs" Style="{StaticResource BehaviorToggle}" Tag="MimicOrbs" Click="Behavior_Click"/>
+                                    </WrapPanel>
+                                <TextBlock Text="BEHAVIOR &amp; TIMING" Foreground="#00DDFF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                <WrapPanel Margin="0,0,0,8">
+                                    <CheckBox Content="Shy / Hard to Hunt" Style="{StaticResource BehaviorToggle}" Tag="ShadeShy" Click="Behavior_Click"/>
+                                    <CheckBox Content="Never Roams" Style="{StaticResource BehaviorToggle}" Tag="GoryoRoam" Click="Behavior_Click"/>
+                                    <CheckBox Content="Aging / Slows Down" Style="{StaticResource BehaviorToggle}" Tag="ThayeAging" Click="Behavior_Click"/>
+                                    <CheckBox Content="Curse / Fast Drain" Style="{StaticResource BehaviorToggle}" Tag="MoroiCurse" Click="Behavior_Click"/>
+                                    <CheckBox Content="Twin Interaction" Style="{StaticResource BehaviorToggle}" Tag="TwinsInteraction" Click="Behavior_Click"/>
+
+                                    <CheckBox Content="Hunted &lt; 60s" Style="{StaticResource BehaviorToggle}" Tag="DemonSmudge" Click="Behavior_Click"/>
+                                    <CheckBox Content="Safe > 180s" Style="{StaticResource BehaviorToggle}" Tag="SpiritSmudge" Click="Behavior_Click"/>
+                                </WrapPanel>
+                                <TextBlock Text="PRO CHECKS &amp; HIDDEN" Foreground="#FF00FF" FontSize="10" FontWeight="Bold" Margin="0,5,0,2"/>
+                                <WrapPanel Margin="0,0,0,8">
+                                    <CheckBox Content="Silent Footstep" Style="{StaticResource BehaviorToggle}" Tag="MylingFlicker" Click="Behavior_Click"/>
+                                    <CheckBox Content="Long Smudge Blind" Style="{StaticResource BehaviorToggle}" Tag="MoroiBlind" Click="Behavior_Click"/>
+                                    <CheckBox Content="Teleported to Me" Style="{StaticResource BehaviorToggle}" Tag="WraithTeleport" Click="Behavior_Click"/>
+                                    <CheckBox Content="Ability at Breaker" Style="{StaticResource BehaviorToggle}" Tag="JinnBreakerAbility" Click="Behavior_Click"/>
+
+                                    <CheckBox Content="Stepped Salt 2x (Not Gallu)" Style="{StaticResource BehaviorToggle}" Tag="GalluDoubleSalt" Click="Behavior_Click"/>
+                                    <CheckBox Content="Turned Light ON (Not Mare)" Style="{StaticResource BehaviorToggle}" Tag="LightOn" Click="Behavior_Click"/>
+                                    <CheckBox Content="Turned Breaker ON (Not Hantu)" Style="{StaticResource BehaviorToggle}" Tag="BreakerOn" Click="Behavior_Click"/>
+                                    <CheckBox Content="Changed Room (Not Goryo)" Style="{StaticResource BehaviorToggle}" Tag="GoryoRoam" Click="Behavior_Click"/>
+                                    <CheckBox Content="Airball Event (Not Oni)" Style="{StaticResource BehaviorToggle}" Tag="OniAirball" Click="Behavior_Click"/>
+                                    <CheckBox Content="Sang/Hiss Event (Not Shade)" Style="{StaticResource BehaviorToggle}" Tag="ShadeSinging" Click="Behavior_Click"/>
+                                </WrapPanel>
+                            </StackPanel>
+                            </ScrollViewer>
+
                             <Separator Background="#666" Margin="0,12"/>
 
-                            <Grid Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
-                                    <StackPanel>
-                                        <TextBlock x:Name="LblSmudge" Text="SMUDGE [F9]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                        <TextBlock Name="TxtTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
-                                        <TextBlock Name="TxtTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
-                                        <ProgressBar Name="ProgressTimer" Height="4" Maximum="180" Value="180" Background="#33FFFFFF" BorderThickness="0" Foreground="#9d00ff" Margin="0,5,0,0"/>
-                                    </StackPanel>
-                                </Border>
-                                <Border Grid.Column="2" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
-                                    <StackPanel>
-                                        <TextBlock x:Name="LblHunt" Text="CRUCIFIX [F7]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                        <TextBlock Name="TxtHuntTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
-                                        <TextBlock Name="TxtHuntTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
-                                        <ProgressBar Name="ProgressHuntTimer" Height="4" Maximum="25" Value="25" Background="#33FFFFFF" BorderThickness="0" Foreground="#FF4444" Margin="0,5,0,0"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-
-                            <Border Margin="0,12,0,0" Background="#44220000" BorderBrush="#FF4444" BorderThickness="1" CornerRadius="6" Padding="8">
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
                                 <StackPanel>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="HUNT [F1]" Foreground="#FF8888" FontSize="10" FontWeight="Bold" VerticalAlignment="Center"/>
-                                        <ComboBox Grid.Column="1" Name="CmbMapSize" Width="85" FontSize="9" Padding="2" SelectedIndex="0" Background="#99000000" Foreground="Black" BorderThickness="0">
-                                            <ComboBoxItem Content="Small (30s)"/>
-                                            <ComboBoxItem Content="Medium (50s)"/>
-                                            <ComboBoxItem Content="Large (60s)"/>
-                                        </ComboBox>
-                                    </Grid>
-                                    <TextBlock Name="TxtActiveHunt" Text="-- / 30s" Foreground="#FF4444" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0"/>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
+                                    <TextBlock x:Name="LblSmudge" Text="SMUDGE [F9]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="TxtTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
+                                    <TextBlock Name="TxtTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
+                                    <ProgressBar Name="ProgressTimer" Height="4" Maximum="180" Value="180" Background="#33FFFFFF" BorderThickness="0" Foreground="#9d00ff" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
-
-                            <Border Margin="0,12,0,0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="12">
+                            <Border Grid.Column="2" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="6">
                                 <StackPanel>
-                                    <Grid Margin="0,0,0,5">
-                                        <TextBlock x:Name="LblSpeed" Text="SPEED (m/s)" Foreground="#CCC" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <TextBlock Text="[F10]" Foreground="#888" FontSize="10" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                            <Button Content="RST (F11)" HorizontalAlignment="Right" Click="BtnResetPace_Click" FontSize="9"/>
-                                        </StackPanel>
-                                    </Grid>
-                                    <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#99222222" Foreground="Black" FontSize="11" BorderBrush="#555" SelectionChanged="CmbSpeed_SelectionChanged" Padding="4">
-                                        <ComboBoxItem Content="50% Speed"/>
-                                        <ComboBoxItem Content="75% Speed"/>
-                                        <ComboBoxItem Content="100% (Default)"/>
-                                        <ComboBoxItem Content="Blood Moon (+15%)" Foreground="#FF5555" FontWeight="Bold"/>
-                                        <ComboBoxItem Content="125% Speed"/>
-                                        <ComboBoxItem Content="150% Speed"/>
+                                    <TextBlock x:Name="LblHunt" Text="CRUCIFIX [F7]" Foreground="#CCC" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="TxtHuntTimer" Text="READY" Foreground="White" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3"/>
+                                    <TextBlock Name="TxtHuntTimerStatus" Text="WAITING..." FontSize="10" Foreground="#999" HorizontalAlignment="Center"/>
+                                    <ProgressBar Name="ProgressHuntTimer" Height="4" Maximum="25" Value="25" Background="#33FFFFFF" BorderThickness="0" Foreground="#FF4444" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Border Margin="0,12,0,0" Background="#44220000" BorderBrush="#FF4444" BorderThickness="1" CornerRadius="6" Padding="8">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="HUNT [F1]" Foreground="#FF8888" FontSize="10" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <ComboBox Grid.Column="1" Name="CmbMapSize" Width="85" FontSize="9" Padding="2" SelectedIndex="0" Background="#99000000" Foreground="Black" BorderThickness="0">
+                                        <ComboBoxItem Content="Small (30s)"/>
+                                        <ComboBoxItem Content="Medium (50s)"/>
+                                        <ComboBoxItem Content="Large (60s)"/>
                                     </ComboBox>
-                                    <TextBlock Name="TxtBPM" Text="-- m/s" Foreground="White" FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="2" Opacity="0.8"/>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
-                                    <TextBlock Name="TxtGhostSpeedGuess" Text="Select Speed &amp; Tap" FontSize="11" Foreground="#DDD" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
-                                    <TextBlock Name="TxtPacerStatus" Text="FILTER: NONE" FontSize="10" Foreground="#888" HorizontalAlignment="Center" Margin="0,8,0,0" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
+                                </Grid>
+                                <TextBlock Name="TxtActiveHunt" Text="-- / 30s" Foreground="#FF4444" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2,0,0">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="0"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Margin="0,12,0,0" Background="#66000000" BorderBrush="#555" BorderThickness="1" CornerRadius="6" Padding="12">
+                            <StackPanel>
+                                <Grid Margin="0,0,0,5">
+                                    <TextBlock x:Name="LblSpeed" Text="SPEED (m/s)" Foreground="#CCC" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock Text="[F10]" Foreground="#888" FontSize="10" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <Button Content="RST (F11)" HorizontalAlignment="Right" Click="BtnResetPace_Click" FontSize="9"/>
+                                    </StackPanel>
+                                </Grid>
+                                <ComboBox Name="CmbSpeed" SelectedIndex="2" Margin="0,5" Background="#99222222" Foreground="Black" FontSize="11" BorderBrush="#555" SelectionChanged="CmbSpeed_SelectionChanged" Padding="4">
+                                    <ComboBoxItem Content="50% Speed"/>
+                                    <ComboBoxItem Content="75% Speed"/>
+                                    <ComboBoxItem Content="100% (Default)"/>
+                                    <ComboBoxItem Content="Blood Moon (+15%)" Foreground="#FF5555" FontWeight="Bold"/>
+                                    <ComboBoxItem Content="125% Speed"/>
+                                    <ComboBoxItem Content="150% Speed"/>
+                                </ComboBox>
+                                <TextBlock Name="TxtBPM" Text="-- m/s" Foreground="White" FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="2" Opacity="0.8"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Name="TxtGhostSpeedGuess" Text="Select Speed &amp; Tap" FontSize="11" Foreground="#DDD" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                                <TextBlock Name="TxtPacerStatus" Text="FILTER: NONE" FontSize="10" Foreground="#888" HorizontalAlignment="Center" Margin="0,8,0,0" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Grid>
