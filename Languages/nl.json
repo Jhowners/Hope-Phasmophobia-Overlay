@@ -1,348 +1,713 @@
 {
-    "Code": "NL",
-    "UI": {
-        "Controls": "[F1] JACHT | [HOME] INFO | [ALT+BACK] ONGEDAAN",
-        "EvidenceHeader": "BEWIJS (ALT+1-7)",
-        "SmudgeHeader": "WIEROOK [F9]",
-        "HuntHeader": "KRUISBEELD [F7]",
-        "SpeedHeader": "SNELHEID (m/s)",
-        "Ready": "KLAAR",
-        "Waiting": "WACHTEN...",
-        "Safe": "VEILIG",
-        "Demon": "DEMON ONVEILIG",
-        "Ev1": "EMF Niveau 5",
-        "Ev2": "D.O.T.S. Projector",
-        "Ev3": "Ultraviolet",
-        "Ev4": "Vriestemperaturen",
-        "Ev5": "Geestbal",
-        "Ev6": "Geestboek",
-        "Ev7": "Spirit Box",
-        "RpcSuspects": "Verdachten",
-        "RpcID": "GEÏDENTIFICEERD",
-        "RpcFound": "Gevonden",
-        "RpcSearch": "Zoeken naar bewijs...",
-        "RpcChasing": "Achtervolging",
-        "RpcNoMatch": "Geen match",
-        "RpcBtnDownload": "Download Overlay",
-        "RpcBtnCoffee": "Trakteer op koffie ☕"
+  "Code": "NL",
+  "UI": {
+    "Controls": "[F1] JACHT | [HOME] INFO | [ALT\u002BBACK] ONGEDAAN",
+    "EvidenceHeader": "BEWIJS (ALT\u002B1-7)",
+    "SmudgeHeader": "WIEROOK [F9]",
+    "HuntHeader": "KRUISBEELD [F7]",
+    "SpeedHeader": "SNELHEID (m/s)",
+    "Ready": "KLAAR",
+    "Waiting": "WACHTEN...",
+    "Safe": "VEILIG",
+    "Demon": "DEMON ONVEILIG",
+    "Ev1": "EMF Niveau 5",
+    "Ev2": "D.O.T.S. Projector",
+    "Ev3": "Ultraviolet",
+    "Ev4": "Vriestemperaturen",
+    "Ev5": "Geestbal",
+    "Ev6": "Geestboek",
+    "Ev7": "Spirit Box",
+    "RpcSuspects": "Verdachten",
+    "RpcID": "GEÏDENTIFICEERD",
+    "RpcFound": "Gevonden",
+    "RpcSearch": "Zoeken naar bewijs...",
+    "RpcChasing": "Achtervolging",
+    "RpcNoMatch": "Geen match",
+    "RpcBtnDownload": "Download Overlay",
+    "RpcBtnCoffee": "Trakteer op koffie ☕",
+    "ModeEvidence": "\uD83D\uDCCB BEWIJS MODUS",
+    "ModeNoEvidence": "\uD83D\uDC41️ 0-BEWIJS IDENTIFICATIE",
+    "ZeroFilters": "0-BEWIJS GEDRAGSFILTERS",
+    "ZeroSanity": "JACHT SANITY",
+    "ZeroBlink": "KNIPPERPATROON",
+    "ZeroSmudge": "SMUDGE COOLDOWN",
+    "ZeroTests": "BEVESTIGING \u0026 ELIMINATIE",
+    "BtnResetZero": "\uD83D\uDD04 Reset 0-Ev Filters",
+    "ChkZeroSalt": "\uD83E\uDDC2 In zout gestapt (Geen Wraith)",
+    "ChkZeroCandle": "\uD83D\uDD6F️ 3e Kaars uit = Jacht (Onryo)",
+    "ChkZeroOrbs": "\uD83D\uDD2E Orb gezien in 0-Ev (The Mimic)",
+    "ChkZeroFootsteps": "\uD83D\uDD07 Voetstappen stil \u003E10m (Myling)",
+    "ChkZeroPhoto": "\uD83D\uDCF7 Verdwijnt op foto (Phantom)",
+    "ChkZeroBreaker": "⚡ Stroomkast uitgezet (Geen Jinn)",
+    "ChkZeroLight": "\uD83D\uDCA1 Licht aangedaan (Geen Mare)",
+    "ChkZeroDeogen": "\uD83D\uDC41️ Weet altijd locatie / Supertraag dichtbij (Deogen)",
+    "ChkZeroFreezingBreath": "\uD83D\uDCA8 Koude adem tijdens jacht zonder stroom (Hantu)",
+    "ActiveHuntTitle": "ACTIEVE JACHT DUUR [F1]",
+    "CursedHunt": "Vervloekt (\u002B20s)",
+    "MapListHeader": "KAART / GEBIED",
+    "DifficultyHeader": "MOEILIJKHEIDSGRAAD",
+    "BtnResetPace": "RESET (F11)",
+    "GuaranteedPrefix": "Gegarandeerd",
+    "SizeSmall": "(Klein)",
+    "SizeMedium": "(Middel)",
+    "SizeLarge": "(Groot)"
+  },
+  "SpeedSys": {
+    "DeogenStill": "Deogen / Dayan (Stil)",
+    "RevPassive": "Rev (Passief) / Thaye (Oud)",
+    "Slow": "Tweeling (Langzaam) / Moroi (Laag Sanity) / Hantu (Warm)",
+    "Normal": "Normale Snelheid (1.7 m/s)",
+    "Fast": "Tweeling (Snel) / Hantu (Koud) / Obambo",
+    "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
+    "SuperFast": "REVENANT (Jacht) / Thaye (Jong) / Hantu",
+    "MaxLOS": "MOROI (Max LOS Snelheid)",
+    "Impossible": "Te Snel? (Check voetstappen)"
+  },
+  "SanityOptions": [
+    "Alle Sanity Niveaus",
+    "Vroeg (\u003E60% / Demon, Yokai, Thaye, Mare, Raiju)",
+    "Normaal (50% Standaard)",
+    "Laat (\u003C40% / Shade, Deogen)"
+  ],
+  "BlinkOptions": [
+    "Alle Patronen",
+    "Lang Onzichtbaar (Phantom)",
+    "Veel Zichtbaar (Oni)",
+    "Gedaanteverwisselaar (Obake)",
+    "Normaal Knipperen"
+  ],
+  "SmudgeOptions": [
+    "Alle Tijden",
+    "60s Smudge (Demon)",
+    "90s Smudge (Standaard)",
+    "180s Smudge (Spirit)"
+  ],
+  "DifficultyOptions": [
+    "Amateur (15s / 30s / 40s)",
+    "Gemiddeld (20s / 40s / 50s)",
+    "Professioneel / Nachtmerrie / 0-Ev"
+  ],
+  "Ghosts": [
+    {
+      "ID": "Spirit",
+      "Name": "Spirit",
+      "Symbol": "\uD83D\uDC7B",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Spirit Box",
+        "Geestboek"
+      ],
+      "Guaranteed": null,
+      "Tell": "Wierook stopt jacht voor 180s.",
+      "ZeroEvidenceTest": "Smudge Test: Smudge blokkeert jachten voor 180s (3m) in plaats van 90s (Demon: 60s). Standaardsnelheid (1.7 m/s) met normale versnelling.",
+      "BehavioralTags": [
+        "180s Smudge Timer",
+        "Standaard (1.7 m/s)",
+        "Normaal Knipperen",
+        "Stapt in Zout"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "SpeedSys": {
-        "DeogenStill": "Deogen / Dayan (Stil)",
-        "RevPassive": "Rev (Passief) / Thaye (Oud)",
-        "Slow": "Tweeling (Langzaam) / Moroi (Laag Sanity) / Hantu (Warm)",
-        "Normal": "Normale Snelheid (1.7 m/s)",
-        "Fast": "Tweeling (Snel) / Hantu (Koud) / Obambo",
-        "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
-        "SuperFast": "REVENANT (Jacht) / Thaye (Jong) / Hantu",
-        "MaxLOS": "MOROI (Max LOS Snelheid)",
-        "Impossible": "Te Snel? (Check voetstappen)"
+    {
+      "ID": "Wraith",
+      "Name": "Wraith",
+      "Symbol": "\uD83D\uDC63",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Spirit Box",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Geen voetafdrukken in zout. Teleporteert.",
+      "ZeroEvidenceTest": "Zout Test: Stapt NOOIT in zout en laat geen UV-voetstappen achter. Kan naar speler teleporteren (EMF 2/5). Standaardsnelheid.",
+      "BehavioralTags": [
+        "Stapt nooit in zout",
+        "Teleporteert naar speler",
+        "Geen UV stappen",
+        "Standaardsnelheid"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "Ghosts": [
-        {
-            "ID": "Spirit",
-            "Name": "Spirit",
-            "Symbol": "👻",
-            "Evidences": [ "EMF Niveau 5", "Spirit Box", "Geestboek" ],
-            "Tell": "Wierook stopt jacht voor 180s.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Wraith",
-            "Name": "Wraith",
-            "Symbol": "👣",
-            "Evidences": [ "EMF Niveau 5", "Spirit Box", "D.O.T.S. Projector" ],
-            "Tell": "Geen voetafdrukken in zout. Teleporteert.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Phantom",
-            "Name": "Phantom",
-            "Symbol": "📷",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "D.O.T.S. Projector" ],
-            "Tell": "Verdwijnt op foto. Knippert langzaam.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Poltergeist",
-            "Name": "Poltergeist",
-            "Symbol": "💥",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "Geestboek" ],
-            "Tell": "Gooit meerdere spullen. Verlaagt sanity.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Banshee",
-            "Name": "Banshee",
-            "Symbol": "😱",
-            "Evidences": [ "Ultraviolet", "Geestbal", "D.O.T.S. Projector" ],
-            "Tell": "Parabolische schreeuw. Jaagt op 1 speler.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Jinn",
-            "Name": "Jinn",
-            "Symbol": "⚡",
-            "Evidences": [ "EMF Niveau 5", "Ultraviolet", "Vriestemperaturen" ],
-            "Tell": "Snel als stroom AAN is en ver weg.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Mare",
-            "Name": "Mare",
-            "Symbol": "💡",
-            "Evidences": [ "Spirit Box", "Geestbal", "Geestboek" ],
-            "Tell": "Haat licht. Jaagt vroeger in donker.",
-            "HuntThreshold": "60% / 40%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Revenant",
-            "Name": "Revenant",
-            "Symbol": "😈",
-            "Evidences": [ "Geestbal", "Geestboek", "Vriestemperaturen" ],
-            "Tell": "Snel bij zicht (3.0), langzaam zonder (1.0).",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.9,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Shade",
-            "Name": "Shade",
-            "Symbol": "🌑",
-            "Evidences": [ "EMF Niveau 5", "Geestboek", "Vriestemperaturen" ],
-            "Tell": "Verlegen. Jaagt niet als spelers dichtbij zijn.",
-            "HuntThreshold": "< 35%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Demon",
-            "Name": "Demon",
-            "Symbol": "⸸",
-            "Evidences": [ "Ultraviolet", "Geestboek", "Vriestemperaturen" ],
-            "Tell": "Harde cooldown 20s. Kan altijd jagen.",
-            "HuntThreshold": "Elk / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yurei",
-            "Name": "Yurei",
-            "Symbol": "🚪",
-            "Evidences": [ "Geestbal", "Vriestemperaturen", "D.O.T.S. Projector" ],
-            "Tell": "Slaat deuren dicht. Wierook sluit hem op.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Oni",
-            "Name": "Oni",
-            "Symbol": "👹",
-            "Evidences": [ "EMF Niveau 5", "Vriestemperaturen", "D.O.T.S. Projector" ],
-            "Tell": "Zichtbaar tijdens jacht. Raakt sanity bij hit.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yokai",
-            "Name": "Yokai",
-            "Symbol": "🔇",
-            "Evidences": [ "Spirit Box", "Geestbal", "D.O.T.S. Projector" ],
-            "Tell": "Doof. Praten activeert jacht.",
-            "HuntThreshold": "80% (Stem)",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Hantu",
-            "Name": "Hantu",
-            "Symbol": "❄",
-            "Evidences": [ "Ultraviolet", "Geestbal", "Vriestemperaturen" ],
-            "Guaranteed": "Vriestemperaturen",
-            "Tell": "Snel in kou. Koude adem.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.4,
-            "MaxSpeed": 2.7
-        },
-        {
-            "ID": "Goryo",
-            "Name": "Goryo",
-            "Symbol": "👀",
-            "Evidences": [ "EMF Niveau 5", "Ultraviolet", "D.O.T.S. Projector" ],
-            "Guaranteed": "D.O.T.S.",
-            "Tell": "DOTS alleen via camera. Dwaalt niet.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Myling",
-            "Name": "Myling",
-            "Symbol": "🤫",
-            "Evidences": [ "EMF Niveau 5", "Ultraviolet", "Geestboek" ],
-            "Tell": "Stille voetstappen tijdens jacht.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Onryo",
-            "Name": "Onryo",
-            "Symbol": "🔥",
-            "Evidences": [ "Spirit Box", "Geestbal", "Vriestemperaturen" ],
-            "Tell": "Vuur stopt jacht. 3x uitblazen = Jacht.",
-            "HuntThreshold": "60%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Twins",
-            "Name": "De Tweeling",
-            "Symbol": "♊",
-            "Evidences": [ "EMF Niveau 5", "Spirit Box", "Vriestemperaturen" ],
-            "Tell": "Lokaas (Snel) of Hoofd (Langzaam).",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 2.3
-        },
-        {
-            "ID": "Raiju",
-            "Name": "Raiju",
-            "Symbol": "🔋",
-            "Evidences": [ "EMF Niveau 5", "Geestbal", "D.O.T.S. Projector" ],
-            "Tell": "Snel bij elektronica.",
-            "HuntThreshold": "< 65%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Obake",
-            "Name": "Obake",
-            "Symbol": "🖐",
-            "Evidences": [ "EMF Niveau 5", "Ultraviolet", "Geestbal" ],
-            "Guaranteed": "Ultraviolet",
-            "Tell": "6-Vinger afdruk. Verandert van vorm.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Mimic",
-            "Name": "De Mimic",
-            "Symbol": "🎭",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "Vriestemperaturen" ],
-            "Guaranteed": "Nep Geestballen",
-            "Tell": "Nep Geestballen. Kopieert geesten.",
-            "HuntThreshold": "Kopie",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Moroi",
-            "Name": "Moroi",
-            "Symbol": "☠",
-            "Evidences": [ "Spirit Box", "Geestboek", "Vriestemperaturen" ],
-            "Guaranteed": "Spirit Box",
-            "Tell": "Snel bij lage sanity. Versnelt bij zicht.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Deogen",
-            "Name": "Deogen",
-            "Symbol": "👁",
-            "Evidences": [ "Spirit Box", "Geestboek", "D.O.T.S. Projector" ],
-            "Guaranteed": "Spirit Box",
-            "Tell": "Vindt je altijd. Snel op afstand.",
-            "HuntThreshold": "< 40%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Thaye",
-            "Name": "Thaye",
-            "Symbol": "⏳",
-            "Evidences": [ "Geestbal", "Geestboek", "D.O.T.S. Projector" ],
-            "Tell": "Veroudert. Begint snel, wordt langzaam.",
-            "HuntThreshold": "75% -> 15%",
-            "MinSpeed": 1.0,
-            "MaxSpeed": 2.75
-        },
-        {
-            "ID": "Obambo",
-            "Name": "Obambo",
-            "Symbol": "🔄",
-            "Evidences": [ "Geestboek", "Ultraviolet", "D.O.T.S. Projector" ],
-            "Tell": "Wisselvallig. Wisselt passief/agressief.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.45,
-            "MaxSpeed": 1.96
-        },
-        {
-            "ID": "Gallu",
-            "Name": "Gallu",
-            "Symbol": "🛡️",
-            "Evidences": [ "EMF Niveau 5", "Ultraviolet", "Spirit Box" ],
-            "Tell": "Agressief tegen Kruisbeeld/Wierook.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.36,
-            "MaxSpeed": 3.25
-        },
-        {
-            "ID": "Dayan",
-            "Name": "Dayan",
-            "Symbol": "🏃",
-            "Evidences": [ "EMF Niveau 5", "Geestbal", "Spirit Box" ],
-            "Tell": "Snel als je beweegt. Langzaam als je staat.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.2,
-            "MaxSpeed": 2.25
-        },
-        {
-            "ID": "Aswang",
-            "Name": "Aswang",
-            "Symbol": "🦇",
-            "Evidences": [ "Vriestemperaturen", "Geestboek", "D.O.T.S. Projector" ],
-            "Tell": "Snelle zichtlijn-versnelling. Markeert schuilplaats bij detectie.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.53,
-            "MaxSpeed": 2.53
-        },
-        {
-            "ID": "Deildegast",
-            "Name": "Deildegast",
-            "Symbol": "📦",
-            "Evidences": [ "EMF Niveau 5", "Geestboek", "D.O.T.S. Projector" ],
-            "Tell": "Start snel (3.0). Items verplaatsen vertraagt met 0.1/item. Reset per jacht.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Kormos",
-            "Name": "Kormos",
-            "Symbol": "👂",
-            "Evidences": [ "Ultraviolet", "Geestbal", "Spirit Box" ],
-            "Tell": "Blind. Spoort geluid/beweging op (max 3.65). Jaagt op 70% bij sprinten.",
-            "HuntThreshold": "< 50% / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 3.65
-        }
-    ]
+    {
+      "ID": "Phantom",
+      "Name": "Phantom",
+      "Symbol": "\uD83D\uDCF7",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Verdwijnt op foto. Knippert langzaam.",
+      "ZeroEvidenceTest": "Foto \u0026 Knipperen: Foto maken tijdens event laat Phantom meteen verdwijnen (audio gaat door, geen ruis). Knippert langzaam tijdens jacht (1-2s onzichtbaar).",
+      "BehavioralTags": [
+        "Verdwijnt op foto",
+        "Lang onzichtbaar (1-2s)",
+        "Sanity drain bij zicht"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Poltergeist",
+      "Name": "Poltergeist",
+      "Symbol": "\uD83D\uDCA5",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "Geestboek"
+      ],
+      "Guaranteed": null,
+      "Tell": "Gooit meerdere spullen. Verlaagt sanity.",
+      "ZeroEvidenceTest": "Polter-Bom: Gooit items bijna elke 0.5s tijdens jachten (100% kans). Gooit meerdere items tegelijk.",
+      "BehavioralTags": [
+        "Meervoudige Worp",
+        "100% Worp tijdens jacht (0.5s)",
+        "Krachtige worp"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Banshee",
+      "Name": "Banshee",
+      "Symbol": "\uD83D\uDE31",
+      "Evidences": [
+        "Ultraviolet",
+        "Geestbal",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Parabolische schreeuw. Jaagt op 1 speler.",
+      "ZeroEvidenceTest": "Richtmicrofoon \u0026 Doelwit: Unieke schreeuw in richtmicrofoon. Richt zich op 1 specifieke speler en negeert de rest tijdens jacht.",
+      "BehavioralTags": [
+        "Unieke Schreeuw",
+        "Zingt vaak",
+        "Jaagt op 1 Speler"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Jinn",
+      "Name": "Jinn",
+      "Symbol": "⚡",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Ultraviolet",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Snel als stroom AAN is en ver weg.",
+      "ZeroEvidenceTest": "Stroomkast \u0026 Snelheid: Schakelt de stroom NOOIT rechtstreeks uit. Als stroom AAN staat en hij je ziet op \u003E3m, versnelt hij direct naar 2.5 m/s.",
+      "BehavioralTags": [
+        "Zet stroom niet uit",
+        "Snel op afstand (2.5 m/s)",
+        "Vertraagt binnen 3m"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Mare",
+      "Name": "Mare",
+      "Symbol": "\uD83D\uDCA1",
+      "Evidences": [
+        "Spirit Box",
+        "Geestbal",
+        "Geestboek"
+      ],
+      "Guaranteed": null,
+      "Tell": "Haat licht. Jaagt vroeger in donker.",
+      "ZeroEvidenceTest": "Lichtschakelaar: Kan lichten NOOIT aandoen. Knipt aangedane lichten direct uit. Jaagt vroeg bij 60% in het donker, 40% bij licht.",
+      "BehavioralTags": [
+        "Doet nooit licht aan",
+        "Knipt licht direct uit",
+        "Vroeg in donker (60%)",
+        "Laat bij licht (40%)"
+      ],
+      "HuntThreshold": "60% / 40%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Revenant",
+      "Name": "Revenant",
+      "Symbol": "\uD83D\uDE08",
+      "Evidences": [
+        "Geestbal",
+        "Geestboek",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Snel bij zicht (3.0), langzaam zonder (1.0).",
+      "ZeroEvidenceTest": "Snelheid: Supertraag (1.0 m/s) als hij niemand ziet. Versnelt direct naar 3.0 m/s bij zicht of elektronica/stem.",
+      "BehavioralTags": [
+        "Supertraag zonder zicht (1.0)",
+        "Supersnel in achtervolging (3.0)",
+        "Luidruchtige stappen"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.9,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Shade",
+      "Name": "Shade",
+      "Symbol": "\uD83C\uDF11",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Geestboek",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Verlegen. Jaagt niet als spelers dichtbij zijn.",
+      "ZeroEvidenceTest": "Verlegen Test: Kan NIET jagen als er een speler in dezelfde kamer is. Jaagt pas bij zeer lage sanity (\u003C35%).",
+      "BehavioralTags": [
+        "Jaagt niet met speler in kamer",
+        "Late jacht (\u003C35%)",
+        "Schaduw model",
+        "Geen airball event"
+      ],
+      "HuntThreshold": "\u003C 35%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Demon",
+      "Name": "Demon",
+      "Symbol": "⸸",
+      "Evidences": [
+        "Ultraviolet",
+        "Geestboek",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Harde cooldown 20s. Kan altijd jagen.",
+      "ZeroEvidenceTest": "Cooldown \u0026 Kracht: Jacht cooldown is slechts 20s (anderen 25s). Smudge timer is slechts 60s (anderen 90s). Kruisbeeld bereik 5m (\u002B50%). Jaagt bij 70% of willekeurig.",
+      "BehavioralTags": [
+        "20s Jacht Cooldown",
+        "60s Smudge Timer",
+        "Jaagt \u003E70% / Altijd",
+        "5m Kruisbeeld Bereik"
+      ],
+      "HuntThreshold": "Elk / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yurei",
+      "Name": "Yurei",
+      "Symbol": "\uD83D\uDEAA",
+      "Evidences": [
+        "Geestbal",
+        "Vriestemperaturen",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Slaat deuren dicht. Wierook sluit hem op.",
+      "ZeroEvidenceTest": "Deurslag: Unieke dubbelklik-deurslag die 15% sanity ontziet. Smudge sluit hem 90s op in zijn kamer.",
+      "BehavioralTags": [
+        "Dubbele Deurslag",
+        "15% Sanity Drain",
+        "90s Opgesloten in Kamer"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Oni",
+      "Name": "Oni",
+      "Symbol": "\uD83D\uDC79",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Vriestemperaturen",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Zichtbaar tijdens jacht. Raakt sanity bij hit.",
+      "ZeroEvidenceTest": "Knipperen \u0026 Events: Zeer goed zichtbaar tijdens jacht (knippert snel, meestal zichtbaar). Doet NOOIT een airball event.",
+      "BehavioralTags": [
+        "Zeer zichtbaar in jacht",
+        "Geen Airball Event",
+        "Zeer Actief"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yokai",
+      "Name": "Yokai",
+      "Symbol": "\uD83D\uDD07",
+      "Evidences": [
+        "Spirit Box",
+        "Geestbal",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Doof. Praten activeert jacht.",
+      "ZeroEvidenceTest": "Stem \u0026 Bereik: Jaagt vroeg bij 80% sanity als er gepraat wordt. Tijdens jacht doof voor stemmen en elektronica voorbij 2.5m.",
+      "BehavioralTags": [
+        "Vroeg bij Praten (80%)",
+        "Doof voorbij 2.5m in jacht",
+        "Negeert verre elektronica"
+      ],
+      "HuntThreshold": "80% (Stem)",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Hantu",
+      "Name": "Hantu",
+      "Symbol": "❄",
+      "Evidences": [
+        "Ultraviolet",
+        "Geestbal",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": "Vriestemperaturen",
+      "Tell": "Snel in kou. Koude adem.",
+      "ZeroEvidenceTest": "Temperatuur Snelheid: Snel in koude kamers (2.7 m/s) en traag in warmte (1.4 m/s). GEEN LoS-versnelling! Zichtbare adem in jacht bij stroom UIT.",
+      "BehavioralTags": [
+        "Snel in Kou (2.7)",
+        "Traag in Warmte (1.4)",
+        "Geen LoS Versnelling",
+        "Koude Adem bij Stroom Uit"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.4,
+      "MaxSpeed": 2.7
+    },
+    {
+      "ID": "Goryo",
+      "Name": "Goryo",
+      "Symbol": "\uD83D\uDC40",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Ultraviolet",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": "D.O.T.S.",
+      "Tell": "DOTS alleen via camera. Dwaalt niet.",
+      "ZeroEvidenceTest": "Kamerwissel: Wisselt nooit van kamer en zwerft niet ver weg. DOTS alleen zichtbaar via videocamera als niemand in de kamer is.",
+      "BehavioralTags": [
+        "Wisselt Nooit van Kamer",
+        "DOTS Alleen via Camera",
+        "Blijft Dichtbij"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Myling",
+      "Name": "Myling",
+      "Symbol": "\uD83E\uDD2B",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Ultraviolet",
+        "Geestboek"
+      ],
+      "Guaranteed": null,
+      "Tell": "Stille voetstappen tijdens jacht.",
+      "ZeroEvidenceTest": "Stille Stappen: Voetstappen tijdens jacht zijn alleen hoorbaar binnen 10m (gelijk met het flikkeren van zaklamp/elektronica).",
+      "BehavioralTags": [
+        "Stappen stil \u003E10m",
+        "Gelijk met zaklamp",
+        "Vaak Paramic Gefluister"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Onryo",
+      "Name": "Onryo",
+      "Symbol": "\uD83D\uDD25",
+      "Evidences": [
+        "Spirit Box",
+        "Geestbal",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Vuur stopt jacht. 3x uitblazen = Jacht.",
+      "ZeroEvidenceTest": "Kaarsen Test: Vlammen werken als een kruisbeeld. 3 kaarsen uitblazen forceert een jacht bij ELKE sanity. Jaagt vroeg bij 60%.",
+      "BehavioralTags": [
+        "3e Kaars = Jacht",
+        "Vuur Beschermt",
+        "Vroeg bij 60%"
+      ],
+      "HuntThreshold": "60%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Twins",
+      "Name": "De Tweeling",
+      "Symbol": "♊",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Spirit Box",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": null,
+      "Tell": "Lokaas (Snel) of Hoofd (Langzaam).",
+      "ZeroEvidenceTest": "Lokaas (Snel) of Hoofd (Langzaam).",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 2.3
+    },
+    {
+      "ID": "Raiju",
+      "Name": "Raiju",
+      "Symbol": "\uD83D\uDD0B",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Geestbal",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Snel bij elektronica.",
+      "ZeroEvidenceTest": "Elektronica \u0026 Snelheid: Versnelt naar 2.5 m/s bij actieve elektronica. Verstoort elektronica op 15m (anderen 10m). Jaagt vroeg bij 65%.",
+      "BehavioralTags": [
+        "Versnelt bij Elektronica (2.5)",
+        "Vroeg bij Apparaten (65%)",
+        "15m Storing Bereik"
+      ],
+      "HuntThreshold": "\u003C 65%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Obake",
+      "Name": "Obake",
+      "Symbol": "\uD83D\uDD90",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Ultraviolet",
+        "Geestbal"
+      ],
+      "Guaranteed": "Ultraviolet",
+      "Tell": "6-Vinger afdruk. Verandert van vorm.",
+      "ZeroEvidenceTest": "Gedaanteverwisselaar: 6.6% kans per flits tijdens jacht om van model te veranderen. Vingerafdrukken kunnen 6 vingers hebben.",
+      "BehavioralTags": [
+        "Verandert van Model",
+        "6 Vingers Afdruk",
+        "Sporen verdwijnen snel"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Mimic",
+      "Name": "De Mimic",
+      "Symbol": "\uD83C\uDFAD",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": "Nep Geestballen",
+      "Tell": "Nep Geestballen. Kopieert geesten.",
+      "ZeroEvidenceTest": "Nep Geestballen. Kopieert geesten.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "Kopie",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Moroi",
+      "Name": "Moroi",
+      "Symbol": "☠",
+      "Evidences": [
+        "Spirit Box",
+        "Geestboek",
+        "Vriestemperaturen"
+      ],
+      "Guaranteed": "Spirit Box",
+      "Tell": "Snel bij lage sanity. Versnelt bij zicht.",
+      "ZeroEvidenceTest": "Sanity Snelheid: Sneller naarmate sanity daalt (1.5 m/s bij 100% -\u003E 2.25 m/s bij 0%). Smudge verblindt 12s tijdens jacht (anderen 6s).",
+      "BehavioralTags": [
+        "Snel bij Lage Sanity",
+        "12s Smudge Blindheid",
+        "Hoogste LoS Snelheid"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Deogen",
+      "Name": "Deogen",
+      "Symbol": "\uD83D\uDC41",
+      "Evidences": [
+        "Spirit Box",
+        "Geestboek",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": "Spirit Box",
+      "Tell": "Vindt je altijd. Snel op afstand.",
+      "ZeroEvidenceTest": "Weet Altijd Locatie: Weet ALTIJD waar spelers zijn (verstoppen onmogelijk). Snel ver weg (3.0 m/s), supertraag dichtbij (0.4 m/s).",
+      "BehavioralTags": [
+        "Verstoppen Onmogelijk",
+        "Supertraag dichtbij (0.4)",
+        "Snel ver weg (3.0)",
+        "Zware ademhaling Spirit Box"
+      ],
+      "HuntThreshold": "\u003C 40%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Thaye",
+      "Name": "Thaye",
+      "Symbol": "⏳",
+      "Evidences": [
+        "Geestbal",
+        "Geestboek",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Veroudert. Begint snel, wordt langzaam.",
+      "ZeroEvidenceTest": "Veroudering: Begint jong: supersnel (2.75 m/s) en jaagt bij 75%. Veroudert bij spelers: vertraagt naar 1.0 m/s en jaagt pas bij 15%. GEEN LoS-versnelling!",
+      "BehavioralTags": [
+        "Jong: 2.75 m/s \u0026 75% Jacht",
+        "Oud: 1.0 m/s \u0026 15% Jacht",
+        "Geen LoS Versnelling"
+      ],
+      "HuntThreshold": "75% -\u003E 15%",
+      "MinSpeed": 1,
+      "MaxSpeed": 2.75
+    },
+    {
+      "ID": "Obambo",
+      "Name": "Obambo",
+      "Symbol": "\uD83D\uDD04",
+      "Evidences": [
+        "Geestboek",
+        "Ultraviolet",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Wisselvallig. Wisselt passief/agressief.",
+      "ZeroEvidenceTest": "Wisselvallig. Wisselt passief/agressief.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.45,
+      "MaxSpeed": 1.96
+    },
+    {
+      "ID": "Gallu",
+      "Name": "Gallu",
+      "Symbol": "\uD83D\uDEE1️",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Ultraviolet",
+        "Spirit Box"
+      ],
+      "Guaranteed": null,
+      "Tell": "Agressief tegen Kruisbeeld/Wierook.",
+      "ZeroEvidenceTest": "Agressief tegen Kruisbeeld/Wierook.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.36,
+      "MaxSpeed": 3.25
+    },
+    {
+      "ID": "Dayan",
+      "Name": "Dayan",
+      "Symbol": "\uD83C\uDFC3",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Geestbal",
+        "Spirit Box"
+      ],
+      "Guaranteed": null,
+      "Tell": "Snel als je beweegt. Langzaam als je staat.",
+      "ZeroEvidenceTest": "Snel als je beweegt. Langzaam als je staat.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.2,
+      "MaxSpeed": 2.25
+    },
+    {
+      "ID": "Aswang",
+      "Name": "Aswang",
+      "Symbol": "\uD83E\uDD87",
+      "Evidences": [
+        "Vriestemperaturen",
+        "Geestboek",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Snelle zichtlijn-versnelling. Markeert schuilplaats bij detectie.",
+      "ZeroEvidenceTest": "Snelle zichtlijn-versnelling. Markeert schuilplaats bij detectie.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.53,
+      "MaxSpeed": 2.53
+    },
+    {
+      "ID": "Deildegast",
+      "Name": "Deildegast",
+      "Symbol": "\uD83D\uDCE6",
+      "Evidences": [
+        "EMF Niveau 5",
+        "Geestboek",
+        "D.O.T.S. Projector"
+      ],
+      "Guaranteed": null,
+      "Tell": "Start snel (3.0). Items verplaatsen vertraagt met 0.1/item. Reset per jacht.",
+      "ZeroEvidenceTest": "Start snel (3.0). Items verplaatsen vertraagt met 0.1/item. Reset per jacht.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Kormos",
+      "Name": "Kormos",
+      "Symbol": "\uD83D\uDC42",
+      "Evidences": [
+        "Ultraviolet",
+        "Geestbal",
+        "Spirit Box"
+      ],
+      "Guaranteed": null,
+      "Tell": "Blind. Spoort geluid/beweging op (max 3.65). Jaagt op 70% bij sprinten.",
+      "ZeroEvidenceTest": "Blind. Spoort geluid/beweging op (max 3.65). Jaagt op 70% bij sprinten.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50% / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 3.65
+    }
+  ]
 }

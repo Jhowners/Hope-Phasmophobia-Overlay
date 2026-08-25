@@ -1,348 +1,713 @@
 {
-    "Code": "EN",
-    "UI": {
-        "Controls": "[F1] ACTIVE HUNT | [HOME] INTEL | [ALT+BACK] UNDO",
-        "EvidenceHeader": "EVIDENCE (ALT+1-7)",
-        "SmudgeHeader": "SMUDGE [F9]",
-        "HuntHeader": "CRUCIFIX [F7]",
-        "SpeedHeader": "SPEED (m/s)",
-        "Ready": "READY",
-        "Waiting": "WAITING...",
-        "Safe": "SAFE",
-        "Demon": "DEMON UNSAFE",
-        "Ev1": "EMF Level 5",
-        "Ev2": "D.O.T.S.",
-        "Ev3": "Ultraviolet",
-        "Ev4": "Freezing",
-        "Ev5": "Ghost Orb",
-        "Ev6": "Ghost Writing",
-        "Ev7": "Spirit Box",
-        "RpcSuspects": "Suspects",
-        "RpcID": "Ghost",
-        "RpcFound": "Found",
-        "RpcSearch": "Searching for evidence...",
-        "RpcChasing": "Chasing",
-        "RpcNoMatch": "No Match",
-        "RpcBtnDownload": "Download Overlay",
-        "RpcBtnCoffee": "Buy me a Coffee ☕"
+  "Code": "EN",
+  "UI": {
+    "Controls": "[F1] ACTIVE HUNT | [HOME] INTEL | [ALT\u002BBACK] UNDO",
+    "EvidenceHeader": "EVIDENCE (ALT\u002B1-7)",
+    "SmudgeHeader": "SMUDGE [F9]",
+    "HuntHeader": "CRUCIFIX [F7]",
+    "SpeedHeader": "SPEED (m/s)",
+    "Ready": "READY",
+    "Waiting": "WAITING...",
+    "Safe": "SAFE",
+    "Demon": "DEMON UNSAFE",
+    "Ev1": "EMF Level 5",
+    "Ev2": "D.O.T.S.",
+    "Ev3": "Ultraviolet",
+    "Ev4": "Freezing",
+    "Ev5": "Ghost Orb",
+    "Ev6": "Ghost Writing",
+    "Ev7": "Spirit Box",
+    "RpcSuspects": "Suspects",
+    "RpcID": "Ghost",
+    "RpcFound": "Found",
+    "RpcSearch": "Searching for evidence...",
+    "RpcChasing": "Chasing",
+    "RpcNoMatch": "No Match",
+    "RpcBtnDownload": "Download Overlay",
+    "RpcBtnCoffee": "Buy me a Coffee ☕",
+    "ModeEvidence": "\uD83D\uDCCB EVIDENCE MODE",
+    "ModeNoEvidence": "\uD83D\uDC41️ 0-EVIDENCE IDENTIFIER",
+    "ZeroFilters": "0-EVIDENCE FILTERS",
+    "ZeroSanity": "HUNT SANITY",
+    "ZeroBlink": "BLINK PATTERN",
+    "ZeroSmudge": "SMUDGE HUNT CD",
+    "ZeroTests": "BEHAVIORAL TESTS",
+    "BtnResetZero": "\uD83D\uDD04 Reset 0-Ev Filters",
+    "ChkZeroSalt": "\uD83E\uDDC2 Stepped in Salt (No Wraith)",
+    "ChkZeroCandle": "\uD83D\uDD6F️ 3rd Candle Blow = Hunt (Onryo)",
+    "ChkZeroOrbs": "\uD83D\uDD2E Orbs Seen in 0-Ev (The Mimic)",
+    "ChkZeroFootsteps": "\uD83D\uDD07 Footsteps Quiet \u003E10m (Myling)",
+    "ChkZeroPhoto": "\uD83D\uDCF7 Disappears in Photo (Phantom)",
+    "ChkZeroBreaker": "⚡ Breaker Turned Off (No Jinn)",
+    "ChkZeroLight": "\uD83D\uDCA1 Light Turned On (No Mare)",
+    "ChkZeroDeogen": "\uD83D\uDC41️ Always Knows / Slow Close (Deogen)",
+    "ChkZeroFreezingBreath": "\uD83D\uDCA8 Freezing Breath in Hunt (Hantu)",
+    "ActiveHuntTitle": "ACTIVE HUNT [F1]",
+    "CursedHunt": "Cursed (\u002B20s)",
+    "MapListHeader": "MAP / AREA",
+    "DifficultyHeader": "DIFFICULTY",
+    "BtnResetPace": "RST (F11)",
+    "GuaranteedPrefix": "Guaranteed",
+    "SizeSmall": "(Small)",
+    "SizeMedium": "(Medium)",
+    "SizeLarge": "(Large)"
+  },
+  "SpeedSys": {
+    "DeogenStill": "Deogen / Dayan (Still)",
+    "RevPassive": "Rev (Passive) / Thaye (Old)",
+    "Slow": "Twin (Slow) / Moroi (Hi-San) / Hantu (Warm)",
+    "Normal": "Normal Speed (1.7 m/s)",
+    "Fast": "Twin (Fast) / Hantu (Cool) / Obambo",
+    "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
+    "SuperFast": "REV (Chase) / Thaye (Young) / Hantu",
+    "MaxLOS": "MOROI (Max LOS Speed)",
+    "Impossible": "Too Fast? (Check taps)"
+  },
+  "SanityOptions": [
+    "All Sanity Levels",
+    "Early (\u003E60% / Demon, Yokai, Thaye, Mare, Raiju)",
+    "Normal (50% Standard)",
+    "Late (\u003C40% / Shade, Deogen)"
+  ],
+  "BlinkOptions": [
+    "All Blink Patterns",
+    "Slow Invisible (Phantom)",
+    "Fast Visible (Oni)",
+    "Shapeshifter (Obake)",
+    "Normal Blinking"
+  ],
+  "SmudgeOptions": [
+    "All Smudge Times",
+    "60s Smudge CD (Demon)",
+    "90s Smudge CD (Standard)",
+    "180s Smudge CD (Spirit)"
+  ],
+  "DifficultyOptions": [
+    "Amateur (15s / 30s / 40s)",
+    "Intermediate (20s / 40s / 50s)",
+    "Professional / Nightmare / 0-Ev"
+  ],
+  "Ghosts": [
+    {
+      "ID": "Spirit",
+      "Name": "Spirit",
+      "Symbol": "\uD83D\uDC7B",
+      "Evidences": [
+        "EMF Level 5",
+        "Spirit Box",
+        "Ghost Writing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Smudge prevents hunt for 180s.",
+      "ZeroEvidenceTest": "Smudge Timer: Smudging the ghost blocks hunts for 180s (3m) instead of normal 90s (Demon: 60s). Standard speed (1.7 m/s) with normal LoS acceleration.",
+      "BehavioralTags": [
+        "180s Smudge Timer",
+        "Standard Speed (1.7)",
+        "Normal Blinking",
+        "Steps in Salt"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "SpeedSys": {
-        "DeogenStill": "Deogen / Dayan (Still)",
-        "RevPassive": "Rev (Passive) / Thaye (Old)",
-        "Slow": "Twin (Slow) / Moroi (Hi-San) / Hantu (Warm)",
-        "Normal": "Normal Speed (1.7 m/s)",
-        "Fast": "Twin (Fast) / Hantu (Cool) / Obambo",
-        "VeryFast": "Raiju / Jinn / Hantu / Moroi / Dayan",
-        "SuperFast": "REV (Chase) / Thaye (Young) / Hantu",
-        "MaxLOS": "MOROI (Max LOS Speed)",
-        "Impossible": "Too Fast? (Check taps)"
+    {
+      "ID": "Wraith",
+      "Name": "Wraith",
+      "Symbol": "\uD83D\uDC63",
+      "Evidences": [
+        "EMF Level 5",
+        "Spirit Box",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "No salt steps. Teleports to player.",
+      "ZeroEvidenceTest": "Salt Test: Will NEVER step in salt or leave UV footprints. Can teleport directly to player (generates EMF 2/5). Standard speed.",
+      "BehavioralTags": [
+        "Never Steps in Salt",
+        "Teleports to Player",
+        "No UV Footsteps",
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "Ghosts": [
-        {
-            "ID": "Spirit",
-            "Name": "Spirit",
-            "Symbol": "👻",
-            "Evidences": [ "EMF Level 5", "Spirit Box", "Ghost Writing" ],
-            "Tell": "Smudge prevents hunt for 180s.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Wraith",
-            "Name": "Wraith",
-            "Symbol": "👣",
-            "Evidences": [ "EMF Level 5", "Spirit Box", "D.O.T.S." ],
-            "Tell": "No salt steps. Teleports to player.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Phantom",
-            "Name": "Phantom",
-            "Symbol": "📷",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "D.O.T.S." ],
-            "Tell": "Disappears in photo. Slow blink.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Poltergeist",
-            "Name": "Poltergeist",
-            "Symbol": "💥",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "Ghost Writing" ],
-            "Tell": "Throws multiple items. Drains sanity.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Banshee",
-            "Name": "Banshee",
-            "Symbol": "😱",
-            "Evidences": [ "Ultraviolet", "Ghost Orb", "D.O.T.S." ],
-            "Tell": "Paramic Scream. Targets 1 player.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Jinn",
-            "Name": "Jinn",
-            "Symbol": "⚡",
-            "Evidences": [ "EMF Level 5", "Ultraviolet", "Freezing" ],
-            "Tell": "Fast if breaker ON and far.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Mare",
-            "Name": "Mare",
-            "Symbol": "💡",
-            "Evidences": [ "Spirit Box", "Ghost Orb", "Ghost Writing" ],
-            "Tell": "Hates lights. Hunts early in dark.",
-            "HuntThreshold": "60% / 40%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Revenant",
-            "Name": "Revenant",
-            "Symbol": "😈",
-            "Evidences": [ "Ghost Orb", "Ghost Writing", "Freezing" ],
-            "Tell": "Fast when chasing (3.0), slow when hiding (1.0).",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.9,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Shade",
-            "Name": "Shade",
-            "Symbol": "🌑",
-            "Evidences": [ "EMF Level 5", "Ghost Writing", "Freezing" ],
-            "Tell": "Shy. Won't hunt if players near.",
-            "HuntThreshold": "< 35%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Demon",
-            "Name": "Demon",
-            "Symbol": "⸸",
-            "Evidences": [ "Ultraviolet", "Ghost Writing", "Freezing" ],
-            "Tell": "Hard cooldown 20s. Can hunt any time.",
-            "HuntThreshold": "Any / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yurei",
-            "Name": "Yurei",
-            "Symbol": "🚪",
-            "Evidences": [ "Ghost Orb", "Freezing", "D.O.T.S." ],
-            "Tell": "Slams door. Smudge traps it.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Oni",
-            "Name": "Oni",
-            "Symbol": "👹",
-            "Evidences": [ "EMF Level 5", "Freezing", "D.O.T.S." ],
-            "Tell": "Visible during hunt. Drains sanity on hit.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yokai",
-            "Name": "Yokai",
-            "Symbol": "🔇",
-            "Evidences": [ "Spirit Box", "Ghost Orb", "D.O.T.S." ],
-            "Tell": "Deaf. Talking triggers hunt.",
-            "HuntThreshold": "80% (Voice)",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Hantu",
-            "Name": "Hantu",
-            "Symbol": "❄",
-            "Evidences": [ "Ultraviolet", "Ghost Orb", "Freezing" ],
-            "Guaranteed": "Freezing",
-            "Tell": "Fast in cold. Cold breath.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.4,
-            "MaxSpeed": 2.7
-        },
-        {
-            "ID": "Goryo",
-            "Name": "Goryo",
-            "Symbol": "👀",
-            "Evidences": [ "EMF Level 5", "Ultraviolet", "D.O.T.S." ],
-            "Guaranteed": "D.O.T.S.",
-            "Tell": "DOTS only on cam. No roaming.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Myling",
-            "Name": "Myling",
-            "Symbol": "🤫",
-            "Evidences": [ "EMF Level 5", "Ultraviolet", "Ghost Writing" ],
-            "Tell": "Silent footsteps during hunt.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Onryo",
-            "Name": "Onryo",
-            "Symbol": "🔥",
-            "Evidences": [ "Spirit Box", "Ghost Orb", "Freezing" ],
-            "Tell": "Fire prevents hunt. 3 Blows = Hunt.",
-            "HuntThreshold": "60%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Twins",
-            "Name": "The Twins",
-            "Symbol": "♊",
-            "Evidences": [ "EMF Level 5", "Spirit Box", "Freezing" ],
-            "Tell": "Decoy (Fast) or Main (Slow).",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 2.3
-        },
-        {
-            "ID": "Raiju",
-            "Name": "Raiju",
-            "Symbol": "🔋",
-            "Evidences": [ "EMF Level 5", "Ghost Orb", "D.O.T.S." ],
-            "Tell": "Fast near electronics.",
-            "HuntThreshold": "< 65%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Obake",
-            "Name": "Obake",
-            "Symbol": "🖐",
-            "Evidences": [ "EMF Level 5", "Ultraviolet", "Ghost Orb" ],
-            "Guaranteed": "Ultraviolet",
-            "Tell": "6-Finger print. Shapeshifts.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Mimic",
-            "Name": "The Mimic",
-            "Symbol": "🎭",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "Freezing" ],
-            "Guaranteed": "Fake Orbs",
-            "Tell": "Fake Orbs. Copies ghosts.",
-            "HuntThreshold": "Copy",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Moroi",
-            "Name": "Moroi",
-            "Symbol": "☠",
-            "Evidences": [ "Spirit Box", "Ghost Writing", "Freezing" ],
-            "Guaranteed": "Spirit Box",
-            "Tell": "Fast at low sanity. LOS Boost.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Deogen",
-            "Name": "Deogen",
-            "Symbol": "👁",
-            "Evidences": [ "Spirit Box", "Ghost Writing", "D.O.T.S." ],
-            "Guaranteed": "Spirit Box",
-            "Tell": "Always finds you. Fast far.",
-            "HuntThreshold": "< 40%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Thaye",
-            "Name": "Thaye",
-            "Symbol": "⏳",
-            "Evidences": [ "Ghost Orb", "Ghost Writing", "D.O.T.S." ],
-            "Tell": "Ages. Starts fast, gets slow.",
-            "HuntThreshold": "75% -> 15%",
-            "MinSpeed": 1.0,
-            "MaxSpeed": 2.75
-        },
-        {
-            "ID": "Obambo",
-            "Name": "Obambo",
-            "Symbol": "🔄",
-            "Evidences": [ "Ghost Writing", "Ultraviolet", "D.O.T.S." ],
-            "Tell": "Volatile. Switches passive/aggressive.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.45,
-            "MaxSpeed": 1.96
-        },
-        {
-            "ID": "Gallu",
-            "Name": "Gallu",
-            "Symbol": "🛡️",
-            "Evidences": [ "EMF Level 5", "Ultraviolet", "Spirit Box" ],
-            "Tell": "Aggressive vs Crucifix/Incense.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.36,
-            "MaxSpeed": 3.25
-        },
-        {
-            "ID": "Dayan",
-            "Name": "Dayan",
-            "Symbol": "🏃",
-            "Evidences": [ "EMF Level 5", "Ghost Orb", "Spirit Box" ],
-            "Tell": "Fast if you move. Slow if you stand.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.2,
-            "MaxSpeed": 2.25
-        },
-        {
-            "ID": "Aswang",
-            "Name": "Aswang",
-            "Symbol": "🦇",
-            "Evidences": [ "Freezing", "Ghost Writing", "D.O.T.S." ],
-            "Tell": "Fast LoS acceleration. Marks hiding spot if detected.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.53,
-            "MaxSpeed": 2.53
-        },
-        {
-            "ID": "Deildegast",
-            "Name": "Deildegast",
-            "Symbol": "📦",
-            "Evidences": [ "EMF Level 5", "Ghost Writing", "D.O.T.S." ],
-            "Tell": "Starts fast (3.0). Moving items slows by 0.1/item. Resets per hunt.",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Kormos",
-            "Name": "Kormos",
-            "Symbol": "👂",
-            "Evidences": [ "Spirit Box", "Ultraviolet", "Ghost Orb" ],
-            "Tell": "Blind. Tracks by sound/movement (max 3.65). Hunts at 70% if sprint.",
-            "HuntThreshold": "< 50% / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 3.65
-        }
-    ]
+    {
+      "ID": "Phantom",
+      "Name": "Phantom",
+      "Symbol": "\uD83D\uDCF7",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Disappears in photo. Slow blink.",
+      "ZeroEvidenceTest": "Photo \u0026 Blink: Taking a photo during event makes Phantom disappear immediately (audio continues, no photo static). Blinks slowly in hunts (invisible 1-2s).",
+      "BehavioralTags": [
+        "Disappears in Photo (No Static)",
+        "Slow Blink (Invisible 1-2s)",
+        "LoS Sanity Drain (0.5%/s)"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Poltergeist",
+      "Name": "Poltergeist",
+      "Symbol": "\uD83D\uDCA5",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "Ghost Writing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Throws multiple items. Drains sanity.",
+      "ZeroEvidenceTest": "Polter-Bomb / Hunt Throw: Throws items almost every 0.5s during hunts (100% rate). In events/idle, throws multiple items simultaneously, draining 2% sanity/item.",
+      "BehavioralTags": [
+        "Multi-Item Throw",
+        "100% Hunt Throw (0.5s)",
+        "Fast Throw Velocity"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Banshee",
+      "Name": "Banshee",
+      "Symbol": "\uD83D\uDE31",
+      "Evidences": [
+        "Ultraviolet",
+        "Ghost Orb",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Paramic Scream. Targets 1 player.",
+      "ZeroEvidenceTest": "Paramic \u0026 Target: Parabolic mic unique wailing scream. In multiplayer, targets 1 player for entire match (ignores other players during hunts). Sings more often.",
+      "BehavioralTags": [
+        "Unique Paramic Scream",
+        "Singing Events (\u002B5% Sanity)",
+        "Targets 1 Player Only"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Jinn",
+      "Name": "Jinn",
+      "Symbol": "⚡",
+      "Evidences": [
+        "EMF Level 5",
+        "Ultraviolet",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Fast if breaker ON and far.",
+      "ZeroEvidenceTest": "Breaker \u0026 Distance Speed: CANNOT turn off breaker directly. If breaker is ON and has LoS \u003E3m away, accelerates instantly to 2.5 m/s, slowing to 1.7 m/s within 3m.",
+      "BehavioralTags": [
+        "Cannot Turn Off Breaker",
+        "Fast Far (2.5) with Breaker ON",
+        "Slows within 3m"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Mare",
+      "Name": "Mare",
+      "Symbol": "\uD83D\uDCA1",
+      "Evidences": [
+        "Spirit Box",
+        "Ghost Orb",
+        "Ghost Writing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Hates lights. Hunts early in dark.",
+      "ZeroEvidenceTest": "Light Switch: CANNOT turn on lights. Instantly flips off light switches turned on in its room. Hunts early at 60% in dark, 40% in lit rooms. Roams away from lights.",
+      "BehavioralTags": [
+        "Cannot Turn On Lights",
+        "Instant Light Switch Off",
+        "Early Hunt in Dark (60%)",
+        "Late in Light (40%)"
+      ],
+      "HuntThreshold": "60% / 40%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Revenant",
+      "Name": "Revenant",
+      "Symbol": "\uD83D\uDE08",
+      "Evidences": [
+        "Ghost Orb",
+        "Ghost Writing",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Fast when chasing (3.0), slow when hiding (1.0).",
+      "ZeroEvidenceTest": "Roaming vs Chase Speed: Super slow crawl (1.0 m/s) when player not detected. Instantly speeds up to 3.0 m/s when line-of-sight or voice/electronics detected.",
+      "BehavioralTags": [
+        "Super Slow Roam (1.0)",
+        "Instant Super Fast Chase (3.0)",
+        "Loud Footsteps"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.9,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Shade",
+      "Name": "Shade",
+      "Symbol": "\uD83C\uDF11",
+      "Evidences": [
+        "EMF Level 5",
+        "Ghost Writing",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Shy. Won\u0027t hunt if players near.",
+      "ZeroEvidenceTest": "Shy Test: CANNOT hunt if any player is in the same room. Very low hunt threshold (\u003C35%). Won\u0027t do physical ghost events/interactions when players are in the room.",
+      "BehavioralTags": [
+        "Cannot Hunt with Player in Room",
+        "Late Hunt (\u003C35%)",
+        "Shadow Model Preference",
+        "No Airball"
+      ],
+      "HuntThreshold": "\u003C 35%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Demon",
+      "Name": "Demon",
+      "Symbol": "⸸",
+      "Evidences": [
+        "Ultraviolet",
+        "Ghost Writing",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Hard cooldown 20s. Can hunt any time.",
+      "ZeroEvidenceTest": "Cooldown \u0026 Ability: Hunt cooldown is only 20s (others 25s). Smudge timer is only 60s (others 90s). Crucifix range is 5m (\u002B50%). Hunts at 70% sanity or ANY sanity via ability.",
+      "BehavioralTags": [
+        "20s Hunt Cooldown",
+        "60s Smudge Timer",
+        "Hunts \u003E70% / Any Sanity",
+        "5m Crucifix Range"
+      ],
+      "HuntThreshold": "Any / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yurei",
+      "Name": "Yurei",
+      "Symbol": "\uD83D\uDEAA",
+      "Evidences": [
+        "Ghost Orb",
+        "Freezing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Slams door. Smudge traps it.",
+      "ZeroEvidenceTest": "Door Slam: Unique double-click door slam that snaps an open door shut and drains 15% sanity nearby. Smudging the ghost locks it inside its room for 90s (won\u0027t roam).",
+      "BehavioralTags": [
+        "Door Slam (Double Click)",
+        "15% Sanity Drain",
+        "Locked in Room 90s"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Oni",
+      "Name": "Oni",
+      "Symbol": "\uD83D\uDC79",
+      "Evidences": [
+        "EMF Level 5",
+        "Freezing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Visible during hunt. Drains sanity on hit.",
+      "ZeroEvidenceTest": "Blink \u0026 Event: Highly visible during hunts (rapid blinking, visible most of the time). CANNOT do Ghost Mist / Airball event. Extremely active near players.",
+      "BehavioralTags": [
+        "Highly Visible in Hunts",
+        "No Airball Events",
+        "Frequent Physical Events"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yokai",
+      "Name": "Yokai",
+      "Symbol": "\uD83D\uDD07",
+      "Evidences": [
+        "Spirit Box",
+        "Ghost Orb",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Deaf. Talking triggers hunt.",
+      "ZeroEvidenceTest": "Voice \u0026 Hearing Range: Hunts early at 80% sanity if players talk near it. In hunts, deaf and blind to voices and active electronics beyond 2.5 meters.",
+      "BehavioralTags": [
+        "Early Hunt if Talking (80%)",
+        "Deaf \u003E2.5m in Hunts",
+        "Short Electronic Range"
+      ],
+      "HuntThreshold": "80% (Voice)",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Hantu",
+      "Name": "Hantu",
+      "Symbol": "❄",
+      "Evidences": [
+        "Ultraviolet",
+        "Ghost Orb",
+        "Freezing"
+      ],
+      "Guaranteed": "Freezing",
+      "Tell": "Fast in cold. Cold breath.",
+      "ZeroEvidenceTest": "Temperature Speed: Fast in cold rooms (2.7 m/s freezing) and slow in warm rooms (1.4 m/s). NO LoS acceleration! Visible freezing breath during hunts with breaker OFF.",
+      "BehavioralTags": [
+        "Fast in Cold (2.7)",
+        "Slow in Warm (1.4)",
+        "NO LoS Acceleration",
+        "Freezing Breath (Breaker OFF)"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.4,
+      "MaxSpeed": 2.7
+    },
+    {
+      "ID": "Goryo",
+      "Name": "Goryo",
+      "Symbol": "\uD83D\uDC40",
+      "Evidences": [
+        "EMF Level 5",
+        "Ultraviolet",
+        "D.O.T.S."
+      ],
+      "Guaranteed": "D.O.T.S.",
+      "Tell": "DOTS only on cam. No roaming.",
+      "ZeroEvidenceTest": "Roaming: Never changes its favorite room and cannot roam far. If evidence is enabled, DOTS only visible through video camera when no player is in the ghost room.",
+      "BehavioralTags": [
+        "Never Changes Room",
+        "DOTS Only on Camera",
+        "Short Roam Range"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Myling",
+      "Name": "Myling",
+      "Symbol": "\uD83E\uDD2B",
+      "Evidences": [
+        "EMF Level 5",
+        "Ultraviolet",
+        "Ghost Writing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Silent footsteps during hunt.",
+      "ZeroEvidenceTest": "Quiet Footsteps: Footsteps during hunts are quiet and can only be heard within 10m (only audible when electronics/flashlight flicker). Frequent Paramic whispers.",
+      "BehavioralTags": [
+        "Quiet Footsteps \u003E10m",
+        "Matches Flashlight Flicker",
+        "Frequent Paramic Whispers"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Onryo",
+      "Name": "Onryo",
+      "Symbol": "\uD83D\uDD25",
+      "Evidences": [
+        "Spirit Box",
+        "Ghost Orb",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Fire prevents hunt. 3 Blows = Hunt.",
+      "ZeroEvidenceTest": "Flame / Candle Test: Candle acts as a crucifix. Blowing out 3 candles forces a hunt at ANY sanity (unless blocked by another flame/crucifix). Hunts early at 60%.",
+      "BehavioralTags": [
+        "3rd Candle Blow = Hunt",
+        "Flame Acts as Crucifix",
+        "Early Hunt (60%)"
+      ],
+      "HuntThreshold": "60%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Twins",
+      "Name": "The Twins",
+      "Symbol": "♊",
+      "Evidences": [
+        "EMF Level 5",
+        "Spirit Box",
+        "Freezing"
+      ],
+      "Guaranteed": null,
+      "Tell": "Decoy (Fast) or Main (Slow).",
+      "ZeroEvidenceTest": "Decoy (Fast) or Main (Slow).",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 2.3
+    },
+    {
+      "ID": "Raiju",
+      "Name": "Raiju",
+      "Symbol": "\uD83D\uDD0B",
+      "Evidences": [
+        "EMF Level 5",
+        "Ghost Orb",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Fast near electronics.",
+      "ZeroEvidenceTest": "Electronics Speed: Speeds up to 2.5 m/s near active electronic equipment. Disrupts electronics/flashlights at 15m (others 10m). Hunts early at 65% near devices.",
+      "BehavioralTags": [
+        "Electronics Speed (2.5)",
+        "Early Hunt near Devices (65%)",
+        "15m Disruption Range"
+      ],
+      "HuntThreshold": "\u003C 65%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Obake",
+      "Name": "Obake",
+      "Symbol": "\uD83D\uDD90",
+      "Evidences": [
+        "EMF Level 5",
+        "Ultraviolet",
+        "Ghost Orb"
+      ],
+      "Guaranteed": "Ultraviolet",
+      "Tell": "6-Finger print. Shapeshifts.",
+      "ZeroEvidenceTest": "Shapeshifter: 6.6% chance per hunt blink to shapeshift into a different ghost model (guaranteed on long hunts). Fingerprints can have 6 fingers \u0026 disappear fast.",
+      "BehavioralTags": [
+        "Shapeshifts during Hunts",
+        "Unique 6-Finger Print",
+        "Prints Disappear Fast"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Mimic",
+      "Name": "The Mimic",
+      "Symbol": "\uD83C\uDFAD",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "Freezing"
+      ],
+      "Guaranteed": "Fake Orbs",
+      "Tell": "Fake Orbs. Copies ghosts.",
+      "ZeroEvidenceTest": "Fake Orbs. Copies ghosts.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "Copy",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Moroi",
+      "Name": "Moroi",
+      "Symbol": "☠",
+      "Evidences": [
+        "Spirit Box",
+        "Ghost Writing",
+        "Freezing"
+      ],
+      "Guaranteed": "Spirit Box",
+      "Tell": "Fast at low sanity. LOS Boost.",
+      "ZeroEvidenceTest": "Sanity Speed \u0026 Smudge: Speed increases as average sanity drops (1.5 m/s at 100% -\u003E 2.25 m/s at 0%, up to 3.71 in LoS!). Smudge blinds it for 12s in hunts (others 6s). Curses players.",
+      "BehavioralTags": [
+        "Faster at Low Sanity",
+        "12s Smudge Blind in Hunts",
+        "Highest Max LoS Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Deogen",
+      "Name": "Deogen",
+      "Symbol": "\uD83D\uDC41",
+      "Evidences": [
+        "Spirit Box",
+        "Ghost Writing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": "Spirit Box",
+      "Tell": "Always finds you. Fast far.",
+      "ZeroEvidenceTest": "Always Knows / Slow Loop: Always knows player locations (CANNOT hide). Fast far away (3.0 m/s), slows to a crawl (0.4 m/s) within 2.5m of player (easy loop). Heavy Spirit Box breathing.",
+      "BehavioralTags": [
+        "Cannot Hide (Always Knows)",
+        "Super Slow Close (0.4)",
+        "Fast Far Away (3.0)",
+        "Heavy Spirit Box Breathing"
+      ],
+      "HuntThreshold": "\u003C 40%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Thaye",
+      "Name": "Thaye",
+      "Symbol": "⏳",
+      "Evidences": [
+        "Ghost Orb",
+        "Ghost Writing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Ages. Starts fast, gets slow.",
+      "ZeroEvidenceTest": "Aging / Speed: Starts young: fast (2.75 m/s) \u0026 hunts at 75% sanity. Ages every 1-2m near players: slows down to 1.0 m/s and hunt threshold drops to 15%. NO LoS acceleration!",
+      "BehavioralTags": [
+        "Young: 2.75 m/s \u0026 75% Hunt",
+        "Old: 1.0 m/s \u0026 15% Hunt",
+        "NO LoS Acceleration"
+      ],
+      "HuntThreshold": "75% -\u003E 15%",
+      "MinSpeed": 1,
+      "MaxSpeed": 2.75
+    },
+    {
+      "ID": "Obambo",
+      "Name": "Obambo",
+      "Symbol": "\uD83D\uDD04",
+      "Evidences": [
+        "Ghost Writing",
+        "Ultraviolet",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Volatile. Switches passive/aggressive.",
+      "ZeroEvidenceTest": "Volatile. Switches passive/aggressive.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.45,
+      "MaxSpeed": 1.96
+    },
+    {
+      "ID": "Gallu",
+      "Name": "Gallu",
+      "Symbol": "\uD83D\uDEE1️",
+      "Evidences": [
+        "EMF Level 5",
+        "Ultraviolet",
+        "Spirit Box"
+      ],
+      "Guaranteed": null,
+      "Tell": "Aggressive vs Crucifix/Incense.",
+      "ZeroEvidenceTest": "Aggressive vs Crucifix/Incense.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.36,
+      "MaxSpeed": 3.25
+    },
+    {
+      "ID": "Dayan",
+      "Name": "Dayan",
+      "Symbol": "\uD83C\uDFC3",
+      "Evidences": [
+        "EMF Level 5",
+        "Ghost Orb",
+        "Spirit Box"
+      ],
+      "Guaranteed": null,
+      "Tell": "Fast if you move. Slow if you stand.",
+      "ZeroEvidenceTest": "Fast if you move. Slow if you stand.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.2,
+      "MaxSpeed": 2.25
+    },
+    {
+      "ID": "Aswang",
+      "Name": "Aswang",
+      "Symbol": "\uD83E\uDD87",
+      "Evidences": [
+        "Freezing",
+        "Ghost Writing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Fast LoS acceleration. Marks hiding spot if detected.",
+      "ZeroEvidenceTest": "Fast LoS acceleration. Marks hiding spot if detected.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.53,
+      "MaxSpeed": 2.53
+    },
+    {
+      "ID": "Deildegast",
+      "Name": "Deildegast",
+      "Symbol": "\uD83D\uDCE6",
+      "Evidences": [
+        "EMF Level 5",
+        "Ghost Writing",
+        "D.O.T.S."
+      ],
+      "Guaranteed": null,
+      "Tell": "Starts fast (3.0). Moving items slows by 0.1/item. Resets per hunt.",
+      "ZeroEvidenceTest": "Starts fast (3.0). Moving items slows by 0.1/item. Resets per hunt.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Kormos",
+      "Name": "Kormos",
+      "Symbol": "\uD83D\uDC42",
+      "Evidences": [
+        "Spirit Box",
+        "Ultraviolet",
+        "Ghost Orb"
+      ],
+      "Guaranteed": null,
+      "Tell": "Blind. Tracks by sound/movement (max 3.65). Hunts at 70% if sprint.",
+      "ZeroEvidenceTest": "Blind. Tracks by sound/movement (max 3.65). Hunts at 70% if sprint.",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50% / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 3.65
+    }
+  ]
 }

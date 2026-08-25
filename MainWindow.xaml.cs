@@ -36,6 +36,7 @@ namespace Hophesmoverlay
 
         // View State
         private int _currentView = 0;
+        private int _activeTabMode = 0; // 0 = Evidence Mode, 1 = 0-Evidence Mode
 
         // Key Constants
         private const int VK_MENU = 0x12; // Alt Key
@@ -59,7 +60,7 @@ namespace Hophesmoverlay
         private DispatcherTimer _huntTimer;
         private int _huntTimerSeconds = 25;
 
-        // NEW: Hunt Duration Timer
+        // Hunt Duration Timer
         private DispatcherTimer _huntDurationTimer;
         private int _huntDurationSeconds = 0;
         private int _huntDurationLimit = 30;
@@ -68,16 +69,19 @@ namespace Hophesmoverlay
         {
             InitializeComponent();
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.AboveNormal;
-            // Trigger this once to set the default text "-- / 30s"
-            CmbMapSize.SelectionChanged += (s, e) => { ToggleHuntDuration(); ToggleHuntDuration(); };
-            CmbMapSize.SelectionChanged += (s, e) =>
-            {
-                if (CmbMapSize.SelectedIndex == 0) _huntDurationLimit = 30;
-                else if (CmbMapSize.SelectedIndex == 1) _huntDurationLimit = 50;
-                else _huntDurationLimit = 60;
 
-                if (!_huntDurationTimer.IsEnabled) UpdateHuntDurationDisplay();
-            };
+            try
+            {
+                System.Windows.Shell.WindowChrome.SetWindowChrome(this, new System.Windows.Shell.WindowChrome
+                {
+                    CaptionHeight = 0,
+                    ResizeBorderThickness = new Thickness(6),
+                    CornerRadius = new CornerRadius(12),
+                    GlassFrameThickness = new Thickness(0),
+                    UseAeroCaptionButtons = false
+                });
+            }
+            catch { }
 
             // 1. LOAD CONFIG
             _config = AppSettings.Load();
@@ -88,6 +92,7 @@ namespace Hophesmoverlay
             this.Opacity = _config.Opacity;
 
             MenuDiscord.IsChecked = _config.EnableDiscord;
+            UpdateVolumeMenuCheckedState();
 
             if (_config.EnableDiscord)
             {
@@ -100,10 +105,7 @@ namespace Hophesmoverlay
             _evidenceCheckBoxes.Add(ChkEv5); _evidenceCheckBoxes.Add(ChkEv6);
             _evidenceCheckBoxes.Add(ChkEv7);
 
-            // 3. LOAD LANGUAGE (From JSON)
-            LoadLanguage(_config.Language);
-
-            // 4. SETUP TIMERS
+            // 3. SETUP TIMERS
             _smudgeTimer = new DispatcherTimer(DispatcherPriority.Render);
             _smudgeTimer.Interval = TimeSpan.FromSeconds(1);
             _smudgeTimer.Tick += SmudgeTimer_Tick;
@@ -117,7 +119,23 @@ namespace Hophesmoverlay
             _huntDurationTimer.Interval = TimeSpan.FromSeconds(1);
             _huntDurationTimer.Tick += HuntDuration_Tick;
 
-            // 5. START INPUT LOOP
+            // 4. RESTORE CONTROLS & SELECTIONS
+            if (CmbMapList != null && _config.SelectedMapIndex >= 0 && _config.SelectedMapIndex < CmbMapList.Items.Count)
+                CmbMapList.SelectedIndex = _config.SelectedMapIndex;
+            if (CmbDifficulty != null && _config.SelectedDifficultyIndex >= 0 && _config.SelectedDifficultyIndex < CmbDifficulty.Items.Count)
+                CmbDifficulty.SelectedIndex = _config.SelectedDifficultyIndex;
+            if (ChkCursedHunt != null)
+                ChkCursedHunt.IsChecked = _config.IsCursedHunt;
+
+            RecalculateHuntLimit();
+
+            // 5. LOAD LANGUAGE (From JSON)
+            LoadLanguage(_config.Language);
+
+            // 6. RESTORE TAB MODE
+            SetTabMode(_config.ActiveTabMode);
+
+            // 7. START INPUT LOOP
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(() => InputLoop(_cancellationTokenSource.Token), TaskCreationOptions.LongRunning);
         }
@@ -161,60 +179,191 @@ namespace Hophesmoverlay
             }
         }
 
-        // --- NEW: HUNT DURATION LOGIC ---
+        // --- MAP & DIFFICULTY HUNT DURATION LOGIC ---
+        private void RecalculateHuntLimit()
+        {
+            int mapIndex = CmbMapList?.SelectedIndex ?? 0;
+            int diffIndex = CmbDifficulty?.SelectedIndex ?? 2;
+            bool isCursed = ChkCursedHunt?.IsChecked == true;
+
+            int mapCategory = 0; // 0 = Small, 1 = Medium, 2 = Large
+            if (mapIndex >= 9 && mapIndex <= 10) mapCategory = 1;
+            else if (mapIndex >= 11) mapCategory = 2;
+
+            int baseDuration = 30;
+            if (diffIndex == 0) // Amateur
+            {
+                baseDuration = mapCategory == 0 ? 15 : (mapCategory == 1 ? 30 : 40);
+            }
+            else if (diffIndex == 1) // Intermediate
+            {
+                baseDuration = mapCategory == 0 ? 20 : (mapCategory == 1 ? 40 : 50);
+            }
+            else // Professional / Nightmare / 0-Ev
+            {
+                baseDuration = mapCategory == 0 ? 30 : (mapCategory == 1 ? 50 : 60);
+            }
+
+            if (isCursed) baseDuration += 20;
+
+            _huntDurationLimit = baseDuration;
+
+            if (_config != null)
+            {
+                _config.SelectedMapIndex = mapIndex;
+                _config.SelectedDifficultyIndex = diffIndex;
+                _config.IsCursedHunt = isCursed;
+                _config.Save();
+            }
+
+            UpdateHuntDurationDisplay();
+        }
+
+        private void CmbMapList_SelectionChanged(object sender, SelectionChangedEventArgs e) => RecalculateHuntLimit();
+        private void CmbDifficulty_SelectionChanged(object sender, SelectionChangedEventArgs e) => RecalculateHuntLimit();
+        private void ChkCursedHunt_Click(object sender, RoutedEventArgs e) => RecalculateHuntLimit();
+
         private void ToggleHuntDuration()
         {
             if (_huntDurationTimer.IsEnabled)
             {
-                // Stop
                 _huntDurationTimer.Stop();
-                // Reset text to default state showing the limit
-                UpdateHuntDurationDisplay();
-                TxtActiveHunt.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF4444");
             }
             else
             {
-                // Start
-                // 1. Determine Limit based on ComboBox
-                if (CmbMapSize.SelectedIndex == 0) _huntDurationLimit = 30;      // Small
-                else if (CmbMapSize.SelectedIndex == 1) _huntDurationLimit = 50; // Medium
-                else if (CmbMapSize.SelectedIndex == 2) _huntDurationLimit = 60; // Large
-
+                RecalculateHuntLimit();
                 _huntDurationSeconds = 0;
                 _huntDurationTimer.Start();
-                UpdateHuntDurationDisplay();
             }
+            UpdateHuntDurationDisplay();
         }
 
         private void HuntDuration_Tick(object sender, EventArgs e)
         {
             _huntDurationSeconds++;
+            if (_huntDurationSeconds >= _huntDurationLimit)
+            {
+                _huntDurationTimer.Stop();
+                PlayAudioCue("hunt_end");
+            }
             UpdateHuntDurationDisplay();
         }
 
         private void UpdateHuntDurationDisplay()
         {
-            // Format: "05 / 30s"
-            TxtActiveHunt.Text = $"{_huntDurationSeconds:D2} / {_huntDurationLimit}s";
+            if (TxtActiveHunt == null) return;
 
-            // Visual Logic
             if (_huntDurationTimer.IsEnabled)
             {
-                if (_huntDurationSeconds < _huntDurationLimit)
+                TxtActiveHunt.Text = $"{_huntDurationSeconds:D2} / {_huntDurationLimit}s";
+                TxtActiveHunt.Foreground = Brushes.Red;
+            }
+            else
+            {
+                if (_huntDurationSeconds >= _huntDurationLimit && _huntDurationLimit > 0)
                 {
-                    TxtActiveHunt.Foreground = Brushes.Red; // Normal Hunt
+                    TxtActiveHunt.Text = $"{_huntDurationLimit:D2} / {_huntDurationLimit}s [DONE]";
+                    TxtActiveHunt.Foreground = Brushes.LightGreen;
                 }
                 else
                 {
-                    // Overtime (Cursed Hunt?)
-                    TxtActiveHunt.Foreground = Brushes.Magenta;
+                    TxtActiveHunt.Text = $"-- / {_huntDurationLimit}s";
+                    TxtActiveHunt.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF8888")!;
+                }
+            }
+        }
+
+        // --- TAB MODE SWITCHING (EVIDENCE vs 0-EVIDENCE) ---
+        private void BtnModeEvidence_Click(object sender, RoutedEventArgs e) => SetTabMode(0);
+        private void BtnModeNoEvidence_Click(object sender, RoutedEventArgs e) => SetTabMode(1);
+
+        private void SetTabMode(int mode)
+        {
+            _activeTabMode = mode;
+            if (EvidenceGhostsContainer == null || NoEvidenceGhostsContainer == null) return;
+
+            if (mode == 0)
+            {
+                EvidenceGhostsContainer.Visibility = Visibility.Visible;
+                NoEvidenceGhostsContainer.Visibility = Visibility.Collapsed;
+                if (EvidenceModeControls != null) EvidenceModeControls.Visibility = Visibility.Visible;
+                if (NoEvidenceModeControls != null) NoEvidenceModeControls.Visibility = Visibility.Collapsed;
+
+                if (BtnModeEvidence != null)
+                {
+                    BtnModeEvidence.Background = (Brush)new BrushConverter().ConvertFrom("#889d00ff");
+                    BtnModeEvidence.Foreground = Brushes.White;
+                }
+                if (BtnModeNoEvidence != null)
+                {
+                    BtnModeNoEvidence.Background = (Brush)new BrushConverter().ConvertFrom("#22000000");
+                    BtnModeNoEvidence.Foreground = (Brush)new BrushConverter().ConvertFrom("#AAA");
                 }
             }
             else
             {
-                // Idle state
-                TxtActiveHunt.Text = $"-- / {_huntDurationLimit}s";
-                TxtActiveHunt.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF8888");
+                EvidenceGhostsContainer.Visibility = Visibility.Collapsed;
+                NoEvidenceGhostsContainer.Visibility = Visibility.Visible;
+                if (EvidenceModeControls != null) EvidenceModeControls.Visibility = Visibility.Collapsed;
+                if (NoEvidenceModeControls != null) NoEvidenceModeControls.Visibility = Visibility.Visible;
+
+                if (BtnModeEvidence != null)
+                {
+                    BtnModeEvidence.Background = (Brush)new BrushConverter().ConvertFrom("#22000000");
+                    BtnModeEvidence.Foreground = (Brush)new BrushConverter().ConvertFrom("#AAA");
+                }
+                if (BtnModeNoEvidence != null)
+                {
+                    BtnModeNoEvidence.Background = (Brush)new BrushConverter().ConvertFrom("#889d00ff");
+                    BtnModeNoEvidence.Foreground = Brushes.White;
+                }
+            }
+
+            if (_config != null)
+            {
+                _config.ActiveTabMode = mode;
+                _config.Save();
+            }
+
+            UpdateGhostFiltering();
+        }
+
+        private void ZeroEvidenceFilter_Changed(object sender, RoutedEventArgs e) => UpdateGhostFiltering();
+        private void ZeroEvidenceFilter_Changed(object sender, SelectionChangedEventArgs e) => UpdateGhostFiltering();
+
+        private void BtnResetZeroFilters_Click(object sender, RoutedEventArgs e)
+        {
+            if (CmbZeroSanity != null) CmbZeroSanity.SelectedIndex = 0;
+            if (CmbZeroBlink != null) CmbZeroBlink.SelectedIndex = 0;
+            if (CmbZeroSmudge != null) CmbZeroSmudge.SelectedIndex = 0;
+
+            if (ChkZeroSalt != null) ChkZeroSalt.IsChecked = false;
+            if (ChkZeroCandle != null) ChkZeroCandle.IsChecked = false;
+            if (ChkZeroOrbs != null) ChkZeroOrbs.IsChecked = false;
+            if (ChkZeroFootsteps != null) ChkZeroFootsteps.IsChecked = false;
+            if (ChkZeroPhoto != null) ChkZeroPhoto.IsChecked = false;
+            if (ChkZeroBreaker != null) ChkZeroBreaker.IsChecked = false;
+            if (ChkZeroLight != null) ChkZeroLight.IsChecked = false;
+            if (ChkZeroDeogen != null) ChkZeroDeogen.IsChecked = false;
+            if (ChkZeroFreezingBreath != null) ChkZeroFreezingBreath.IsChecked = false;
+
+            if (AllGhosts != null)
+            {
+                foreach (var g in AllGhosts)
+                {
+                    g.IsManuallyEliminated = false;
+                }
+            }
+
+            UpdateGhostFiltering();
+        }
+
+        private void GhostCard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is Ghost ghost)
+            {
+                ghost.IsManuallyEliminated = !ghost.IsManuallyEliminated;
+                UpdateGhostFiltering();
             }
         }
 
@@ -286,49 +435,215 @@ namespace Hophesmoverlay
                 string json = File.ReadAllText(path);
                 _currentLangData = JsonSerializer.Deserialize<LangFile>(json);
 
+                if (_currentLangData?.UI == null) return;
+
                 // Apply UI Strings
                 var ui = _currentLangData.UI;
-                LblControls.Text = ui.GetValueOrDefault("Controls", "Missing String");
-                LblEvidence.Text = ui.GetValueOrDefault("EvidenceHeader", "Evidence");
-                LblSmudge.Text = ui.GetValueOrDefault("SmudgeHeader", "Smudge");
-                LblHunt.Text = ui.GetValueOrDefault("HuntHeader", "Hunt");
-                LblSpeed.Text = ui.GetValueOrDefault("SpeedHeader", "Speed");
+                if (BtnModeEvidence != null) BtnModeEvidence.Content = ui.GetValueOrDefault("ModeEvidence", "📋 EVIDENCE MODE");
+                if (BtnModeNoEvidence != null) BtnModeNoEvidence.Content = ui.GetValueOrDefault("ModeNoEvidence", "👁️ 0-EVIDENCE IDENTIFIER");
+                if (LblControls != null) LblControls.Text = ui.GetValueOrDefault("Controls", "Missing String");
+                if (LblEvidence != null) LblEvidence.Text = ui.GetValueOrDefault("EvidenceHeader", "Evidence");
+                if (LblSmudge != null) LblSmudge.Text = ui.GetValueOrDefault("SmudgeHeader", "Smudge");
+                if (LblHunt != null) LblHunt.Text = ui.GetValueOrDefault("HuntHeader", "Hunt");
+                if (LblSpeed != null) LblSpeed.Text = ui.GetValueOrDefault("SpeedHeader", "Speed");
 
-                ChkEv1.Content = ui.GetValueOrDefault("Ev1", "EMF 5");
-                ChkEv2.Content = ui.GetValueOrDefault("Ev2", "DOTS");
-                ChkEv3.Content = ui.GetValueOrDefault("Ev3", "UV");
-                ChkEv4.Content = ui.GetValueOrDefault("Ev4", "Freezing");
-                ChkEv5.Content = ui.GetValueOrDefault("Ev5", "Orbs");
-                ChkEv6.Content = ui.GetValueOrDefault("Ev6", "Writing");
-                ChkEv7.Content = ui.GetValueOrDefault("Ev7", "Spirit Box");
+                if (ChkEv1 != null) ChkEv1.Content = ui.GetValueOrDefault("Ev1", "EMF 5");
+                if (ChkEv2 != null) ChkEv2.Content = ui.GetValueOrDefault("Ev2", "DOTS");
+                if (ChkEv3 != null) ChkEv3.Content = ui.GetValueOrDefault("Ev3", "UV");
+                if (ChkEv4 != null) ChkEv4.Content = ui.GetValueOrDefault("Ev4", "Freezing");
+                if (ChkEv5 != null) ChkEv5.Content = ui.GetValueOrDefault("Ev5", "Orbs");
+                if (ChkEv6 != null) ChkEv6.Content = ui.GetValueOrDefault("Ev6", "Writing");
+                if (ChkEv7 != null) ChkEv7.Content = ui.GetValueOrDefault("Ev7", "Spirit Box");
 
-                // Build Ghost List
-                AllGhosts.Clear();
-                foreach (var g in _currentLangData.Ghosts)
+                // Mini HUD and Intel HUD labels
+                if (LblMiniSmudge != null) LblMiniSmudge.Text = ui.GetValueOrDefault("SmudgeHeader", "SMUDGE").Split('[')[0].Trim();
+                if (LblMiniHunt != null) LblMiniHunt.Text = ui.GetValueOrDefault("HuntHeader", "HUNT CD").Split('[')[0].Trim();
+                if (LblIntelSmudge != null) LblIntelSmudge.Text = ui.GetValueOrDefault("SmudgeHeader", "SMUDGE").Split('[')[0].Trim();
+                if (LblIntelHunt != null) LblIntelHunt.Text = ui.GetValueOrDefault("HuntHeader", "HUNT CD").Split('[')[0].Trim();
+                if (LblIntelSpeed != null) LblIntelSpeed.Text = ui.GetValueOrDefault("SpeedHeader", "SPEED").Split('(')[0].Trim();
+                if (LblIntelEvidence != null) LblIntelEvidence.Text = ui.GetValueOrDefault("EvidenceHeader", "EVIDENCE").Split('(')[0].Trim();
+
+                // 0-Evidence Filters Headers & Checkboxes
+                if (LblZeroFilters != null) LblZeroFilters.Text = ui.GetValueOrDefault("ZeroFilters", "0-EVIDENCE FILTERS");
+                if (LblZeroSanity != null) LblZeroSanity.Text = ui.GetValueOrDefault("ZeroSanity", "HUNT SANITY");
+                if (LblZeroBlink != null) LblZeroBlink.Text = ui.GetValueOrDefault("ZeroBlink", "BLINK PATTERN");
+                if (LblZeroSmudge != null) LblZeroSmudge.Text = ui.GetValueOrDefault("ZeroSmudge", "SMUDGE HUNT CD");
+                if (LblZeroTests != null) LblZeroTests.Text = ui.GetValueOrDefault("ZeroTests", "BEHAVIORAL TESTS");
+                if (BtnResetZeroFilters != null) BtnResetZeroFilters.Content = ui.GetValueOrDefault("BtnResetZero", "🔄 Reset 0-Ev Filters");
+
+                if (ChkZeroSalt != null) ChkZeroSalt.Content = ui.GetValueOrDefault("ChkZeroSalt", "🧂 Stepped in Salt (No Wraith)");
+                if (ChkZeroCandle != null) ChkZeroCandle.Content = ui.GetValueOrDefault("ChkZeroCandle", "🕯️ 3rd Candle Blow = Hunt (Onryo)");
+                if (ChkZeroOrbs != null) ChkZeroOrbs.Content = ui.GetValueOrDefault("ChkZeroOrbs", "🔮 Orbs Seen in 0-Ev (The Mimic)");
+                if (ChkZeroFootsteps != null) ChkZeroFootsteps.Content = ui.GetValueOrDefault("ChkZeroFootsteps", "🔇 Footsteps Quiet >10m (Myling)");
+                if (ChkZeroPhoto != null) ChkZeroPhoto.Content = ui.GetValueOrDefault("ChkZeroPhoto", "📷 Disappears in Photo (Phantom)");
+                if (ChkZeroBreaker != null) ChkZeroBreaker.Content = ui.GetValueOrDefault("ChkZeroBreaker", "⚡ Breaker Turned Off (No Jinn)");
+                if (ChkZeroLight != null) ChkZeroLight.Content = ui.GetValueOrDefault("ChkZeroLight", "💡 Light Turned On (No Mare)");
+                if (ChkZeroDeogen != null) ChkZeroDeogen.Content = ui.GetValueOrDefault("ChkZeroDeogen", "👁️ Always Knows / Slow Close (Deogen)");
+                if (ChkZeroFreezingBreath != null) ChkZeroFreezingBreath.Content = ui.GetValueOrDefault("ChkZeroFreezingBreath", "💨 Freezing Breath in Hunt (Hantu)");
+
+                // Active Hunt & Map/Difficulty
+                if (LblActiveHuntTitle != null) LblActiveHuntTitle.Text = ui.GetValueOrDefault("ActiveHuntTitle", "ACTIVE HUNT [F1]");
+                if (ChkCursedHunt != null) ChkCursedHunt.Content = ui.GetValueOrDefault("CursedHunt", "Cursed (+20s)");
+                if (LblMapList != null) LblMapList.Text = ui.GetValueOrDefault("MapListHeader", "MAP / AREA");
+                if (LblDifficulty != null) LblDifficulty.Text = ui.GetValueOrDefault("DifficultyHeader", "DIFFICULTY");
+                if (BtnResetPace != null) BtnResetPace.Content = ui.GetValueOrDefault("BtnResetPace", "RST (F11)");
+
+                Ghost.GuaranteedPrefix = ui.GetValueOrDefault("GuaranteedPrefix", "Guaranteed");
+
+                // Dropdowns from JSON
+                PopulateDropdownsFromLanguage(_currentLangData);
+
+                // Update Timers text if stopped
+                if (_smudgeTimer != null)
                 {
-                    // Map the Data from JSON (GhostData) to Logic Class (Ghost)
-                    AllGhosts.Add(new Ghost(g.Name, g.Symbol, g.Evidences.ToArray())
-                    {
-                        ID = g.ID,
-                        Tell = g.Tell,
-                        HuntThreshold = g.HuntThreshold,
-                        MinSpeed = g.MinSpeed,
-                        MaxSpeed = g.MaxSpeed,
-                        Guaranteed = g.Guaranteed,
-                        SpeedInfo = (g.MinSpeed == g.MaxSpeed) ? $"{g.MinSpeed:0.0} m/s" : $"{g.MinSpeed:0.0} - {g.MaxSpeed:0.0} m/s"
-                    });
+                    if (!_smudgeTimer.IsEnabled) StopSmudgeTimer();
+                    else UpdateTimerDisplay();
+                }
+                if (_huntTimer != null)
+                {
+                    if (!_huntTimer.IsEnabled) StopHuntTimer();
+                    else UpdateHuntTimerDisplay();
                 }
 
-                GhostsListControl.ItemsSource = null;
-                GhostsListControl.ItemsSource = AllGhosts;
-                GhostsIntelControl.ItemsSource = null;
-                GhostsIntelControl.ItemsSource = AllGhosts;
+                // Refresh Speed Labels in both modes
+                if (_lastCalculatedSpeed > 0)
+                {
+                    InterpretSpeed(_lastCalculatedSpeed);
+                }
+                else
+                {
+                    string waitText = ui.GetValueOrDefault("Waiting", "WAITING...");
+                    if (TxtGhostSpeedGuess != null)
+                    {
+                        TxtGhostSpeedGuess.Text = waitText;
+                        TxtGhostSpeedGuess.Foreground = Brushes.Gray;
+                    }
+                    if (TxtIntelSpeedGuess != null)
+                    {
+                        TxtIntelSpeedGuess.Text = waitText;
+                        TxtIntelSpeedGuess.Foreground = Brushes.Gray;
+                    }
+                }
+
+                // Build Ghost List directly from JSON
+                AllGhosts.Clear();
+                if (_currentLangData.Ghosts != null)
+                {
+                    foreach (var g in _currentLangData.Ghosts)
+                    {
+                        // Map the Data from JSON (GhostData) to Logic Class (Ghost)
+                        var ghost = new Ghost(g.Name, g.Symbol, g.Evidences?.ToArray() ?? Array.Empty<string>())
+                        {
+                            ID = g.ID,
+                            Tell = g.Tell,
+                            HuntThreshold = g.HuntThreshold,
+                            MinSpeed = g.MinSpeed,
+                            MaxSpeed = g.MaxSpeed,
+                            Guaranteed = g.Guaranteed,
+                            ZeroEvidenceTest = !string.IsNullOrEmpty(g.ZeroEvidenceTest) ? g.ZeroEvidenceTest : (g.Tell ?? ""),
+                            BehavioralTags = (g.BehavioralTags != null && g.BehavioralTags.Count > 0) ? g.BehavioralTags : new List<string> { "Standard Speed" },
+                            SpeedInfo = (g.MinSpeed == g.MaxSpeed) ? $"{g.MinSpeed:0.0} m/s" : $"{g.MinSpeed:0.0} - {g.MaxSpeed:0.0} m/s"
+                        };
+                        AssignGhostTraits(ghost);
+                        AllGhosts.Add(ghost);
+                    }
+                }
+
+                if (GhostsListControl != null)
+                {
+                    GhostsListControl.ItemsSource = null;
+                    GhostsListControl.ItemsSource = AllGhosts;
+                }
+                if (NoEvidenceGhostsListControl != null)
+                {
+                    NoEvidenceGhostsListControl.ItemsSource = null;
+                    NoEvidenceGhostsListControl.ItemsSource = AllGhosts;
+                }
+                if (GhostsIntelControl != null)
+                {
+                    GhostsIntelControl.ItemsSource = null;
+                    GhostsIntelControl.ItemsSource = AllGhosts;
+                }
 
                 UpdateGhostFiltering();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading language: " + ex.Message);
+            }
+        }
+
+        private void PopulateDropdownsFromLanguage(LangFile langData)
+        {
+            if (langData == null) return;
+
+            // 1. Sanity
+            if (CmbZeroSanity != null && langData.SanityOptions != null && langData.SanityOptions.Count > 0)
+            {
+                int cur = CmbZeroSanity.SelectedIndex;
+                CmbZeroSanity.Items.Clear();
+                foreach (var opt in langData.SanityOptions)
+                    CmbZeroSanity.Items.Add(new ComboBoxItem { Content = opt });
+                CmbZeroSanity.SelectedIndex = (cur >= 0 && cur < langData.SanityOptions.Count) ? cur : 0;
+            }
+
+            // 2. Blink
+            if (CmbZeroBlink != null && langData.BlinkOptions != null && langData.BlinkOptions.Count > 0)
+            {
+                int cur = CmbZeroBlink.SelectedIndex;
+                CmbZeroBlink.Items.Clear();
+                foreach (var opt in langData.BlinkOptions)
+                    CmbZeroBlink.Items.Add(new ComboBoxItem { Content = opt });
+                CmbZeroBlink.SelectedIndex = (cur >= 0 && cur < langData.BlinkOptions.Count) ? cur : 0;
+            }
+
+            // 3. Smudge
+            if (CmbZeroSmudge != null && langData.SmudgeOptions != null && langData.SmudgeOptions.Count > 0)
+            {
+                int cur = CmbZeroSmudge.SelectedIndex;
+                CmbZeroSmudge.Items.Clear();
+                foreach (var opt in langData.SmudgeOptions)
+                    CmbZeroSmudge.Items.Add(new ComboBoxItem { Content = opt });
+                CmbZeroSmudge.SelectedIndex = (cur >= 0 && cur < langData.SmudgeOptions.Count) ? cur : 0;
+            }
+
+            // 4. Difficulty
+            if (CmbDifficulty != null && langData.DifficultyOptions != null && langData.DifficultyOptions.Count > 0)
+            {
+                int cur = CmbDifficulty.SelectedIndex;
+                CmbDifficulty.Items.Clear();
+                foreach (var opt in langData.DifficultyOptions)
+                    CmbDifficulty.Items.Add(new ComboBoxItem { Content = opt });
+                CmbDifficulty.SelectedIndex = (cur >= 0 && cur < langData.DifficultyOptions.Count) ? cur : 2;
+            }
+
+            // 5. Map List
+            if (CmbMapList != null && langData.UI != null)
+            {
+                int cur = CmbMapList.SelectedIndex;
+                CmbMapList.Items.Clear();
+                string sm = langData.UI.GetValueOrDefault("SizeSmall", "(Small)");
+                string md = langData.UI.GetValueOrDefault("SizeMedium", "(Medium)");
+                string lg = langData.UI.GetValueOrDefault("SizeLarge", "(Large)");
+
+                string[] maps = new[]
+                {
+                    $"6 Tanglewood Drive {sm}",
+                    $"42 Edgefield Road {sm}",
+                    $"10 Ridgeview Court {sm}",
+                    $"13 Grafton Farmhouse {sm}",
+                    $"13 Willow Street {sm}",
+                    $"Bleasdale Farmhouse {sm}",
+                    $"Camp Woodwind {sm}",
+                    $"Point Hope {sm}",
+                    $"Sunny Meadows - Restricted {sm}",
+                    $"Maple Lodge Campsite {md}",
+                    $"Prison {md}",
+                    $"Brownstone High School {lg}",
+                    $"Sunny Meadows - Full {lg}"
+                };
+                foreach (var m in maps) CmbMapList.Items.Add(new ComboBoxItem { Content = m });
+                CmbMapList.SelectedIndex = (cur >= 0 && cur < maps.Length) ? cur : 0;
             }
         }
 
@@ -412,13 +727,13 @@ namespace Hophesmoverlay
             {
                 key = "SuperFast"; c = Brushes.Red; _currentSpeedCategory = "Fast";
             }
-            else if (ms < 4.0)  // 3.25 to 4.0 (Moroi Max Speed)
+            else if (ms <= 4.0)  // 3.25 to 4.0 (Moroi Max Speed)
             {
                 key = "MaxLOS"; c = Brushes.Magenta; _currentSpeedCategory = "Fast";
             }
-            else // > 4.0
+            else // > 4.0 m/s (Impossible human/ghost speed)
             {
-                key = "Impossible"; c = Brushes.Gray; _currentSpeedCategory = "None";
+                key = "Impossible"; c = Brushes.Crimson; _currentSpeedCategory = "Impossible";
             }
 
             // Get Translation safely
@@ -442,7 +757,8 @@ namespace Hophesmoverlay
             }
 
             // Update Status Filter Text
-            TxtPacerStatus.Text = $"FILTER: {_currentSpeedCategory.ToUpper()}";
+            string filterText = _currentSpeedCategory == "Impossible" ? "IMPOSSIBLE (>4.0 m/s)" : _currentSpeedCategory.ToUpper();
+            TxtPacerStatus.Text = $"FILTER: {filterText}";
             TxtPacerStatus.Foreground = c;
 
             // Trigger the Filtering
@@ -454,108 +770,341 @@ namespace Hophesmoverlay
         {
             _tapHistory.Clear();
             _lastCalculatedSpeed = 0.0;
-            string txt = "-- m/s"; TxtBPM.Text = txt; TxtIntelBPM.Text = txt;
-            TxtPacerStatus.Text = "FILTER: NONE"; TxtPacerStatus.Foreground = Brushes.Gray;
-            _currentSpeedCategory = "None"; UpdateGhostFiltering();
+            string txt = "-- m/s";
+            if (TxtBPM != null) TxtBPM.Text = txt;
+            if (TxtIntelBPM != null) TxtIntelBPM.Text = txt;
+
+            string waitText = _currentLangData?.UI.GetValueOrDefault("Waiting", "WAITING...") ?? "WAITING...";
+            if (TxtGhostSpeedGuess != null)
+            {
+                TxtGhostSpeedGuess.Text = waitText;
+                TxtGhostSpeedGuess.Foreground = Brushes.Gray;
+            }
+            if (TxtIntelSpeedGuess != null)
+            {
+                TxtIntelSpeedGuess.Text = waitText;
+                TxtIntelSpeedGuess.Foreground = Brushes.Gray;
+            }
+
+            if (TxtPacerStatus != null)
+            {
+                TxtPacerStatus.Text = "FILTER: NONE";
+                TxtPacerStatus.Foreground = Brushes.Gray;
+            }
+            _currentSpeedCategory = "None";
+            UpdateGhostFiltering();
             UpdateDiscordStatus();
         }
 
         private void UpdateGhostFiltering()
         {
-            List<string> foundEv = new List<string>();
-            List<string> ruledOutEv = new List<string>();
+            if (AllGhosts == null || AllGhosts.Count == 0) return;
 
-            foreach (var box in _evidenceCheckBoxes)
+            if (_activeTabMode == 0)
             {
-                if (box.IsChecked == true) foundEv.Add(box.Content.ToString());
-                if (box.IsChecked == null) ruledOutEv.Add(box.Content.ToString());
-            }
+                // === EVIDENCE MODE ===
+                List<string> foundEv = new List<string>();
+                List<string> ruledOutEv = new List<string>();
 
-            if (foundEv.Count > 0)
-            {
-                string foundStr = string.Join(" + ", foundEv);
-                TxtIntelFound.Text = foundStr; TxtIntelFound.Visibility = Visibility.Visible;
-            }
-            else { TxtIntelFound.Visibility = Visibility.Collapsed; }
-
-            foreach (var ghost in AllGhosts)
-            {
-                bool elim = false;
-
-                // 1. Evidence Check (The "Fuzzy" Logic)
-                foreach (var ev in foundEv)
+                foreach (var box in _evidenceCheckBoxes)
                 {
-                    
-                    if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("靈球") || ev.Contains("Geestbal") || ev.Contains("огонёк")))
-                        continue;
-
-                    // FIX: Check if Ghost Evidence contains Checkbox OR Checkbox contains Ghost Evidence
-                    // This handles "D.O.T.S." matching "D.O.T.S. Projektor"
-                    bool match = ghost.Evidences.Any(gEv =>
-                        ev.IndexOf(gEv, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        gEv.IndexOf(ev, StringComparison.OrdinalIgnoreCase) >= 0);
-
-                    if (!match)
-                    {
-                        elim = true;
-                        break;
-                    }
+                    if (box.IsChecked == true) foundEv.Add(box.Content.ToString());
+                    if (box.IsChecked == null) ruledOutEv.Add(box.Content.ToString());
                 }
 
-                if (!elim)
+                if (foundEv.Count > 0)
                 {
-                    foreach (var ev in ruledOutEv)
+                    string foundStr = string.Join(" + ", foundEv);
+                    if (TxtIntelFound != null) { TxtIntelFound.Text = foundStr; TxtIntelFound.Visibility = Visibility.Visible; }
+                }
+                else
+                {
+                    if (TxtIntelFound != null) { TxtIntelFound.Visibility = Visibility.Collapsed; }
+                }
+
+                foreach (var ghost in AllGhosts)
+                {
+                    bool elim = false;
+
+                    // 1. Evidence Check (Fuzzy Logic)
+                    foreach (var ev in foundEv)
                     {
-                        // FIX: Same Fuzzy Logic for Ruling Out
+                        if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("靈球") || ev.Contains("Geestbal") || ev.Contains("огонёк") || ev.Contains("вогник") || ev.Contains("玉")))
+                            continue;
+
                         bool match = ghost.Evidences.Any(gEv =>
                             ev.IndexOf(gEv, StringComparison.OrdinalIgnoreCase) >= 0 ||
                             gEv.IndexOf(ev, StringComparison.OrdinalIgnoreCase) >= 0);
 
-                        if (match)
+                        if (!match)
                         {
-                            // FIX: Use ID "The Mimic"
-                            if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("Geestbal") || ev.Contains("огонёк")))
-                                continue;
-
                             elim = true;
                             break;
                         }
                     }
-                }
 
-                // 2. Speed Check (Standard Logic)
-                if (!elim)
-                {
-                    if (_currentSpeedCategory == "Fast")
+                    if (!elim)
                     {
-                        if (!_fastGhosts.Contains(ghost.ID)) elim = true;
-                    }
-                    else if (_currentSpeedCategory == "Slow")
-                    {
-                        if (!_slowGhosts.Contains(ghost.ID)) elim = true;
-                    }
-                    else if (_currentSpeedCategory == "Normal")
-                    {
-                        if (ghost.ID == "Revenant") elim = true;
+                        foreach (var ev in ruledOutEv)
+                        {
+                            bool match = ghost.Evidences.Any(gEv =>
+                                ev.IndexOf(gEv, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                gEv.IndexOf(ev, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                            if (match)
+                            {
+                                if (ghost.ID == "The Mimic" && (ev.Contains("Orb") || ev.Contains("Orbe") || ev.Contains("Geestbal") || ev.Contains("огонёк") || ev.Contains("вогник") || ev.Contains("玉")))
+                                    continue;
+
+                                elim = true;
+                                break;
+                            }
+                        }
                     }
 
+                    // 2. Speed Check
                     if (!elim && _lastCalculatedSpeed > 0 && _currentSpeedCategory != "None")
                     {
-                        double margin = 0.15;
-                        if (_lastCalculatedSpeed < (ghost.MinSpeed - margin) || _lastCalculatedSpeed > (ghost.MaxSpeed + margin))
+                        if (_currentSpeedCategory == "Impossible")
+                        {
+                            elim = true; // Speed > 4.0 m/s is impossible for all ghosts
+                        }
+                        else
+                        {
+                            if (_currentSpeedCategory == "Fast")
+                            {
+                                if (!_fastGhosts.Contains(ghost.ID)) elim = true;
+                            }
+                            else if (_currentSpeedCategory == "Slow")
+                            {
+                                if (!_slowGhosts.Contains(ghost.ID)) elim = true;
+                            }
+                            else if (_currentSpeedCategory == "Normal")
+                            {
+                                if (ghost.ID == "Revenant") elim = true;
+                            }
+
+                            if (!elim)
+                            {
+                                double margin = 0.20;
+                                if (_lastCalculatedSpeed < (ghost.MinSpeed - margin) || _lastCalculatedSpeed > (ghost.MaxSpeed + margin))
+                                {
+                                    elim = true;
+                                }
+                            }
+                        }
+                    }
+
+                    ghost.IsEliminated = elim;
+                }
+            }
+            else
+            {
+                // === 0-EVIDENCE MODE ===
+                int sanityFilter = CmbZeroSanity?.SelectedIndex ?? 0;
+                int blinkFilter = CmbZeroBlink?.SelectedIndex ?? 0;
+                int smudgeFilter = CmbZeroSmudge?.SelectedIndex ?? 0;
+
+                bool traitSalt = ChkZeroSalt?.IsChecked == true;
+                bool traitCandle = ChkZeroCandle?.IsChecked == true;
+                bool traitOrbs = ChkZeroOrbs?.IsChecked == true;
+                bool traitFootsteps = ChkZeroFootsteps?.IsChecked == true;
+                bool traitPhoto = ChkZeroPhoto?.IsChecked == true;
+                bool traitBreaker = ChkZeroBreaker?.IsChecked == true;
+                bool traitLight = ChkZeroLight?.IsChecked == true;
+                bool traitDeogen = ChkZeroDeogen?.IsChecked == true;
+                bool traitFreezingBreath = ChkZeroFreezingBreath?.IsChecked == true;
+
+                foreach (var ghost in AllGhosts)
+                {
+                    if (ghost.IsManuallyEliminated)
+                    {
+                        ghost.IsEliminated = true;
+                        continue;
+                    }
+
+                    bool elim = false;
+
+                    // 1. Sanity threshold filter
+                    if (sanityFilter == 1) // Early (>60%)
+                    {
+                        if (ghost.SanityThresholdCategory != "Early" && ghost.SanityThresholdCategory != "Any" &&
+                            ghost.ID != "Demon" && ghost.ID != "Yokai" && ghost.ID != "Thaye" && ghost.ID != "Mare" &&
+                            ghost.ID != "Raiju" && ghost.ID != "Onryo" && ghost.ID != "Kormos")
                         {
                             elim = true;
                         }
                     }
-                }
+                    else if (sanityFilter == 2) // Normal (50%)
+                    {
+                        if (ghost.SanityThresholdCategory != "Normal" && ghost.SanityThresholdCategory != "Any")
+                        {
+                            elim = true;
+                        }
+                    }
+                    else if (sanityFilter == 3) // Late (<40%)
+                    {
+                        if (ghost.SanityThresholdCategory != "Late" && ghost.SanityThresholdCategory != "Any" &&
+                            ghost.ID != "Shade" && ghost.ID != "Deogen")
+                        {
+                            elim = true;
+                        }
+                    }
 
-                // 3. Visual Update
-                ghost.IsEliminated = elim;
-                // Make sure to set Opacity so the "Gray out" effect works!
-                // (Ensure you added the 'Opacity' property to your Ghost class as discussed before)
-                // ghost.Opacity = elim ? 0.3 : 1.0; 
+                    // 2. Blink pattern filter
+                    if (!elim && blinkFilter > 0)
+                    {
+                        if (blinkFilter == 1 && ghost.BlinkRate != "Slow" && ghost.ID != "The Mimic") elim = true; // Phantom
+                        else if (blinkFilter == 2 && ghost.BlinkRate != "Fast" && ghost.ID != "The Mimic") elim = true; // Oni
+                        else if (blinkFilter == 3 && ghost.BlinkRate != "Shapeshift" && ghost.ID != "The Mimic") elim = true; // Obake
+                        else if (blinkFilter == 4 && ghost.BlinkRate != "Normal" && ghost.ID != "The Mimic") elim = true; // Normal
+                    }
+
+                    // 3. Smudge filter
+                    if (!elim && smudgeFilter > 0)
+                    {
+                        if (smudgeFilter == 1 && ghost.SmudgeCooldown != "60s" && ghost.ID != "The Mimic") elim = true; // Demon
+                        else if (smudgeFilter == 2 && ghost.SmudgeCooldown != "90s" && ghost.ID != "The Mimic") elim = true; // Standard
+                        else if (smudgeFilter == 3 && ghost.SmudgeCooldown != "180s" && ghost.ID != "The Mimic") elim = true; // Spirit
+                    }
+
+                    // 4. Behavioral confirmation & elimination traits
+                    if (!elim)
+                    {
+                        if (traitSalt && !ghost.StepsInSalt) elim = true; // Wraith never steps in salt
+                        if (traitCandle && ghost.ID != "Onryo" && ghost.ID != "The Mimic") elim = true; // 3 candles blow = Onryo
+                        if (traitOrbs && ghost.ID != "The Mimic") elim = true; // Orbs in 0-ev = Mimic
+                        if (traitFootsteps && ghost.ID != "Myling" && ghost.ID != "The Mimic") elim = true; // Silent footsteps = Myling
+                        if (traitPhoto && ghost.ID != "Phantom" && ghost.ID != "The Mimic") elim = true; // Disappears in photo = Phantom
+                        if (traitBreaker && ghost.ID == "Jinn") elim = true; // Jinn never turns off breaker
+                        if (traitLight && ghost.ID == "Mare") elim = true; // Mare never turns on light
+                        if (traitDeogen && ghost.ID != "Deogen" && ghost.ID != "The Mimic") elim = true; // Deogen always knows & slow loop
+                        if (traitFreezingBreath && ghost.ID != "Hantu" && ghost.ID != "The Mimic") elim = true; // Freezing breath = Hantu
+                    }
+
+                    // 5. Speed Check
+                    if (!elim && _lastCalculatedSpeed > 0 && _currentSpeedCategory != "None")
+                    {
+                        if (_currentSpeedCategory == "Impossible")
+                        {
+                            elim = true; // Speed > 4.0 m/s is impossible for all ghosts
+                        }
+                        else
+                        {
+                            if (_currentSpeedCategory == "Fast")
+                            {
+                                if (!_fastGhosts.Contains(ghost.ID)) elim = true;
+                            }
+                            else if (_currentSpeedCategory == "Slow")
+                            {
+                                if (!_slowGhosts.Contains(ghost.ID)) elim = true;
+                            }
+                            else if (_currentSpeedCategory == "Normal")
+                            {
+                                if (ghost.ID == "Revenant") elim = true;
+                            }
+
+                            if (!elim)
+                            {
+                                double margin = 0.20;
+                                if (_lastCalculatedSpeed < (ghost.MinSpeed - margin) || _lastCalculatedSpeed > (ghost.MaxSpeed + margin))
+                                {
+                                    elim = true;
+                                }
+                            }
+                        }
+                    }
+
+                    ghost.IsEliminated = elim;
+                }
             }
+
             UpdateDiscordStatus();
+        }
+
+        private static void AssignGhostTraits(Ghost g)
+        {
+
+            switch (g.ID)
+            {
+                case "Spirit":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "180s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Wraith":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = false; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Phantom":
+                    g.BlinkRate = "Slow"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Poltergeist":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Banshee":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Jinn":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Mare":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                case "Revenant":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Shade":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Late";
+                    break;
+                case "Demon":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "60s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                case "Yurei":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Oni":
+                    g.BlinkRate = "Fast"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Yokai":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                case "Hantu":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Goryo":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Myling":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Onryo":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                case "TheTwins":
+                case "The Twins":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Raiju":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                case "Obake":
+                    g.BlinkRate = "Shapeshift"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "TheMimic":
+                case "The Mimic":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Any";
+                    break;
+                case "Moroi":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+                case "Deogen":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Late";
+                    break;
+                case "Thaye":
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Early";
+                    break;
+                default:
+                    g.BlinkRate = "Normal"; g.SmudgeCooldown = "90s"; g.StepsInSalt = true; g.SanityThresholdCategory = "Normal";
+                    break;
+            }
         }
 
         // --- MISC LOGIC ---
@@ -609,32 +1158,36 @@ namespace Hophesmoverlay
         {
             _smudgeTimer.Stop();
             string ready = _currentLangData?.UI.GetValueOrDefault("Ready", "READY") ?? "READY";
-            string wait = _currentLangData?.UI.GetValueOrDefault("Waiting", "WAITING") ?? "WAITING";
+            string wait = _currentLangData?.UI.GetValueOrDefault("Waiting", "WAITING...") ?? "WAITING...";
             TxtTimer.Text = ready; TxtMiniTimer.Text = ready; TxtIntelTimer.Text = ready;
             TxtTimerStatus.Text = wait; TxtMiniStatus.Text = wait; TxtIntelStatus.Text = wait;
             TxtTimer.Foreground = Brushes.White; TxtTimerStatus.Foreground = Brushes.Gray;
+            TxtMiniStatus.Foreground = Brushes.LightGreen; TxtIntelStatus.Foreground = Brushes.LightGreen;
             ProgressTimer.Value = 180;
         }
 
         private void SmudgeTimer_Tick(object sender, EventArgs e)
         {
             _timerSecondsRemaining--; ProgressTimer.Value = _timerSecondsRemaining; UpdateTimerDisplay();
-            if (_timerSecondsRemaining == 120) PlayAudioCue("demon"); if (_timerSecondsRemaining == 90) PlayAudioCue("normal"); if (_timerSecondsRemaining <= 0) { _smudgeTimer.Stop(); UpdateTimerDisplay(); PlayAudioCue("spirit"); }
+            if (_timerSecondsRemaining == 120) PlayAudioCue("demon");
+            if (_timerSecondsRemaining == 90) PlayAudioCue("normal");
+            if (_timerSecondsRemaining <= 0) { _smudgeTimer.Stop(); UpdateTimerDisplay(); PlayAudioCue("smudge_end"); }
         }
 
         private void UpdateTimerDisplay()
         {
-            if (!_smudgeTimer.IsEnabled && (TxtTimer.Text.Contains("READY") || TxtTimer.Text.Contains("PRONTO"))) return;
+            if (!_smudgeTimer.IsEnabled) return;
             string timeText, statusText; Brush colorBrush, statusBrush;
             string safeTxt = _currentLangData?.UI.GetValueOrDefault("Safe", "SAFE") ?? "SAFE";
             string demonTxt = _currentLangData?.UI.GetValueOrDefault("Demon", "DEMON") ?? "DEMON";
+            string ready = _currentLangData?.UI.GetValueOrDefault("Ready", "READY") ?? "READY";
 
-            if (_timerSecondsRemaining <= 0) { timeText = "READY"; statusText = "HUNT!"; colorBrush = Brushes.Red; statusBrush = Brushes.Red; }
+            if (_timerSecondsRemaining <= 0) { timeText = ready; statusText = "HUNT!"; colorBrush = Brushes.Red; statusBrush = Brushes.Red; }
             else
             {
                 TimeSpan t = TimeSpan.FromSeconds(_timerSecondsRemaining); timeText = string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
                 if (_timerSecondsRemaining > 120) { colorBrush = Brushes.White; statusText = safeTxt; statusBrush = Brushes.LightGreen; }
-                else if (_timerSecondsRemaining <= 120 && _timerSecondsRemaining > 90) { colorBrush = (Brush)new BrushConverter().ConvertFrom("#FF6666"); statusText = demonTxt; statusBrush = Brushes.Orange; }
+                else if (_timerSecondsRemaining <= 120 && _timerSecondsRemaining > 90) { colorBrush = (Brush)new BrushConverter().ConvertFrom("#FF6666")!; statusText = demonTxt; statusBrush = Brushes.Orange; }
                 else { colorBrush = Brushes.Red; statusText = "UNSAFE"; statusBrush = Brushes.Red; }
             }
             TxtTimer.Text = timeText; TxtTimer.Foreground = colorBrush; TxtTimerStatus.Text = statusText; TxtTimerStatus.Foreground = statusBrush;
@@ -654,7 +1207,7 @@ namespace Hophesmoverlay
         private void HuntTimer_Tick(object sender, EventArgs e)
         {
             _huntTimerSeconds--; ProgressHuntTimer.Value = _huntTimerSeconds; UpdateHuntTimerDisplay();
-            if (_huntTimerSeconds <= 0) { _huntTimer.Stop(); PlayAudioCue("spirit"); TxtHuntTimer.Foreground = Brushes.Red; }
+            if (_huntTimerSeconds <= 0) { _huntTimer.Stop(); PlayAudioCue("crucifix_end"); TxtHuntTimer.Foreground = Brushes.Red; }
         }
 
         private void UpdateHuntTimerDisplay()
@@ -664,7 +1217,98 @@ namespace Hophesmoverlay
             TxtHuntTimer.Text = txt; TxtHuntTimer.Foreground = c; TxtMiniHuntTimer.Text = txt; TxtMiniHuntTimer.Foreground = c; TxtIntelHuntTimer.Text = txt; TxtIntelHuntTimer.Foreground = c;
         }
 
-        private void PlayAudioCue(string type) { Task.Run(() => { try { if (type == "demon") { Console.Beep(200, 400); Thread.Sleep(100); Console.Beep(200, 400); } else if (type == "normal") { Console.Beep(500, 200); Thread.Sleep(100); Console.Beep(500, 200); Thread.Sleep(100); Console.Beep(500, 200); } else if (type == "spirit") { Console.Beep(1000, 300); Thread.Sleep(50); Console.Beep(1000, 300); Thread.Sleep(50); Console.Beep(1000, 800); } } catch { } }); }
+        private void PlayAudioCue(string type)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    double vol = _config?.Volume ?? 0.3;
+                    if (vol <= 0.001) return;
+
+                    string customPath = "";
+                    if (type == "smudge_end" || type == "spirit") customPath = _config?.CustomSoundSmudgeEnd ?? "";
+                    else if (type == "crucifix_end") customPath = _config?.CustomSoundCrucifixEnd ?? "";
+                    else if (type == "hunt_end") customPath = _config?.CustomSoundHuntEnd ?? "";
+                    else if (type == "demon") customPath = _config?.CustomSoundDemonAlert ?? "";
+                    else if (type == "normal") customPath = _config?.CustomSoundAlert ?? "";
+
+                    SoundHelper.PlaySoundFileOrBeep(customPath, type, vol);
+                }
+                catch { }
+            });
+        }
+
+        private void MenuSoundSmudge_Click(object sender, RoutedEventArgs e) => PickSoundFile("Smudge End Sound", path => _config.CustomSoundSmudgeEnd = path, "smudge_end");
+        private void MenuSoundCrucifix_Click(object sender, RoutedEventArgs e) => PickSoundFile("Crucifix End Sound", path => _config.CustomSoundCrucifixEnd = path, "crucifix_end");
+        private void MenuSoundHuntEnd_Click(object sender, RoutedEventArgs e) => PickSoundFile("Active Hunt End Sound", path => _config.CustomSoundHuntEnd = path, "hunt_end");
+        private void MenuSoundDemon_Click(object sender, RoutedEventArgs e) => PickSoundFile("Demon Warning Sound", path => _config.CustomSoundDemonAlert = path, "demon");
+
+        private void PickSoundFile(string title, Action<string> applyPath, string cueType)
+        {
+            var ofd = new Microsoft.Win32.OpenFileDialog
+            {
+                Title = $"Select {title} (.wav, .mp3, .ogg)",
+                Filter = "Audio Files (*.wav;*.mp3;*.ogg;*.wma)|*.wav;*.mp3;*.ogg;*.wma|All Files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                applyPath(ofd.FileName);
+                _config.Save();
+                PlayAudioCue(cueType);
+                MessageBox.Show($"{title} set to:\n{System.IO.Path.GetFileName(ofd.FileName)}", "Sound Updated", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void MenuSoundTest_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                PlayAudioCue("demon");
+                Thread.Sleep(800);
+                PlayAudioCue("normal");
+                Thread.Sleep(800);
+                PlayAudioCue("hunt_end");
+                Thread.Sleep(800);
+                PlayAudioCue("smudge_end");
+            });
+        }
+
+        private void MenuSoundReset_Click(object sender, RoutedEventArgs e)
+        {
+            _config.CustomSoundSmudgeEnd = "";
+            _config.CustomSoundCrucifixEnd = "";
+            _config.CustomSoundHuntEnd = "";
+            _config.CustomSoundDemonAlert = "";
+            _config.CustomSoundAlert = "";
+            _config.Save();
+            PlayAudioCue("normal");
+            MessageBox.Show("All custom sounds have been reset to default synthesized beeps!", "Sounds Reset", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void UpdateVolumeMenuCheckedState()
+        {
+            double v = _config?.Volume ?? 0.3;
+            if (MenuVolMute != null) MenuVolMute.IsChecked = (v <= 0.05);
+            if (MenuVol20 != null) MenuVol20.IsChecked = (v > 0.05 && v <= 0.30);
+            if (MenuVol40 != null) MenuVol40.IsChecked = (v > 0.30 && v <= 0.55);
+            if (MenuVol70 != null) MenuVol70.IsChecked = (v > 0.55 && v <= 0.85);
+            if (MenuVol100 != null) MenuVol100.IsChecked = (v > 0.85);
+        }
+
+        private void MenuVolume_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item && item.Tag != null && double.TryParse(item.Tag.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double vol))
+            {
+                _config.Volume = vol;
+                _config.Save();
+                UpdateVolumeMenuCheckedState();
+                if (vol > 0.001)
+                {
+                    Task.Run(() => SoundHelper.PlayBeep(600, 150, vol));
+                }
+            }
+        }
 
         // --- HELPER METHODS ---
 
@@ -696,7 +1340,9 @@ namespace Hophesmoverlay
                 if (remainingCount == 1)
                 {
                     // E.g., "FANTASMA: DEMON" or "IDENTIFIZIERT: DEMON"
-                    topText = $"👻 {lblID}: {suspects[0].Name.ToUpper()}";
+                    topText = _activeTabMode == 1 
+                        ? $"👻 {lblID}: {suspects[0].Name.ToUpper()} (0-Ev)" 
+                        : $"👻 {lblID}: {suspects[0].Name.ToUpper()}";
                 }
                 else if (remainingCount == 0)
                 {
@@ -704,8 +1350,10 @@ namespace Hophesmoverlay
                 }
                 else
                 {
-                    // E.g., "Suspeitos: 4/24"
-                    topText = $"{lblSuspects}: {remainingCount}/{totalCount}";
+                    // E.g., "Suspeitos: 4/24" or "0-Ev Suspects: 4/24"
+                    topText = _activeTabMode == 1 
+                        ? $"👁️ 0-Ev {lblSuspects}: {remainingCount}/{totalCount}" 
+                        : $"{lblSuspects}: {remainingCount}/{totalCount}";
                 }
 
                 // --- BOTTOM LINE (Action) ---
@@ -713,6 +1361,10 @@ namespace Hophesmoverlay
                 {
                     // E.g., "Fugindo: 2.5 m/s (Fast)"
                     bottomText = $"🏃 {lblChasing}: {_lastCalculatedSpeed:F1} m/s ({_currentSpeedCategory})";
+                }
+                else if (_activeTabMode == 1)
+                {
+                    bottomText = "⚡ Testing Behaviors & Speeds";
                 }
                 else
                 {
@@ -768,6 +1420,15 @@ namespace Hophesmoverlay
         private void MenuNl_Click(object sender, RoutedEventArgs e) => ChangeLanguage("nl");
         private void MenuUk_Click(object sender, RoutedEventArgs e) => ChangeLanguage("uk");
         private void MenuFr_Click(object sender, RoutedEventArgs e) => ChangeLanguage("fr");
+        private void MenuOpacity_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item && item.Tag is string tagStr && double.TryParse(tagStr, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double op))
+            {
+                this.Opacity = op;
+                _config.Opacity = op;
+                _config.Save();
+            }
+        }
         private void ChangeLanguage(string langCode) { _config.Language = langCode; _config.Save(); LoadLanguage(langCode); }
         private void MenuExit_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
         private void SetViewMode(int mode)
@@ -799,9 +1460,25 @@ namespace Hophesmoverlay
         public string SpeedInfo { get; set; }
 
         // GUARANTEED EVIDENCE
+        public static string GuaranteedPrefix { get; set; } = "Guaranteed";
         public string Guaranteed { get; set; }
-        public string GuaranteedText => !string.IsNullOrEmpty(Guaranteed) ? $"⚠ Guaranteed: {Guaranteed}" : "";
+        public string GuaranteedText => !string.IsNullOrEmpty(Guaranteed) ? $"⚠ {GuaranteedPrefix}: {Guaranteed}" : "";
         public bool HasGuaranteed => !string.IsNullOrEmpty(Guaranteed);
+
+        // ZERO EVIDENCE DATA
+        public string ZeroEvidenceTest { get; set; }
+        public string BlinkRate { get; set; } = "Normal";
+        public string SmudgeCooldown { get; set; } = "90s";
+        public bool StepsInSalt { get; set; } = true;
+        public string SanityThresholdCategory { get; set; } = "Normal";
+        public List<string> BehavioralTags { get; set; } = new List<string>();
+
+        private bool _isManuallyEliminated;
+        public bool IsManuallyEliminated
+        {
+            get => _isManuallyEliminated;
+            set { _isManuallyEliminated = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsManuallyEliminated")); }
+        }
 
         private bool _isEliminated;
         public bool IsEliminated
@@ -983,5 +1660,153 @@ namespace Hophesmoverlay
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    }
+
+    public static class SoundHelper
+    {
+        public static void PlaySoundFileOrBeep(string filePath, string beepType, double volume)
+        {
+            if (volume <= 0.001) return;
+            volume = Math.Clamp(volume, 0.0, 1.0);
+
+            if (!string.IsNullOrWhiteSpace(filePath) && File.Exists(filePath))
+            {
+                try
+                {
+                    if (filePath.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+                    {
+                        using var player = new System.Media.SoundPlayer(filePath);
+                        player.PlaySync();
+                        return;
+                    }
+                    else
+                    {
+                        Application.Current?.Dispatcher.Invoke(() =>
+                        {
+                            try
+                            {
+                                var player = new MediaPlayer();
+                                player.Open(new Uri(filePath, UriKind.Absolute));
+                                player.Volume = volume;
+                                player.Play();
+                            }
+                            catch { }
+                        });
+                        return;
+                    }
+                }
+                catch
+                {
+                    // Fallback to beep
+                }
+            }
+
+            PlayBeepType(beepType, volume);
+        }
+
+        public static void PlayBeepType(string type, double volume)
+        {
+            if (type == "demon")
+            {
+                PlayBeep(260, 300, volume);
+                Thread.Sleep(100);
+                PlayBeep(260, 300, volume);
+            }
+            else if (type == "normal")
+            {
+                PlayBeep(520, 180, volume);
+                Thread.Sleep(80);
+                PlayBeep(520, 180, volume);
+                Thread.Sleep(80);
+                PlayBeep(520, 180, volume);
+            }
+            else if (type == "hunt_end")
+            {
+                PlayBeep(523, 160, volume);
+                Thread.Sleep(40);
+                PlayBeep(659, 160, volume);
+                Thread.Sleep(40);
+                PlayBeep(784, 320, volume);
+            }
+            else // "smudge_end", "crucifix_end", "spirit", or default
+            {
+                PlayBeep(880, 200, volume);
+                Thread.Sleep(50);
+                PlayBeep(880, 200, volume);
+                Thread.Sleep(50);
+                PlayBeep(880, 500, volume);
+            }
+        }
+
+        public static void PlayBeep(int frequency, int durationMs, double volume)
+        {
+            if (volume <= 0.001) return;
+            volume = Math.Clamp(volume, 0.0, 1.0);
+
+            try
+            {
+                byte[] wavBytes = GenerateSineWaveWav(frequency, durationMs, volume);
+                using var ms = new MemoryStream(wavBytes);
+                using var player = new System.Media.SoundPlayer(ms);
+                player.PlaySync();
+            }
+            catch
+            {
+                // Ignore sound errors
+            }
+        }
+
+        private static byte[] GenerateSineWaveWav(int frequency, int durationMs, double volume)
+        {
+            int sampleRate = 44100;
+            int numSamples = (int)(sampleRate * (durationMs / 1000.0));
+            int dataSize = numSamples * 2; // 16-bit mono = 2 bytes per sample
+
+            byte[] buffer = new byte[44 + dataSize];
+            using var ms = new MemoryStream(buffer);
+            using var writer = new BinaryWriter(ms);
+
+            // RIFF header
+            writer.Write(new char[4] { 'R', 'I', 'F', 'F' });
+            writer.Write((int)(36 + dataSize));
+            writer.Write(new char[4] { 'W', 'A', 'V', 'E' });
+
+            // fmt chunk
+            writer.Write(new char[4] { 'f', 'm', 't', ' ' });
+            writer.Write((int)16); // PCM chunk size
+            writer.Write((short)1); // PCM format
+            writer.Write((short)1); // Mono
+            writer.Write(sampleRate);
+            writer.Write(sampleRate * 2); // Byte rate (SampleRate * NumChannels * BitsPerSample/8)
+            writer.Write((short)2); // Block align (NumChannels * BitsPerSample/8)
+            writer.Write((short)16); // Bits per sample
+
+            // data chunk
+            writer.Write(new char[4] { 'd', 'a', 't', 'a' });
+            writer.Write(dataSize);
+
+            // Sine wave generation with fade in and fade out (5ms)
+            int fadeSamples = Math.Min(sampleRate * 5 / 1000, Math.Max(1, numSamples / 4));
+            double maxAmp = short.MaxValue * volume * 0.7; // Headroom to prevent clipping distortion
+
+            for (int i = 0; i < numSamples; i++)
+            {
+                double env = 1.0;
+                if (i < fadeSamples)
+                {
+                    env = (double)i / fadeSamples;
+                }
+                else if (i > numSamples - fadeSamples)
+                {
+                    env = (double)(numSamples - i) / fadeSamples;
+                }
+
+                double angle = 2.0 * Math.PI * frequency * ((double)i / sampleRate);
+                short sample = (short)(Math.Sin(angle) * maxAmp * env);
+                writer.Write(sample);
+            }
+
+            return buffer;
+        }
     }
 }

@@ -1,348 +1,713 @@
 {
-    "Code": "CHT",
-    "UI": {
-        "Controls": "[F1] 獵殺計時 | [HOME] 情報 | [ALT+BACK] 復原",
-        "EvidenceHeader": "證據 (ALT+1-7)",
-        "SmudgeHeader": "聖木 [F9]",
-        "HuntHeader": "十字架 [F7]",
-        "SpeedHeader": "速度 (m/s)",
-        "Ready": "準備",
-        "Waiting": "等待...",
-        "Safe": "安全",
-        "Demon": "惡魔危險",
-        "Ev1": "EMF 5級",
-        "Ev2": "點陣",
-        "Ev3": "紫外線",
-        "Ev4": "寒溫",
-        "Ev5": "靈球",
-        "Ev6": "筆跡",
-        "Ev7": "通靈盒",
-        "RpcSuspects": "嫌疑目標",
-        "RpcID": "已確認",
-        "RpcFound": "已發現",
-        "RpcSearch": "正在尋找證據...",
-        "RpcChasing": "被追獵中",
-        "RpcNoMatch": "無匹配鬼魂",
-        "RpcBtnDownload": "下載 Overlay",
-        "RpcBtnCoffee": "請我喝杯咖啡 ☕"
+  "Code": "CHT",
+  "UI": {
+    "Controls": "[F1] 獵殺計時 | [HOME] 情報 | [ALT\u002BBACK] 復原",
+    "EvidenceHeader": "證據 (ALT\u002B1-7)",
+    "SmudgeHeader": "聖木 [F9]",
+    "HuntHeader": "十字架 [F7]",
+    "SpeedHeader": "速度 (m/s)",
+    "Ready": "準備",
+    "Waiting": "等待...",
+    "Safe": "安全",
+    "Demon": "惡魔危險",
+    "Ev1": "EMF 5級",
+    "Ev2": "點陣",
+    "Ev3": "紫外線",
+    "Ev4": "寒溫",
+    "Ev5": "靈球",
+    "Ev6": "筆跡",
+    "Ev7": "通靈盒",
+    "RpcSuspects": "嫌疑目標",
+    "RpcID": "已確認",
+    "RpcFound": "已發現",
+    "RpcSearch": "正在尋找證據...",
+    "RpcChasing": "被追獵中",
+    "RpcNoMatch": "無匹配鬼魂",
+    "RpcBtnDownload": "下載 Overlay",
+    "RpcBtnCoffee": "請我喝杯咖啡 ☕",
+    "ModeEvidence": "\uD83D\uDCCB 證據模式",
+    "ModeNoEvidence": "\uD83D\uDC41️ 0-證據識別器",
+    "ZeroFilters": "0-證據 行為特徵篩選",
+    "ZeroSanity": "獵殺理智線",
+    "ZeroBlink": "閃爍規律 (獵殺中)",
+    "ZeroSmudge": "聖木冷卻時間",
+    "ZeroTests": "確認 / 排除 測試",
+    "BtnResetZero": "\uD83D\uDD04 重置 0-證據 篩選",
+    "ChkZeroSalt": "\uD83E\uDDC2 踩到鹽 (排除 幽靈/Wraith)",
+    "ChkZeroCandle": "\uD83D\uDD6F️ 吹熄第3根蠟燭立即獵殺 (怨靈)",
+    "ChkZeroOrbs": "\uD83D\uDD2E 0證據下看到靈球 (擬魂/The Mimic)",
+    "ChkZeroFootsteps": "\uD83D\uDD07 腳步聲超安靜 \u003E10m聽不見 (邁靈)",
+    "ChkZeroPhoto": "\uD83D\uDCF7 拍照瞬間消失無雜音 (幻影/Phantom)",
+    "ChkZeroBreaker": "⚡ 直接關閉總電源開關 (排除 巨靈/Jinn)",
+    "ChkZeroLight": "\uD83D\uDCA1 開啟房間電燈 (排除 夢魘/Mare)",
+    "ChkZeroDeogen": "\uD83D\uDC41️ 無法躲藏必追殺 / 貼臉極慢速 (恐懼魔/Deogen)",
+    "ChkZeroFreezingBreath": "\uD83D\uDCA8 關電閘獵殺時看見吐出白煙 (寒魔/Hantu)",
+    "ActiveHuntTitle": "當前獵殺計時 [F1]",
+    "CursedHunt": "詛咒獵殺 (\u002B20秒)",
+    "MapListHeader": "地圖 / 區域",
+    "DifficultyHeader": "難易度",
+    "BtnResetPace": "重置 (F11)",
+    "GuaranteedPrefix": "必給證據",
+    "SizeSmall": "(小)",
+    "SizeMedium": "(中)",
+    "SizeLarge": "(大)"
+  },
+  "SpeedSys": {
+    "DeogenStill": "霧影 / 達揚 (靜止)",
+    "RevPassive": "亡魂 (被動) / 剎那 (老)",
+    "Slow": "攣魂 (慢) / 魔洛伊 (高理智) / 寒魔 (暖)",
+    "Normal": "正常速度 (1.7 m/s)",
+    "Fast": "攣魂 (快) / 寒魔 (冷) / 奧班波",
+    "VeryFast": "雷魂 / 巨靈 / 寒魔 / 魔洛伊 / 達揚",
+    "SuperFast": "亡魂 (獵殺) / 剎那 (年輕) / 寒魔",
+    "MaxLOS": "魔洛伊 (最大視野加速)",
+    "Impossible": "太快？ (檢查點擊)"
+  },
+  "SanityOptions": [
+    "全部理智線",
+    "早期獵殺 (\u003E60% / 惡魔, 妖怪, 怨靈, 夢魘, 雷獸)",
+    "標準理智 (50%)",
+    "晚期獵殺 (\u003C40% / 巨偶, 恐懼魔)"
+  ],
+  "BlinkOptions": [
+    "全部閃爍模式",
+    "長時間隱形 (幻影)",
+    "高頻率現身 (鬼/Oni)",
+    "變形幻化 (妖怪/Obake)",
+    "普通閃爍"
+  ],
+  "SmudgeOptions": [
+    "全部時間",
+    "60秒 聖木冷卻 (惡魔)",
+    "90秒 聖木冷卻 (標準)",
+    "180秒 聖木冷卻 (巨靈/Spirit)"
+  ],
+  "DifficultyOptions": [
+    "業餘 (15秒 / 30秒 / 40秒)",
+    "中級 (20秒 / 40秒 / 50秒)",
+    "專業 / 噩夢 / 瘋狂 / 0證據"
+  ],
+  "Ghosts": [
+    {
+      "ID": "Spirit",
+      "Name": "魂魄",
+      "Symbol": "\uD83D\uDC7B",
+      "Evidences": [
+        "EMF 5級",
+        "通靈盒",
+        "筆跡"
+      ],
+      "Guaranteed": null,
+      "Tell": "聖木防止獵殺180秒。",
+      "ZeroEvidenceTest": "聖木測試: 點燃聖木後可阻止獵殺長達 180秒 (3分鐘)，普通鬼為90秒 (惡魔為60秒)。標準速度 (1.7 m/s) 與正常視線加速。",
+      "BehavioralTags": [
+        "聖木 180秒冷卻",
+        "標準速度 (1.7)",
+        "正常閃爍",
+        "會踩鹽"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "SpeedSys": {
-        "DeogenStill": "霧影 / 達揚 (靜止)",
-        "RevPassive": "亡魂 (被動) / 剎那 (老)",
-        "Slow": "攣魂 (慢) / 魔洛伊 (高理智) / 寒魔 (暖)",
-        "Normal": "正常速度 (1.7 m/s)",
-        "Fast": "攣魂 (快) / 寒魔 (冷) / 奧班波",
-        "VeryFast": "雷魂 / 巨靈 / 寒魔 / 魔洛伊 / 達揚",
-        "SuperFast": "亡魂 (獵殺) / 剎那 (年輕) / 寒魔",
-        "MaxLOS": "魔洛伊 (最大視野加速)",
-        "Impossible": "太快？ (檢查點擊)"
+    {
+      "ID": "Wraith",
+      "Name": "魅影",
+      "Symbol": "\uD83D\uDC63",
+      "Evidences": [
+        "EMF 5級",
+        "通靈盒",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "不踩鹽。傳送至玩家。",
+      "ZeroEvidenceTest": "鹽巴測試: 絕對不會踩進鹽堆，也絕不會留下UV腳印。會直接傳送到玩家身邊 (產生 EMF 2/5)。標準速度。",
+      "BehavioralTags": [
+        "永不踩鹽",
+        "傳送至玩家身邊",
+        "無UV腳印",
+        "標準速度"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
     },
-    "Ghosts": [
-        {
-            "ID": "Spirit",
-            "Name": "魂魄",
-            "Symbol": "👻",
-            "Evidences": [ "EMF 5級", "通靈盒", "筆跡" ],
-            "Tell": "聖木防止獵殺180秒。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Wraith",
-            "Name": "魅影",
-            "Symbol": "👣",
-            "Evidences": [ "EMF 5級", "通靈盒", "點陣" ],
-            "Tell": "不踩鹽。傳送至玩家。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Phantom",
-            "Name": "幻影",
-            "Symbol": "📷",
-            "Evidences": [ "通靈盒", "紫外線", "點陣" ],
-            "Tell": "拍照消失。獵殺閃爍慢。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Poltergeist",
-            "Name": "騷靈",
-            "Symbol": "💥",
-            "Evidences": [ "通靈盒", "紫外線", "筆跡" ],
-            "Tell": "投擲多物。降理智。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Banshee",
-            "Name": "女妖",
-            "Symbol": "😱",
-            "Evidences": [ "紫外線", "靈球", "點陣" ],
-            "Tell": "收音器尖叫。鎖定一人。",
-            "HuntThreshold": "目標 < 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Jinn",
-            "Name": "巨靈",
-            "Symbol": "⚡",
-            "Evidences": [ "EMF 5級", "紫外線", "寒溫" ],
-            "Tell": "開電閘且遠距時加速。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Mare",
-            "Name": "夢魘",
-            "Symbol": "💡",
-            "Evidences": [ "通靈盒", "靈球", "筆跡" ],
-            "Tell": "討厭光。黑暗中獵殺快。",
-            "HuntThreshold": "60% / 40%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Revenant",
-            "Name": "亡魂",
-            "Symbol": "😈",
-            "Evidences": [ "靈球", "筆跡", "寒溫" ],
-            "Tell": "視野內極快，躲藏極慢。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.9,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Shade",
-            "Name": "暗影",
-            "Symbol": "🌑",
-            "Evidences": [ "EMF 5級", "筆跡", "寒溫" ],
-            "Tell": "害羞。有人在不獵殺。",
-            "HuntThreshold": "< 35%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Demon",
-            "Name": "惡魔",
-            "Symbol": "⸸",
-            "Evidences": [ "紫外線", "筆跡", "寒溫" ],
-            "Tell": "隨時獵殺。CD 20秒。",
-            "HuntThreshold": "隨時 / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yurei",
-            "Name": "幽靈",
-            "Symbol": "🚪",
-            "Evidences": [ "靈球", "寒溫", "點陣" ],
-            "Tell": "關門降理智。聖木可困住。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Oni",
-            "Name": "赤鬼",
-            "Symbol": "👹",
-            "Evidences": [ "EMF 5級", "寒溫", "點陣" ],
-            "Tell": "獵殺時明顯。碰撞降理智。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Yokai",
-            "Name": "妖怪",
-            "Symbol": "🔇",
-            "Evidences": [ "通靈盒", "靈球", "點陣" ],
-            "Tell": "重聽。說話會引發獵殺。",
-            "HuntThreshold": "80% (說話)",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Hantu",
-            "Name": "寒魔",
-            "Symbol": "❄",
-            "Evidences": [ "紫外線", "靈球", "寒溫" ],
-            "Guaranteed": "寒溫",
-            "Tell": "低溫加速。吐白氣。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.4,
-            "MaxSpeed": 2.7
-        },
-        {
-            "ID": "Goryo",
-            "Name": "御靈",
-            "Symbol": "👀",
-            "Evidences": [ "EMF 5級", "紫外線", "點陣" ],
-            "Guaranteed": "點陣",
-            "Tell": "點陣僅攝影機可見。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Myling",
-            "Name": "鬼嬰",
-            "Symbol": "🤫",
-            "Evidences": [ "EMF 5級", "紫外線", "筆跡" ],
-            "Tell": "腳步聲小。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "Onryo",
-            "Name": "怨靈",
-            "Symbol": "🔥",
-            "Evidences": [ "通靈盒", "靈球", "寒溫" ],
-            "Tell": "怕火。熄火獵殺。",
-            "HuntThreshold": "60%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Twins",
-            "Name": "攣魂",
-            "Symbol": "♊",
-            "Evidences": [ "EMF 5級", "通靈盒", "寒溫" ],
-            "Tell": "分身快，本體慢。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 2.3
-        },
-        {
-            "ID": "Raiju",
-            "Name": "雷魂",
-            "Symbol": "🔋",
-            "Evidences": [ "EMF 5級", "靈球", "點陣" ],
-            "Tell": "電子儀器附近加速。",
-            "HuntThreshold": "< 65%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.5
-        },
-        {
-            "ID": "Obake",
-            "Name": "幻妖",
-            "Symbol": "🖐",
-            "Evidences": [ "EMF 5級", "紫外線", "靈球" ],
-            "Guaranteed": "紫外線",
-            "Tell": "六指指紋。變形。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 2.8
-        },
-        {
-            "ID": "The Mimic",
-            "Name": "擬魂",
-            "Symbol": "🎭",
-            "Evidences": [ "通靈盒", "紫外線", "寒溫" ],
-            "Guaranteed": "假靈球",
-            "Tell": "假靈球。模仿其他鬼。",
-            "HuntThreshold": "模仿",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Moroi",
-            "Name": "魔洛伊",
-            "Symbol": "☠",
-            "Evidences": [ "通靈盒", "筆跡", "寒溫" ],
-            "Guaranteed": "通靈盒",
-            "Tell": "理智低加速。聖木致盲久。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.5,
-            "MaxSpeed": 3.75
-        },
-        {
-            "ID": "Deogen",
-            "Name": "霧影",
-            "Symbol": "👁",
-            "Evidences": [ "通靈盒", "筆跡", "點陣" ],
-            "Guaranteed": "通靈盒",
-            "Tell": "無法躲藏。遠快近慢。",
-            "HuntThreshold": "< 40%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Thaye",
-            "Name": "剎那",
-            "Symbol": "⏳",
-            "Evidences": [ "靈球", "筆跡", "點陣" ],
-            "Tell": "會衰老。初期快後期慢。",
-            "HuntThreshold": "75% -> 15%",
-            "MinSpeed": 1.0,
-            "MaxSpeed": 2.75
-        },
-        {
-            "ID": "Obambo",
-            "Name": "奧班波",
-            "Symbol": "🔄",
-            "Evidences": [ "筆跡", "紫外線", "點陣" ],
-            "Tell": "情緒化。切換狀態。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.45,
-            "MaxSpeed": 1.96
-        },
-        {
-            "ID": "Gallu",
-            "Name": "加魯",
-            "Symbol": "🛡️",
-            "Evidences": [ "EMF 5級", "紫外線", "通靈盒" ],
-            "Tell": "攻擊防禦道具。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.36,
-            "MaxSpeed": 3.25
-        },
-        {
-            "ID": "Dayan",
-            "Name": "達揚",
-            "Symbol": "🏃",
-            "Evidences": [ "EMF 5級", "靈球", "通靈盒" ],
-            "Tell": "動則快，靜則慢。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.2,
-            "MaxSpeed": 2.25
-        },
-        {
-            "ID": "Aswang",
-            "Name": "阿斯旺",
-            "Symbol": "🦇",
-            "Evidences": [ "寒溫", "筆跡", "點陣" ],
-            "Tell": "視野加速極快。躲藏點被抓會標記該處。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 1.53,
-            "MaxSpeed": 2.53
-        },
-        {
-            "ID": "Deildegast",
-            "Name": "迪德加斯特",
-            "Symbol": "📦",
-            "Evidences": [ "EMF 5級", "筆跡", "點陣" ],
-            "Tell": "初始速度3.0。移動物品可減速0.1/件。每輪重置。",
-            "HuntThreshold": "< 50%",
-            "MinSpeed": 0.4,
-            "MaxSpeed": 3.0
-        },
-        {
-            "ID": "Kormos",
-            "Name": "科爾莫斯",
-            "Symbol": "👂",
-            "Evidences": [ "紫外線", "靈球", "通靈盒" ],
-            "Tell": "盲目。靠聲音/移動追蹤(最高3.65)。附近奔跑時70%獵殺。",
-            "HuntThreshold": "< 50% / 70%",
-            "MinSpeed": 1.7,
-            "MaxSpeed": 3.65
-        }
-    ]
+    {
+      "ID": "Phantom",
+      "Name": "幻影",
+      "Symbol": "\uD83D\uDCF7",
+      "Evidences": [
+        "通靈盒",
+        "紫外線",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "拍照消失。獵殺閃爍慢。",
+      "ZeroEvidenceTest": "拍照與閃爍: 靈異事件時拍照會瞬間消失 (聲音持續，照片無雜訊)。獵殺時隱形時間極長 (消失 1-2秒才閃一下)。",
+      "BehavioralTags": [
+        "拍照立即消失無雜訊",
+        "隱形時間極長 (1-2秒)",
+        "直視快速扣理智"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Poltergeist",
+      "Name": "騷靈",
+      "Symbol": "\uD83D\uDCA5",
+      "Evidences": [
+        "通靈盒",
+        "紫外線",
+        "筆跡"
+      ],
+      "Guaranteed": null,
+      "Tell": "投擲多物。降理智。",
+      "ZeroEvidenceTest": "大爆射 / 獵殺狂丟: 獵殺期間幾乎每 0.5秒 100% 必定投擲物品。平時會同時投擲多個物品並按物品數量扣除理智。",
+      "BehavioralTags": [
+        "同時投擲多件物品",
+        "獵殺每0.5秒必丟物",
+        "投擲力道極強"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Banshee",
+      "Name": "女妖",
+      "Symbol": "\uD83D\uDE31",
+      "Evidences": [
+        "紫外線",
+        "靈球",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "收音器尖叫。鎖定一人。",
+      "ZeroEvidenceTest": "集音麥克風與單一目標: 集音麥克風有專屬哀嚎尖叫聲。多人連線中只鎖定 1名 玩家追殺，獵殺時完全無視其他玩家。",
+      "BehavioralTags": [
+        "集音麥獨特尖叫聲",
+        "頻繁唱歌事件",
+        "鎖定單一目標追殺"
+      ],
+      "HuntThreshold": "目標 \u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Jinn",
+      "Name": "巨靈",
+      "Symbol": "⚡",
+      "Evidences": [
+        "EMF 5級",
+        "紫外線",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "開電閘且遠距時加速。",
+      "ZeroEvidenceTest": "總電源與遠距衝刺: 絕對不會主動關閉電閘。電閘開啟時若與玩家距離大於3米且有視線，會瞬間加速至 2.5 m/s，靠近3米內降回正常速。",
+      "BehavioralTags": [
+        "絕不主動關電閘",
+        "開電遠距爆速 (2.5)",
+        "靠近3米內降速"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Mare",
+      "Name": "夢魘",
+      "Symbol": "\uD83D\uDCA1",
+      "Evidences": [
+        "通靈盒",
+        "靈球",
+        "筆跡"
+      ],
+      "Guaranteed": null,
+      "Tell": "討厭光。黑暗中獵殺快。",
+      "ZeroEvidenceTest": "電燈開關: 絕對不會主動開燈。在它房間開燈會被秒關。黑暗中 60% 就會提早獵殺，開燈時需等到 40% 以下才會獵殺。",
+      "BehavioralTags": [
+        "絕不主動開燈",
+        "開燈瞬間秒關",
+        "黑暗中提早獵殺 (60%)",
+        "開燈延遲獵殺 (40%)"
+      ],
+      "HuntThreshold": "60% / 40%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Revenant",
+      "Name": "亡魂",
+      "Symbol": "\uD83D\uDE08",
+      "Evidences": [
+        "靈球",
+        "筆跡",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "視野內極快，躲藏極慢。",
+      "ZeroEvidenceTest": "追擊速度: 巡邏沒看到人時極慢 (1.0 m/s)。一旦看到玩家或偵測到電子設備/語音，瞬間爆發狂暴衝刺至 3.0 m/s。",
+      "BehavioralTags": [
+        "巡邏極慢 (1.0)",
+        "視線狂暴衝刺 (3.0)",
+        "腳步聲沉重"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.9,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Shade",
+      "Name": "暗影",
+      "Symbol": "\uD83C\uDF11",
+      "Evidences": [
+        "EMF 5級",
+        "筆跡",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "害羞。有人在不獵殺。",
+      "ZeroEvidenceTest": "害羞測試: 只要同個房間內有任何玩家，就絕對不會開啟獵殺。獵殺閾值極低 (\u003C35%)。同房時不進行實體靈異事件。",
+      "BehavioralTags": [
+        "同房絕不獵殺",
+        "極晚期獵殺 (\u003C35%)",
+        "偏好黑影型態",
+        "無哈氣吐霧事件"
+      ],
+      "HuntThreshold": "\u003C 35%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Demon",
+      "Name": "惡魔",
+      "Symbol": "⸸",
+      "Evidences": [
+        "紫外線",
+        "筆跡",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "隨時獵殺。CD 20秒。",
+      "ZeroEvidenceTest": "冷卻與能力: 獵殺間隔僅 20秒 (其他鬼25秒)。聖木僅阻止 60秒 (其他鬼90秒)。十字架範圍達 5米 (\u002B50%)。70% 或使用能力在任何理智皆可直接獵殺。",
+      "BehavioralTags": [
+        "獵殺冷卻 20秒",
+        "聖木僅 60秒",
+        "70%或任意理智獵殺",
+        "十字架範圍 5米"
+      ],
+      "HuntThreshold": "隨時 / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yurei",
+      "Name": "幽靈",
+      "Symbol": "\uD83D\uDEAA",
+      "Evidences": [
+        "靈球",
+        "寒溫",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "關門降理智。聖木可困住。",
+      "ZeroEvidenceTest": "關門能力: 獨特的雙重喀噠聲重重甩上房門，並直接扣除附近玩家 15% 理智。點燃聖木可將其困在幽靈房 90秒 不游蕩。",
+      "BehavioralTags": [
+        "雙重喀噠重甩房門",
+        "扣除 15% 理智",
+        "聖木困在房內 90秒"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Oni",
+      "Name": "赤鬼",
+      "Symbol": "\uD83D\uDC79",
+      "Evidences": [
+        "EMF 5級",
+        "寒溫",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "獵殺時明顯。碰撞降理智。",
+      "ZeroEvidenceTest": "閃爍與事件: 獵殺時極度清晰可見 (高頻率閃爍，絕大部分時間現身)。絕對不會出現哈氣白煙/空氣球事件。",
+      "BehavioralTags": [
+        "獵殺時高頻現身",
+        "絕無空氣球事件",
+        "超高物理互動頻率"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Yokai",
+      "Name": "妖怪",
+      "Symbol": "\uD83D\uDD07",
+      "Evidences": [
+        "通靈盒",
+        "靈球",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "重聽。說話會引發獵殺。",
+      "ZeroEvidenceTest": "聲音與聽力範圍: 在其身邊說話 80% 理智即可提早獵殺。但在獵殺期間，對超過 2.5米 以外的語音或手電筒電子設備完全聾盲。",
+      "BehavioralTags": [
+        "身邊說話 80%提早獵殺",
+        "獵殺聽力僅限 2.5米",
+        "不偵測遠處電子產品"
+      ],
+      "HuntThreshold": "80% (說話)",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Hantu",
+      "Name": "寒魔",
+      "Symbol": "❄",
+      "Evidences": [
+        "紫外線",
+        "靈球",
+        "寒溫"
+      ],
+      "Guaranteed": "寒溫",
+      "Tell": "低溫加速。吐白氣。",
+      "ZeroEvidenceTest": "溫度與速度: 低溫極快 (最高2.7 m/s)，暖房極慢 (1.4 m/s)。完全沒有視線加速！電閘關閉時獵殺會吐出明顯的寒氣白煙。",
+      "BehavioralTags": [
+        "低溫極速 (2.7)",
+        "高溫極慢 (1.4)",
+        "無任何視線加速",
+        "關電獵殺吐白煙"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.4,
+      "MaxSpeed": 2.7
+    },
+    {
+      "ID": "Goryo",
+      "Name": "御靈",
+      "Symbol": "\uD83D\uDC40",
+      "Evidences": [
+        "EMF 5級",
+        "紫外線",
+        "點陣"
+      ],
+      "Guaranteed": "點陣",
+      "Tell": "點陣僅攝影機可見。",
+      "ZeroEvidenceTest": "房間游蕩: 絕對不會更換最愛房間，也不會走遠。DOTS 只有在房間內無玩家時透過攝影機畫面才看得見。",
+      "BehavioralTags": [
+        "永不更換最愛房間",
+        "DOTS僅攝影機可見",
+        "極少遠距游蕩"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Myling",
+      "Name": "鬼嬰",
+      "Symbol": "\uD83E\uDD2B",
+      "Evidences": [
+        "EMF 5級",
+        "紫外線",
+        "筆跡"
+      ],
+      "Guaranteed": null,
+      "Tell": "腳步聲小。",
+      "ZeroEvidenceTest": "安靜腳步聲: 獵殺時腳步聲只在 10米 內可聽見 (即手電筒電子設備開始閃爍雜音的距離，同步才聽得到腳步聲)。",
+      "BehavioralTags": [
+        "10米外腳步完全無聲",
+        "與手電筒閃爍距離同步",
+        "集音麥高頻率低語"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "Onryo",
+      "Name": "怨靈",
+      "Symbol": "\uD83D\uDD25",
+      "Evidences": [
+        "通靈盒",
+        "靈球",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "怕火。熄火獵殺。",
+      "ZeroEvidenceTest": "蠟燭測試: 火焰具備十字架防護效果。吹熄第 3 根蠟燭會在任何理智值下強制開啟獵殺。平時 60% 提早獵殺。",
+      "BehavioralTags": [
+        "第3次吹熄必引發獵殺",
+        "火焰即十字架",
+        "早期獵殺 (60%)"
+      ],
+      "HuntThreshold": "60%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Twins",
+      "Name": "攣魂",
+      "Symbol": "♊",
+      "Evidences": [
+        "EMF 5級",
+        "通靈盒",
+        "寒溫"
+      ],
+      "Guaranteed": null,
+      "Tell": "分身快，本體慢。",
+      "ZeroEvidenceTest": "分身快，本體慢。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 2.3
+    },
+    {
+      "ID": "Raiju",
+      "Name": "雷魂",
+      "Symbol": "\uD83D\uDD0B",
+      "Evidences": [
+        "EMF 5級",
+        "靈球",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "電子儀器附近加速。",
+      "ZeroEvidenceTest": "電子設備加速: 靠近地面開啟的電子設備時加速至 2.5 m/s。干擾電子設備距離達 15米 (其他鬼10米)。身邊有開啟設備 65% 提早獵殺。",
+      "BehavioralTags": [
+        "靠近電子設備爆速 (2.5)",
+        "開啟設備提早獵殺 (65%)",
+        "設備干擾半徑 15米"
+      ],
+      "HuntThreshold": "\u003C 65%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.5
+    },
+    {
+      "ID": "Obake",
+      "Name": "幻妖",
+      "Symbol": "\uD83D\uDD90",
+      "Evidences": [
+        "EMF 5級",
+        "紫外線",
+        "靈球"
+      ],
+      "Guaranteed": "紫外線",
+      "Tell": "六指指紋。變形。",
+      "ZeroEvidenceTest": "變形幻化: 獵殺期間每次閃爍有 6.6% 機率變身為另一種鬼模型外觀。指紋有機會出現特有的 6指 指紋且極快消失。",
+      "BehavioralTags": [
+        "獵殺閃爍變身變臉",
+        "獨特 6指 指紋",
+        "指紋極快速消退"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 2.8
+    },
+    {
+      "ID": "The Mimic",
+      "Name": "擬魂",
+      "Symbol": "\uD83C\uDFAD",
+      "Evidences": [
+        "通靈盒",
+        "紫外線",
+        "寒溫"
+      ],
+      "Guaranteed": "假靈球",
+      "Tell": "假靈球。模仿其他鬼。",
+      "ZeroEvidenceTest": "假靈球。模仿其他鬼。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "模仿",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Moroi",
+      "Name": "魔洛伊",
+      "Symbol": "☠",
+      "Evidences": [
+        "通靈盒",
+        "筆跡",
+        "寒溫"
+      ],
+      "Guaranteed": "通靈盒",
+      "Tell": "理智低加速。聖木致盲久。",
+      "ZeroEvidenceTest": "理智與速度反比: 平均理智越低速度越快 (100%理智為 1.5 m/s -\u003E 0%理智達 2.25 m/s，視線加速最高達 3.71 m/s！)。獵殺點聖木致盲長達 12秒 (其他鬼6秒)。",
+      "BehavioralTags": [
+        "低理智極限狂飆",
+        "獵殺聖木致盲 12秒",
+        "全遊戲最高視線加速"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.5,
+      "MaxSpeed": 3.75
+    },
+    {
+      "ID": "Deogen",
+      "Name": "霧影",
+      "Symbol": "\uD83D\uDC41",
+      "Evidences": [
+        "通靈盒",
+        "筆跡",
+        "點陣"
+      ],
+      "Guaranteed": "通靈盒",
+      "Tell": "無法躲藏。遠快近慢。",
+      "ZeroEvidenceTest": "絕對鎖定與貼臉龜速: 永遠知道所有玩家藏身位置 (無法躲藏)。遠距極快 (3.0 m/s)，但靠近玩家2.5米內會減速至 0.4 m/s 龜速 (極容易繞圈溜鬼)。",
+      "BehavioralTags": [
+        "無法躲藏必追蹤",
+        "貼臉極度龜速 (0.4)",
+        "遠處高速 (3.0)",
+        "通靈盒獨特沉重喘息"
+      ],
+      "HuntThreshold": "\u003C 40%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Thaye",
+      "Name": "剎那",
+      "Symbol": "⏳",
+      "Evidences": [
+        "靈球",
+        "筆跡",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "會衰老。初期快後期慢。",
+      "ZeroEvidenceTest": "老化系統: 剛開始年輕時極度凶猛 (2.75 m/s 高速) 且 75% 理智即可提早獵殺。在玩家身邊會老化，減速至 1.0 m/s 且 15% 才獵殺。完全無任何視線加速！",
+      "BehavioralTags": [
+        "年輕: 2.75速 \u0026 75%獵殺",
+        "老年: 1.0速 \u0026 15%獵殺",
+        "完全無視線加速"
+      ],
+      "HuntThreshold": "75% -\u003E 15%",
+      "MinSpeed": 1,
+      "MaxSpeed": 2.75
+    },
+    {
+      "ID": "Obambo",
+      "Name": "奧班波",
+      "Symbol": "\uD83D\uDD04",
+      "Evidences": [
+        "筆跡",
+        "紫外線",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "情緒化。切換狀態。",
+      "ZeroEvidenceTest": "情緒化。切換狀態。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.45,
+      "MaxSpeed": 1.96
+    },
+    {
+      "ID": "Gallu",
+      "Name": "加魯",
+      "Symbol": "\uD83D\uDEE1️",
+      "Evidences": [
+        "EMF 5級",
+        "紫外線",
+        "通靈盒"
+      ],
+      "Guaranteed": null,
+      "Tell": "攻擊防禦道具。",
+      "ZeroEvidenceTest": "攻擊防禦道具。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.36,
+      "MaxSpeed": 3.25
+    },
+    {
+      "ID": "Dayan",
+      "Name": "達揚",
+      "Symbol": "\uD83C\uDFC3",
+      "Evidences": [
+        "EMF 5級",
+        "靈球",
+        "通靈盒"
+      ],
+      "Guaranteed": null,
+      "Tell": "動則快，靜則慢。",
+      "ZeroEvidenceTest": "動則快，靜則慢。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.2,
+      "MaxSpeed": 2.25
+    },
+    {
+      "ID": "Aswang",
+      "Name": "阿斯旺",
+      "Symbol": "\uD83E\uDD87",
+      "Evidences": [
+        "寒溫",
+        "筆跡",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "視野加速極快。躲藏點被抓會標記該處。",
+      "ZeroEvidenceTest": "視野加速極快。躲藏點被抓會標記該處。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 1.53,
+      "MaxSpeed": 2.53
+    },
+    {
+      "ID": "Deildegast",
+      "Name": "迪德加斯特",
+      "Symbol": "\uD83D\uDCE6",
+      "Evidences": [
+        "EMF 5級",
+        "筆跡",
+        "點陣"
+      ],
+      "Guaranteed": null,
+      "Tell": "初始速度3.0。移動物品可減速0.1/件。每輪重置。",
+      "ZeroEvidenceTest": "初始速度3.0。移動物品可減速0.1/件。每輪重置。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50%",
+      "MinSpeed": 0.4,
+      "MaxSpeed": 3
+    },
+    {
+      "ID": "Kormos",
+      "Name": "科爾莫斯",
+      "Symbol": "\uD83D\uDC42",
+      "Evidences": [
+        "紫外線",
+        "靈球",
+        "通靈盒"
+      ],
+      "Guaranteed": null,
+      "Tell": "盲目。靠聲音/移動追蹤(最高3.65)。附近奔跑時70%獵殺。",
+      "ZeroEvidenceTest": "盲目。靠聲音/移動追蹤(最高3.65)。附近奔跑時70%獵殺。",
+      "BehavioralTags": [
+        "Standard Speed"
+      ],
+      "HuntThreshold": "\u003C 50% / 70%",
+      "MinSpeed": 1.7,
+      "MaxSpeed": 3.65
+    }
+  ]
 }

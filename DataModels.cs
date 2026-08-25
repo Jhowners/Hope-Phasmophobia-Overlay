@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json;
 using System.Windows.Media;
 
@@ -9,14 +9,26 @@ namespace Hophesmoverlay
     {
         public double Opacity { get; set; } = 1.0;
         public string Language { get; set; } = "en";
+        public double Volume { get; set; } = 0.3;
         public KeyBindings Keys { get; set; } = new KeyBindings();
 
         public bool EnableDiscord { get; set; } = true;
+        public int SelectedMapIndex { get; set; } = 0;
+        public int SelectedDifficultyIndex { get; set; } = 2; // Default: Professional / Nightmare / Insanity
+        public bool IsCursedHunt { get; set; } = false;
+        public int ActiveTabMode { get; set; } = 0; // 0 = Evidence Mode, 1 = 0-Evidence Mode
+
+        // Custom Sound Paths (empty string = default generated beeps)
+        public string CustomSoundSmudgeEnd { get; set; } = "";
+        public string CustomSoundCrucifixEnd { get; set; } = "";
+        public string CustomSoundHuntEnd { get; set; } = "";
+        public string CustomSoundDemonAlert { get; set; } = "";
+        public string CustomSoundAlert { get; set; } = "";
 
         public static AppSettings Load()
         {
             if (!File.Exists("settings.json")) return new AppSettings();
-            try { return JsonSerializer.Deserialize<AppSettings>(File.ReadAllText("settings.json")); }
+            try { return JsonSerializer.Deserialize<AppSettings>(File.ReadAllText("settings.json")) ?? new AppSettings(); }
             catch { return new AppSettings(); }
         }
 
@@ -52,6 +64,10 @@ namespace Hophesmoverlay
         public string Code { get; set; }
         public Dictionary<string, string> UI { get; set; }
         public Dictionary<string, string> SpeedSys { get; set; }
+        public List<string> SanityOptions { get; set; }
+        public List<string> BlinkOptions { get; set; }
+        public List<string> SmudgeOptions { get; set; }
+        public List<string> DifficultyOptions { get; set; }
         public List<GhostData> Ghosts { get; set; }
     }
 
@@ -63,6 +79,8 @@ namespace Hophesmoverlay
         public List<string> Evidences { get; set; }
         public string Guaranteed { get; set; }
         public string Tell { get; set; }
+        public string ZeroEvidenceTest { get; set; }
+        public List<string> BehavioralTags { get; set; }
         public string HuntThreshold { get; set; }
         public double MinSpeed { get; set; }
         public double MaxSpeed { get; set; }
