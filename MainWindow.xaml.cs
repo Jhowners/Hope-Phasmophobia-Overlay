@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -50,8 +50,8 @@ namespace Hophesmoverlay
         private List<CheckBox> _evidenceCheckBoxes = new List<CheckBox>();
 
         // These lists now use IDs (Strings) to match the JSON "ID" field
-        private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic", "Dayan", "Obambo", "Gallu" };
-        private readonly List<string> _slowGhosts = new List<string> { "Revenant", "Hantu", "Deogen", "Thaye", "The Mimic", "The Twins", "Moroi", "Dayan", "Obambo", "Gallu" };
+        private readonly List<string> _fastGhosts = new List<string> { "Jinn", "Revenant", "Hantu", "The Twins", "Raiju", "Moroi", "Deogen", "Thaye", "The Mimic", "Dayan", "Obambo", "Gallu", "Aswang", "Deildegast", "Kormos" };
+        private readonly List<string> _slowGhosts = new List<string> { "Revenant", "Hantu", "Deogen", "Thaye", "The Mimic", "The Twins", "Moroi", "Dayan", "Obambo", "Gallu", "Aswang", "Deildegast" };
 
         // Timers
         private DispatcherTimer _smudgeTimer;

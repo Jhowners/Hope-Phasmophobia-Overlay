@@ -313,6 +313,36 @@
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.2,
             "MaxSpeed": 2.25
+        },
+        {
+            "ID": "Aswang",
+            "Name": "阿斯旺",
+            "Symbol": "🦇",
+            "Evidences": [ "寒溫", "筆跡", "點陣" ],
+            "Tell": "視野加速極快。躲藏點被抓會標記該處。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.53,
+            "MaxSpeed": 2.53
+        },
+        {
+            "ID": "Deildegast",
+            "Name": "迪德加斯特",
+            "Symbol": "📦",
+            "Evidences": [ "EMF 5級", "筆跡", "點陣" ],
+            "Tell": "初始速度3.0。移動物品可減速0.1/件。每輪重置。",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Kormos",
+            "Name": "科爾莫斯",
+            "Symbol": "👂",
+            "Evidences": [ "紫外線", "靈球", "通靈盒" ],
+            "Tell": "盲目。靠聲音/移動追蹤(最高3.65)。附近奔跑時70%獵殺。",
+            "HuntThreshold": "< 50% / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 3.65
         }
     ]
 }

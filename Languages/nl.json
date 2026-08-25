@@ -313,6 +313,36 @@
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.2,
             "MaxSpeed": 2.25
+        },
+        {
+            "ID": "Aswang",
+            "Name": "Aswang",
+            "Symbol": "🦇",
+            "Evidences": [ "Vriestemperaturen", "Geestboek", "D.O.T.S. Projector" ],
+            "Tell": "Snelle zichtlijn-versnelling. Markeert schuilplaats bij detectie.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.53,
+            "MaxSpeed": 2.53
+        },
+        {
+            "ID": "Deildegast",
+            "Name": "Deildegast",
+            "Symbol": "📦",
+            "Evidences": [ "EMF Niveau 5", "Geestboek", "D.O.T.S. Projector" ],
+            "Tell": "Start snel (3.0). Items verplaatsen vertraagt met 0.1/item. Reset per jacht.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Kormos",
+            "Name": "Kormos",
+            "Symbol": "👂",
+            "Evidences": [ "Ultraviolet", "Geestbal", "Spirit Box" ],
+            "Tell": "Blind. Spoort geluid/beweging op (max 3.65). Jaagt op 70% bij sprinten.",
+            "HuntThreshold": "< 50% / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 3.65
         }
     ]
 }

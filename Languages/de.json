@@ -313,6 +313,36 @@
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.2,
             "MaxSpeed": 2.25
+        },
+        {
+            "ID": "Aswang",
+            "Name": "Aswang",
+            "Symbol": "🦇",
+            "Evidences": [ "Gefriertemperaturen", "Geisterbuch", "D.O.T.S. Projektor" ],
+            "Tell": "Schnelle Sichtlinien-Beschleunigung. Markiert Versteck bei Entdeckung.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.53,
+            "MaxSpeed": 2.53
+        },
+        {
+            "ID": "Deildegast",
+            "Name": "Deildegast",
+            "Symbol": "📦",
+            "Evidences": [ "EMF Ebene 5", "Geisterbuch", "D.O.T.S. Projektor" ],
+            "Tell": "Startet schnell (3.0). Gegenstände bewegen verlangsamt um 0.1/Item. Reset pro Jagd.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Kormos",
+            "Name": "Kormos",
+            "Symbol": "👂",
+            "Evidences": [ "Ultraviolett", "Geisterorb", "Geisterbox" ],
+            "Tell": "Blind. Hört Bewegung/Geräusche (max 3.65). Jagt bei 70% wenn man rennt.",
+            "HuntThreshold": "< 50% / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 3.65
         }
     ]
 }

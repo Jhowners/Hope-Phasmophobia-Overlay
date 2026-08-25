@@ -313,6 +313,36 @@
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.2,
             "MaxSpeed": 2.25
+        },
+        {
+            "ID": "Aswang",
+            "Name": "Aswang",
+            "Symbol": "🦇",
+            "Evidences": [ "Freezing", "Ghost Writing", "D.O.T.S." ],
+            "Tell": "Fast LoS acceleration. Marks hiding spot if detected.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.53,
+            "MaxSpeed": 2.53
+        },
+        {
+            "ID": "Deildegast",
+            "Name": "Deildegast",
+            "Symbol": "📦",
+            "Evidences": [ "EMF Level 5", "Ghost Writing", "D.O.T.S." ],
+            "Tell": "Starts fast (3.0). Moving items slows by 0.1/item. Resets per hunt.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Kormos",
+            "Name": "Kormos",
+            "Symbol": "👂",
+            "Evidences": [ "Spirit Box", "Ultraviolet", "Ghost Orb" ],
+            "Tell": "Blind. Tracks by sound/movement (max 3.65). Hunts at 70% if sprint.",
+            "HuntThreshold": "< 50% / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 3.65
         }
     ]
 }

@@ -313,6 +313,36 @@
             "HuntThreshold": "< 50%",
             "MinSpeed": 1.2,
             "MaxSpeed": 2.25
+        },
+        {
+            "ID": "Aswang",
+            "Name": "Aswang",
+            "Symbol": "🦇",
+            "Evidences": [ "Temp. Heladas", "Escritura Fantasma", "D.O.T.S." ],
+            "Tell": "Aceleración rápida en visión. Marca escondite si te detecta.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 1.53,
+            "MaxSpeed": 2.53
+        },
+        {
+            "ID": "Deildegast",
+            "Name": "Deildegast",
+            "Symbol": "📦",
+            "Evidences": [ "EMF Nivel 5", "Escritura Fantasma", "D.O.T.S." ],
+            "Tell": "Inicia rápido (3.0). Mover objetos reduce 0.1/objeto. Se reinicia por caza.",
+            "HuntThreshold": "< 50%",
+            "MinSpeed": 0.4,
+            "MaxSpeed": 3.0
+        },
+        {
+            "ID": "Kormos",
+            "Name": "Kormos",
+            "Symbol": "👂",
+            "Evidences": [ "Ultravioleta", "Orbe Fantasma", "Spirit Box" ],
+            "Tell": "Ciego. Rastrea sonido/movimiento (máx 3.65). Caza al 70% si corres cerca.",
+            "HuntThreshold": "< 50% / 70%",
+            "MinSpeed": 1.7,
+            "MaxSpeed": 3.65
         }
     ]
 }

@@ -29,7 +29,7 @@ HPO keeps you in the **Flow State** by using:
 
 ### 1. Real-Time Deduction Engine
 Don't guess. Know.
-* **Winter's Jest Ready:** Full logic for **Obambo**, **Gallu**, and **Dayan**.
+* **All 30 Ghosts Supported:** Full logic for all entities including **Aswang**, **Deildegast**, **Kormos**, **Dayan**, **Gallu**, and **Obambo**.
 * **Frictionless Filtering:** As you mark evidence via hotkeys, the ghost list filters instantly.
 * **Smart Logic:** Marking "Normal Speed" on the Pacer automatically eliminates the Revenant. Marking "Ghost Orb" eliminates the Mimic (unless you flag it as a Fake Orb).
 
